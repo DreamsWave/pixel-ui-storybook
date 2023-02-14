@@ -1,4 +1,40 @@
+@font-face {
+	font-family: "Press Start 2P";
+	src: url("../../assets/fonts/PressStart2P-Regular.ttf");
+}
+
 .base {
-	background: #000;
-	color: #fff;
+	width: fit-content;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 12px 30px;
+	margin-bottom: 8px;
+	font-size: 24px;
+	font-family: "Press Start 2P", cursive;
+	text-transform: uppercase;
+	color: #313638;
+	background-color: #8ff8e2;
+	border-width: 9px;
+	border-color: #000;
+	border-radius: 20px;
+	border-image: url(/src/assets/Button/btn-2.svg) 3;
+	position: relative;
+	cursor: pointer;
+}
+
+.bottom {
+	content: "";
+	position: absolute;
+	top: 0px;
+	right: -9px;
+	height: 100%;
+	width: 100%;
+	background-color: #65c7b2;
+	z-index: -1;
+	border-style: solid;
+	border-width: 9px;
+	border-color: #000;
+	border-radius: 20px;
+	border-image: url(/src/assets/Button/btn-2-bottom.svg) 3;
 }
