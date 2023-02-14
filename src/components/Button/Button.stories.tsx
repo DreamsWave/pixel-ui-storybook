@@ -1,12 +1,12 @@
 import { Meta, StoryFn } from "@storybook/react";
 
-import { Button } from "./Button";
+import { Button, defaultColor } from "./Button";
 
 export default {
 	title: "Components/Button",
 	component: Button,
 	args: {
-		backgroundColor: "#8ff8e2",
+		backgroundColor: defaultColor,
 		fontColor: "#313638",
 		fontBold: false,
 	},
