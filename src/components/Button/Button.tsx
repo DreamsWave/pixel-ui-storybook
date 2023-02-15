@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { BasicButton } from "./variants/BasicButton";
+import { BulkButton } from "./variants/BulkButton";
 
 export const defaultColor = "#fdcbb0";
 
@@ -18,7 +19,7 @@ export interface ButtonProps {
 	fontBold?: boolean;
 	fontSize?: number;
 	children?: React.ReactNode;
-	variant?: "basic";
+	variant?: "basic" | "bulk";
 	borderWidth?: number;
 }
 
@@ -43,6 +44,17 @@ export function Button({
 				>
 					{children}
 				</BasicButton>
+			)}
+			{variant === "bulk" && (
+				<BulkButton
+					backgroundColor={backgroundColor}
+					fontColor={fontColor}
+					fontBold={fontBold}
+					fontSize={fontSize}
+					borderWidth={borderWidth}
+				>
+					{children}
+				</BulkButton>
 			)}
 		</BaseButton>
 	);
