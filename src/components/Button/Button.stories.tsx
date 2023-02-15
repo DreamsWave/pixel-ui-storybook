@@ -9,6 +9,9 @@ export default {
 		backgroundColor: defaultColor,
 		fontColor: "#313638",
 		fontBold: false,
+		children: "Pixel button",
+		borderWidth: 9,
+		fontSize: 24,
 	},
 	argTypes: {
 		backgroundColor: {
@@ -19,6 +22,16 @@ export default {
 		fontColor: {
 			type: {
 				name: "string",
+			},
+		},
+		borderWidth: {
+			type: {
+				name: "number",
+			},
+		},
+		fontSize: {
+			type: {
+				name: "number",
 			},
 		},
 	},
