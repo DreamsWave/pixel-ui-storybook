@@ -1,17 +1,9 @@
 import styled from "styled-components";
 import { darken, lighten } from "polished";
-import buttonBasicLayer1SVG from "../../../assets/Button/btn-basic-layer-1.svg";
-import buttonBasicLayer2SVG from "../../../assets/Button/btn-basic-layer-2.svg";
+import buttonBulkLayer1SVG from "../../../assets/Button/btn-bulk-layer-1.svg";
+import buttonBulkLayer2SVG from "../../../assets/Button/btn-bulk-layer-2.svg";
 
 export const defaultColor = "#fdcbb0";
-
-function getClipPathVar(variable: number): number {
-	return (variable / 3) * 4 - 2;
-}
-
-function getFontSize(variable: number): number {
-	return (variable / 3) * 7 + 4;
-}
 
 type Layer1Props = {
 	backgroundColor?: string;
@@ -26,59 +18,41 @@ const Layer1 = styled.span<Layer1Props>`
 	justify-content: center;
 	align-items: center;
 	padding: 12px 30px;
-	font-size: ${(props) => getFontSize(props.borderWidth)}px;
+	font-size: ${(props) => props.fontSize}px;
 	font-family: "Press Start 2P", cursive;
-	font-weight: ${(props) => (props.fontBold ? 600 : 400)};
+	font-weight: ${(props) => (props.fontBold ? 400 : 600)};
 	text-transform: uppercase;
 	color: ${(props) => props.fontColor || "#313638"};
-	background-color: transparent;
+	background-color: ${(props) => props.backgroundColor || defaultColor};
 	border-style: solid;
-	border-width: ${(props) => props.borderWidth}px;
+	border-width: 12px;
 	border-color: #000;
-	border-image: url(${buttonBasicLayer1SVG}) 3;
+	border-radius: 10px;
+	border-image: url(${buttonBulkLayer1SVG}) 4;
 	cursor: pointer;
 	transition: all 200ms ease-in-out;
 	white-space: nowrap;
 	position: relative;
 
-	&:hover&:before {
+	&:hover {
 		background-color: ${(props) =>
 			props.backgroundColor
-				? lighten(0.025, props.backgroundColor)
-				: lighten(0.025, defaultColor)};
+				? lighten(0.05, props.backgroundColor)
+				: lighten(0.05, defaultColor)};
 	}
 
 	&:active {
 		top: 4px;
+		background-color: ${(props) =>
+			props.backgroundColor ? props.backgroundColor : defaultColor};
 	}
 
 	&:active&:before {
+		top: -4px;
 		background-color: ${(props) =>
-			props.backgroundColor ? props.backgroundColor : defaultColor};
-	}
-
-	&:before {
-		content: "";
-		position: absolute;
-		top: -${(props) => props.borderWidth - 1}px;
-		left: -${(props) => props.borderWidth - 1}px;
-		height: calc(100% + ${(props) => (props.borderWidth - 1) * 2}px);
-		width: calc(100% + ${(props) => (props.borderWidth - 1) * 2}px);
-		z-index: -1;
-		background-color: ${(props) =>
-			props.backgroundColor ? props.backgroundColor : defaultColor};
-		clip-path: polygon(
-			0 calc(0% + ${(props) => getClipPathVar(props.borderWidth)}px),
-			calc(0% + ${(props) => getClipPathVar(props.borderWidth)}px) 0,
-			calc(100% - ${(props) => getClipPathVar(props.borderWidth)}px) 0,
-			100% ${(props) => getClipPathVar(props.borderWidth)}px,
-			100% calc(100% - ${(props) => getClipPathVar(props.borderWidth)}px),
-			calc(100% - ${(props) => getClipPathVar(props.borderWidth)}px) 100%,
-			${(props) => getClipPathVar(props.borderWidth)}px 100%,
-			0% calc(100% - ${(props) => getClipPathVar(props.borderWidth)}px),
-			0% ${(props) => getClipPathVar(props.borderWidth)}px
-		);
-		transition: all 200ms;
+			props.backgroundColor
+				? darken(0.15, props.backgroundColor)
+				: darken(0.15, defaultColor)};
 	}
 `;
 
@@ -97,14 +71,14 @@ const Layer2 = styled.span<Layer2Props>`
 	width: calc(100% - ${(props) => props.borderWidth * 2}px);
 	background-color: ${(props) =>
 		props.backgroundColor
-			? darken(0.08, props.backgroundColor)
-			: darken(0.08, defaultColor)};
-	z-index: -2;
+			? darken(0.1, props.backgroundColor)
+			: darken(0.1, defaultColor)};
+	z-index: -1;
 	border-style: solid;
 	border-width: ${(props) => props.borderWidth}px;
 	border-color: #000;
 	border-radius: ${(props) => props.borderWidth * 2.2}px;
-	border-image: url(${buttonBasicLayer2SVG}) 3;
+	border-image: url(${buttonBulkLayer2SVG}) 3;
 `;
 
 export interface ButtonProps {
@@ -116,12 +90,12 @@ export interface ButtonProps {
 	borderWidth?: number;
 }
 
-export function BasicButton({
-	backgroundColor = defaultColor,
+export function BulkButton({
+	backgroundColor = "#8ff8e2",
 	fontColor = "#313638",
 	fontBold = false,
 	fontSize = 24,
-	borderWidth = 9,
+	borderWidth = 20,
 	children,
 }: ButtonProps) {
 	return (
