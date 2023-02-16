@@ -1,17 +1,16 @@
 import { Meta, StoryFn } from "@storybook/react";
 
-import { Button, defaultColor } from "./Button";
+import { Button } from "./Button";
 
 export default {
 	title: "Components/Button",
 	component: Button,
 	args: {
-		backgroundColor: defaultColor,
+		backgroundColor: "#fdcbb0",
 		fontColor: "#313638",
 		fontBold: false,
 		children: "Pixel button",
-		borderWidth: 9,
-		fontSize: 24,
+		scale: 3,
 	},
 	argTypes: {
 		backgroundColor: {
@@ -24,12 +23,7 @@ export default {
 				name: "string",
 			},
 		},
-		borderWidth: {
-			type: {
-				name: "number",
-			},
-		},
-		fontSize: {
+		scale: {
 			type: {
 				name: "number",
 			},
