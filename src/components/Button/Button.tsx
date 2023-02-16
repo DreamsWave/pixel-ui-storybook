@@ -2,7 +2,10 @@ import styled from "styled-components";
 import { BasicButton } from "./variants/BasicButton";
 import { BulkButton } from "./variants/BulkButton";
 
-export const defaultColor = "#fdcbb0";
+export const defaults = {
+	backgroundColor: "#fdcbb0",
+	fontColor: "#313638",
+};
 
 const BaseButton = styled.button`
 	position: relative;
@@ -14,22 +17,20 @@ const BaseButton = styled.button`
 `;
 
 export interface ButtonProps {
-	backgroundColor?: string;
-	fontColor?: string;
-	fontBold?: boolean;
-	fontSize?: number;
-	children?: React.ReactNode;
-	variant?: "basic" | "bulk";
-	borderWidth?: number;
+	backgroundColor: string;
+	fontColor: string;
+	fontBold: boolean;
+	children: React.ReactNode;
+	variant: "basic" | "bulk";
+	scale: number;
 }
 
 export function Button({
-	backgroundColor = "#8ff8e2",
-	fontColor = "#313638",
+	backgroundColor = defaults.backgroundColor,
+	fontColor = defaults.fontColor,
 	fontBold = false,
 	variant = "basic",
-	fontSize = 24,
-	borderWidth = 9,
+	scale = 3,
 	children,
 }: ButtonProps) {
 	return (
@@ -39,8 +40,7 @@ export function Button({
 					backgroundColor={backgroundColor}
 					fontColor={fontColor}
 					fontBold={fontBold}
-					fontSize={fontSize}
-					borderWidth={borderWidth}
+					scale={scale}
 				>
 					{children}
 				</BasicButton>
@@ -50,8 +50,6 @@ export function Button({
 					backgroundColor={backgroundColor}
 					fontColor={fontColor}
 					fontBold={fontBold}
-					fontSize={fontSize}
-					borderWidth={borderWidth}
 				>
 					{children}
 				</BulkButton>
