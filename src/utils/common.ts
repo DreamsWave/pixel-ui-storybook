@@ -43,11 +43,27 @@ export function isContrastValid(color: string, onColor: string): boolean {
 	return contrast >= 7;
 }
 
-export function getContrastColor(bgColor: string): string {
+export function getContrastColor(
+	bgColor: string,
+	darkFontColor = "#2e222f",
+	lightFontColor = "#eeecf3"
+): string {
 	const color = new Color(bgColor);
 	const r = Math.round(color.srgb.r * 255);
 	const g = Math.round(color.srgb.g * 255);
 	const b = Math.round(color.srgb.b * 255);
 	const brightness = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-	return brightness > 0.5 ? "#2e222f" : "#eeecf3";
+	return brightness > 0.5 ? darkFontColor : lightFontColor;
+}
+
+export function getCornerLength(scale: number): number {
+	return scale * 4 - 2;
+}
+
+export function getFontSize(scale: number): number {
+	return scale * 7 + 4;
+}
+
+export function getBorderWidth(scale: number): number {
+	return scale * 3;
 }

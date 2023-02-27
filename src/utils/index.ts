@@ -4,6 +4,9 @@ import {
 	lightenDarkenColor,
 	isContrastValid,
 	getContrastColor,
+	getBorderWidth,
+	getCornerLength,
+	getFontSize,
 } from "./common";
 import colorShading from "./colorShading";
 
@@ -14,4 +17,7 @@ export {
 	colorShading,
 	isContrastValid,
 	getContrastColor,
+	getBorderWidth,
+	getCornerLength,
+	getFontSize,
 };
