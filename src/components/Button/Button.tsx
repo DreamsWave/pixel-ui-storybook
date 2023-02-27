@@ -7,15 +7,6 @@ export const defaults = {
 	fontColor: "#313638",
 };
 
-const BaseButton = styled.button`
-	position: relative;
-	z-index: 10;
-	background: transparent;
-	border: none;
-	padding: 0;
-	margin-bottom: 8px;
-`;
-
 export interface ButtonProps {
 	backgroundColor: string;
 	fontColor: string;
@@ -34,7 +25,7 @@ export function Button({
 	children,
 }: ButtonProps) {
 	return (
-		<BaseButton>
+		<>
 			{variant === "basic" && (
 				<BasicButton
 					backgroundColor={backgroundColor}
@@ -54,6 +45,6 @@ export function Button({
 					{children}
 				</BulkButton>
 			)}
-		</BaseButton>
+		</>
 	);
 }
