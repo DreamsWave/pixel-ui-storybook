@@ -10,7 +10,7 @@ export default function colorShading(baseColor: string): Array<string> {
 	return [S1, S2, S3, baseColor, S5, S6, S7];
 }
 
-function colorShift(
+export function colorShift(
 	color: string,
 	hueShift: number,
 	satShift: number,

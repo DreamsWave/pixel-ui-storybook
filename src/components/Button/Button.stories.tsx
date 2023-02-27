@@ -7,6 +7,7 @@ export default {
 	component: Button,
 	args: {
 		backgroundColor: "#fdcbb0",
+		borderColor: "#2e222f",
 		fontColor: "#313638",
 		fontBold: false,
 		children: "Pixel button",
@@ -19,6 +20,11 @@ export default {
 			},
 		},
 		fontColor: {
+			type: {
+				name: "string",
+			},
+		},
+		borderColor: {
 			type: {
 				name: "string",
 			},
