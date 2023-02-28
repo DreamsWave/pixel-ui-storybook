@@ -43,8 +43,10 @@ export function Button({
 			{variant === "bulk" && (
 				<BulkButton
 					backgroundColor={backgroundColor}
+					borderColor={borderColor}
 					fontColor={fontColor}
 					fontBold={fontBold}
+					scale={scale}
 				>
 					{children}
 				</BulkButton>
