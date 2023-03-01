@@ -11,7 +11,8 @@ export default {
 		fontColor: "#313638",
 		fontBold: false,
 		children: "Pixel button",
-		scale: 3,
+		scale: 1,
+		pixelSize: 4,
 	},
 	argTypes: {
 		backgroundColor: {
@@ -42,6 +43,7 @@ const Template: StoryFn<typeof Button> = (args) => <Button {...args} />;
 export const Basic = Template.bind({});
 Basic.args = {
 	children: "Basic",
+	scale: 3,
 };
 
 export const Bulk = Template.bind({});
