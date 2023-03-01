@@ -50,7 +50,7 @@ const Content = styled.span<ContentProps>`
 
 type Layer1Props = {
 	borderWidth: number;
-	scale: number;
+	pixelSize: number;
 	svg: string;
 	backgroundColorShades: string[];
 	isMouseHover: boolean;
@@ -59,23 +59,23 @@ type Layer1Props = {
 const Layer1 = styled.div<Layer1Props>`
 	z-index: 9;
 	position: absolute;
-	top: ${(props) => props.scale * 0.27}px;
-	left: ${(props) => props.scale * 0.955}px;
-	width: calc(100% - ${(props) => props.scale * 1.9}px);
+	top: 0px;
+	left: 0px;
+	width: 100%;
 	height: 100%;
 	box-sizing: border-box;
 	background-color: transparent;
 	border-style: solid;
-	border-width: ${(props) => props.scale * 3.667}px;
 	border-color: #000;
-	border-image: url(${(props) => props.svg}) 4;
+	border-image: url(${({ svg }) => svg}) 5;
+	border-width: ${({ pixelSize }) => pixelSize * 5}px;
 	transition: all 200ms;
 	${(props) => props.isMouseClicked && `top: 3px;`}
 `;
 
 type Layer2Props = {
 	cornerLength: number;
-	scale: number;
+	pixelSize: number;
 	backgroundColorShades: string[];
 	isMouseHover: boolean;
 	isMouseClicked: boolean;
@@ -83,9 +83,9 @@ type Layer2Props = {
 const Layer2 = styled.div<Layer2Props>`
 	position: absolute;
 	top: 1px;
-	left: 1px;
-	height: calc(100% - 2px);
-	width: calc(100% - 2px);
+	left: ${({ pixelSize }) => pixelSize}px;
+	height: 100%;
+	width: calc(100% - ${({ pixelSize }) => pixelSize * 2}px);
 	z-index: 8;
 	background-color: ${(props) => props.backgroundColorShades[3]};
 	clip-path: polygon(
@@ -111,34 +111,33 @@ const Layer2 = styled.div<Layer2Props>`
 
 type Layer3Props = {
 	borderWidth: number;
-	scale: number;
+	pixelSize: number;
 	svg: string;
 };
 const Layer3 = styled.div<Layer3Props>`
 	z-index: 7;
 	position: absolute;
-	bottom: -${(props) => props.scale * 3}px;
+	bottom: -${({ pixelSize }) => pixelSize * 3}px;
 	left: 0;
 	height: 100%;
 	width: 100%;
 	box-sizing: border-box;
 	border-style: solid;
-	border-width: ${(props) => props.scale * 1.88}px;
 	border-color: #000;
-	border-radius: ${(props) => props.borderWidth * 2.2}px;
-	border-image: url(${(props) => props.svg}) 2;
+	border-image: url(${({ svg }) => svg}) 3;
+	border-width: ${({ pixelSize }) => pixelSize * 3}px;
 	transition: all 200ms;
 `;
 
 type Layer4Props = {
 	borderWidth: number;
-	scale: number;
+	pixelSize: number;
 	cornerLength: number;
 	backgroundColorShades: string[];
 };
 const Layer4 = styled.div<Layer4Props>`
 	position: absolute;
-	bottom: -${(props) => props.scale * 3}px;
+	bottom: -${({ pixelSize }) => pixelSize * 3}px;
 	left: 1px;
 	height: calc(100% - 2px);
 	width: calc(100% - 2px);
@@ -162,7 +161,7 @@ export interface ButtonProps {
 	backgroundColor: string;
 	fontColor: string;
 	fontBold: boolean;
-	scale: number;
+	pixelSize: number;
 	borderColor: string;
 	children?: React.ReactNode;
 }
@@ -171,12 +170,12 @@ export function BulkButton({
 	fontColor = "#313638",
 	fontBold = false,
 	borderColor = "#2e222f",
-	scale = 3,
+	pixelSize = 4,
 	children,
 }: ButtonProps) {
-	const cornerLength = scale * 4 - 2;
-	const fontSize = scale * 7 + 4;
-	const borderWidth = scale * 3.667;
+	const cornerLength = pixelSize * 4 - 2;
+	const fontSize = pixelSize * 7 + 4;
+	const borderWidth = pixelSize * 3.667;
 	const [backgroundColorShades, setBackgroundColorShades] = useState<
 		string[]
 	>(colorShading(backgroundColor));
@@ -227,7 +226,7 @@ export function BulkButton({
 			</Content>
 			<Layer1
 				borderWidth={borderWidth}
-				scale={scale}
+				pixelSize={pixelSize}
 				svg={layer1BorderImageSVG}
 				backgroundColorShades={backgroundColorShades}
 				isMouseHover={isMouseHover}
@@ -238,18 +237,18 @@ export function BulkButton({
 				backgroundColorShades={backgroundColorShades}
 				isMouseHover={isMouseHover}
 				isMouseClicked={isMouseClicked}
-				scale={scale}
+				pixelSize={pixelSize}
 			/>
 			<Layer3
 				borderWidth={borderWidth}
 				svg={layer3BorderImageSVG}
-				scale={scale}
+				pixelSize={pixelSize}
 			/>
 			<Layer4
 				borderWidth={borderWidth}
 				cornerLength={cornerLength}
 				backgroundColorShades={backgroundColorShades}
-				scale={scale}
+				pixelSize={pixelSize}
 			/>
 		</BaseButton>
 	);
@@ -260,11 +259,10 @@ function generateLayer1BorderImageSVG(
 	borderColor: string
 ): string {
 	const svg = `<?xml version="1.0" encoding="UTF-8"?>
-	<svg width="9" height="9" shape-rendering="crispEdges" version="1.1" xmlns="http://www.w3.org/2000/svg">
-	 <path d="m5 8h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-3-2h1v1h-1zm8-1h1v1h-1zm-8 0h1v1h-1zm8-1h1v1h-1zm-8 0h1v1h-1zm0-1h1v1h-1zm0-1h1v1h-1zm4-2h1v1h-1z" fill="${backgroundColorShades[3]}"/>
-	 <path d="m7 8h1v1h-1zm-1 0h1v1h-1zm-4 0h1v1h-1zm-1 0h1v1h-1zm7-1h1v1h-1zm-8 0h1v1h-1zm8-1h1v1h-1zm0-3h1v1h-1zm0-1h1v1h-1zm0-1h1v1h-1zm-8 0h1v1h-1zm7-1h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-2 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1z" fill="#fff"/>
+	<svg width="12" height="12" shape-rendering="crispEdges" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	 <path d="m9 11h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-2-2h1v1h-1zm0-1h1v1h-1zm11-1h1v1h-1zm-11 0h1v1h-1zm11-1h1v1h-1zm-11 0h1v1h-1zm11-1h1v1h-1zm-11 0h1v1h-1zm0-1h1v1h-1zm0-1h1v1h-1zm0-1h1v1h-1zm6-2h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1z" fill="${backgroundColorShades[3]}"/>
+	 <path d="m10 11h1v1h-1zm-9 0h1v1h-1zm10-1h1v1h-1zm-11 0h1v1h-1zm11-1h1v1h-1zm0-1h1v1h-1zm0-4h1v1h-1zm0-1h1v1h-1zm0-1h1v1h-1zm0-1h1v1h-1zm-11 0h1v1h-1zm10-1h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-4 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1z" fill="#fff"/>
 	</svg>
-	
 	`;
 	return createInlineSVG(svg);
 }
@@ -274,10 +272,10 @@ function generateLayer3BorderImageSVG(
 	borderColor: string
 ): string {
 	const svg = `<?xml version="1.0" encoding="UTF-8"?>
-	<svg width="6" height="6" shape-rendering="crispEdges" version="1.1" xmlns="http://www.w3.org/2000/svg">
-	 <path d="m5 4h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1z" fill="${backgroundColorShades[0]}"/>
-	 <path d="m3 5h1v1h-1zm-1 0h1v1h-1zm1-5h1v1h-1zm-1 0h1v1h-1z" fill="${backgroundColorShades[2]}"/>
-	 <path d="m4 5h1v1h-1zm-3 0h1v1h-1zm3-1h1v1h-1zm-3 0h1v1h-1zm3-1h1v1h-1zm-3 0h1v1h-1zm3-1h1v1h-1zm-3 0h1v1h-1zm3-1h1v1h-1zm-3 0h1v1h-1zm3-1h1v1h-1zm-3 0h1v1h-1z" fill="${backgroundColorShades[1]}"/>
+	<svg width="8" height="8" shape-rendering="crispEdges" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	 <path d="m7 6h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1z" fill="${backgroundColorShades[0]}"/>
+	 <path d="m5 7h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm3-7h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1z" fill="${backgroundColorShades[2]}"/>
+	 <path d="m6 7h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1z" fill="${backgroundColorShades[1]}"/>
 	</svg>	
 	`;
 	return createInlineSVG(svg);

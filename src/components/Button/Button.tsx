@@ -16,6 +16,7 @@ export interface ButtonProps {
 	children: React.ReactNode;
 	variant: "basic" | "bulk";
 	scale: number;
+	pixelSize: number;
 }
 
 export function Button({
@@ -25,6 +26,7 @@ export function Button({
 	fontBold = false,
 	variant = "basic",
 	scale = 3,
+	pixelSize = 4,
 	children,
 }: ButtonProps) {
 	return (
@@ -46,7 +48,7 @@ export function Button({
 					borderColor={borderColor}
 					fontColor={fontColor}
 					fontBold={fontBold}
-					scale={scale}
+					pixelSize={pixelSize}
 				>
 					{children}
 				</BulkButton>
