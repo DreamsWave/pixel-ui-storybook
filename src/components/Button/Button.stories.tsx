@@ -50,4 +50,5 @@ export const Bulk = Template.bind({});
 Bulk.args = {
 	variant: "bulk",
 	children: "Bulk",
+	backgroundColor: "#8ff8e2",
 };
