@@ -173,7 +173,7 @@ export interface ButtonProps {
 	borderColor: string;
 	children?: React.ReactNode;
 }
-export function BulkButton({
+export function SquaredButton({
 	backgroundColor,
 	fontColor = "#313638",
 	fontBold = false,

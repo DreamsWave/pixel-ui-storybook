@@ -52,3 +52,10 @@ Bulk.args = {
 	children: "Bulk",
 	backgroundColor: "#8ff8e2",
 };
+
+export const Squared = Template.bind({});
+Squared.args = {
+	variant: "squared",
+	children: "Squared",
+	backgroundColor: "#ebc3aa",
+};

@@ -9,6 +9,8 @@ import {
 import { useEffect, useState, MouseEvent } from "react";
 
 const BaseButton = styled.button`
+	font-family: "Press Start 2P", "Nunito Sans", "Helvetica Neue", Helvetica,
+		Arial, sans-serif;
 	position: relative;
 	display: inline-flex;
 	background: transparent;
@@ -35,7 +37,6 @@ const Content = styled.span<ContentProps>`
 	justify-content: center;
 	align-items: center;
 	font-size: ${(props) => props.fontSize}px;
-	font-family: "Press Start 2P", cursive;
 	font-weight: ${(props) => (props.fontBold ? 600 : 400)};
 	padding: 0.8em 2em;
 	text-transform: uppercase;
