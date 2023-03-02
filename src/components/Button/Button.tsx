@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { BasicButton } from "./variants/BasicButton";
 import { BulkButton } from "./variants/BulkButton";
+import { SquaredButton } from "./variants/SquaredButton";
 
 export const defaults = {
 	backgroundColor: "#fdcbb0",
@@ -14,7 +15,7 @@ export interface ButtonProps {
 	fontColor: string;
 	fontBold: boolean;
 	children: React.ReactNode;
-	variant: "basic" | "bulk";
+	variant: "basic" | "bulk" | "squared";
 	scale: number;
 	pixelSize: number;
 }
@@ -52,6 +53,17 @@ export function Button({
 				>
 					{children}
 				</BulkButton>
+			)}
+			{variant === "squared" && (
+				<SquaredButton
+					backgroundColor={backgroundColor}
+					borderColor={borderColor}
+					fontColor={fontColor}
+					fontBold={fontBold}
+					pixelSize={pixelSize}
+				>
+					{children}
+				</SquaredButton>
 			)}
 		</>
 	);
