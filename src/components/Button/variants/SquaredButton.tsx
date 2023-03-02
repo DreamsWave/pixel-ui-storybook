@@ -21,6 +21,7 @@ const BaseButton = styled.button`
 `;
 
 type ContentProps = {
+	pixelSize: number;
 	fontColor: string;
 	fontBold: boolean;
 	fontSize: number;
@@ -38,15 +39,20 @@ const Content = styled.span<ContentProps>`
 	align-items: center;
 	font-size: ${({ fontSize }) => fontSize}px;
 	font-weight: ${({ fontBold }) => (fontBold ? 600 : 400)};
-	padding: 0.4em 1.4em;
+	padding: 0.6em 1.4em;
 	text-transform: uppercase;
-	color: ${({ fontColor, backgroundColorShades }) =>
-		isContrastValid(fontColor, backgroundColorShades[3])
-			? fontColor
-			: getContrastColor(backgroundColorShades[3])};
+	color: ${({ fontColor }) => fontColor};
 	white-space: nowrap;
+	text-shadow: -${({ pixelSize }) => pixelSize}px -${({ pixelSize }) =>
+				pixelSize}px
+			0 #f5efdf,
+		${({ pixelSize }) => pixelSize}px -${({ pixelSize }) => pixelSize}px 0 #f5efdf,
+		-${({ pixelSize }) => pixelSize}px ${({ pixelSize }) => pixelSize}px 0 #f5efdf,
+		${({ pixelSize }) => pixelSize}px ${({ pixelSize }) => pixelSize}px 0
+			#f5efdf;
 	transition: all 200ms;
-	${({ isMouseClicked }) => isMouseClicked && `top: 3px;`}
+	${({ isMouseClicked, pixelSize }) =>
+		isMouseClicked && `top: ${pixelSize}px;`}
 `;
 
 type Layer1Props = {
@@ -60,15 +66,15 @@ const Layer1 = styled.div<Layer1Props>`
 	z-index: 9;
 	position: absolute;
 	top: 0px;
-	left: ${({ pixelSize }) => pixelSize}px;
-	width: calc(100% - ${({ pixelSize }) => pixelSize * 2}px);
+	left: 0px;
+	width: 100%;
 	height: 100%;
 	box-sizing: border-box;
 	background-color: transparent;
 	border-style: solid;
 	border-color: #000;
-	border-image: url(${({ svg }) => svg}) 5;
-	border-width: ${({ pixelSize }) => pixelSize * 5}px;
+	border-image: url(${({ svg }) => svg}) 3;
+	border-width: ${({ pixelSize }) => pixelSize * 3}px;
 	transition: all 200ms;
 	${({ isMouseClicked, pixelSize }) =>
 		isMouseClicked && `top: ${pixelSize}px;`}
@@ -83,6 +89,7 @@ const Layer1 = styled.div<Layer1Props>`
 type Layer2Props = {
 	cornerLength: number;
 	pixelSize: number;
+	backgroundSVG: string;
 	backgroundColorShades: string[];
 	isMouseHover: boolean;
 	isMouseClicked: boolean;
@@ -90,12 +97,15 @@ type Layer2Props = {
 const Layer2 = styled.div<Layer2Props>`
 	position: absolute;
 	top: 0px;
-	left: ${({ pixelSize }) => pixelSize}px;
-	width: calc(100% - ${({ pixelSize }) => pixelSize * 2}px);
+	left: 0px;
+	width: 100%;
 	height: 100%;
 	z-index: 8;
 	background-color: ${({ backgroundColorShades }) =>
 		backgroundColorShades[3]};
+	background-image: url(${({ backgroundSVG }) => backgroundSVG});
+	background-size: ${({ pixelSize }) => pixelSize * 4}px
+		${({ pixelSize }) => pixelSize * 4}px;
 	clip-path: polygon(
 		0 calc(0% + ${({ cornerLength }) => cornerLength}px),
 		calc(0% + ${({ cornerLength }) => cornerLength}px) 0,
@@ -149,8 +159,7 @@ const Layer4 = styled.div<Layer4Props>`
 	height: 100%;
 	width: 100%;
 	z-index: 6;
-	background-color: ${({ backgroundColorShades }) =>
-		backgroundColorShades[2]};
+	background-color: #ab7968;
 	clip-path: polygon(
 		0 calc(0% + ${({ cornerLength }) => cornerLength}px),
 		calc(0% + ${({ cornerLength }) => cornerLength}px) 0,
@@ -174,20 +183,23 @@ export interface ButtonProps {
 	children?: React.ReactNode;
 }
 export function SquaredButton({
-	backgroundColor,
+	backgroundColor = "#ebc3aa",
 	fontColor = "#313638",
 	fontBold = false,
 	borderColor = "#2e222f",
 	pixelSize = 4,
 	children,
 }: ButtonProps) {
-	const cornerLength = pixelSize * 2;
+	const cornerLength = pixelSize * 4;
 	const fontSize = pixelSize * 8;
 	const [backgroundColorShades, setBackgroundColorShades] = useState<
 		string[]
 	>(colorShading(backgroundColor));
 	const [isMouseHover, setIsMouseHover] = useState<boolean>(false);
 	const [isMouseClicked, setIsMouseClicked] = useState<boolean>(false);
+	const [backgroundSVG, setBackgroundSVG] = useState<string>(
+		generateBackground(backgroundColorShades, borderColor)
+	);
 	const [layer1BorderImageSVG, setLayer1BorderImageSVG] = useState<string>(
 		generateLayer1BorderImageSVG(backgroundColorShades, borderColor)
 	);
@@ -198,6 +210,9 @@ export function SquaredButton({
 	useEffect(() => {
 		const bgColorShades = colorShading(backgroundColor);
 		setBackgroundColorShades(bgColorShades);
+		setBackgroundSVG(
+			generateBackground(backgroundColorShades, borderColor)
+		);
 		setLayer1BorderImageSVG(
 			generateLayer1BorderImageSVG(bgColorShades, borderColor)
 		);
@@ -222,7 +237,8 @@ export function SquaredButton({
 			}}
 		>
 			<Content
-				fontColor={fontColor}
+				pixelSize={pixelSize}
+				fontColor={"#593e2d"}
 				fontBold={fontBold}
 				fontSize={fontSize}
 				backgroundColorShades={backgroundColorShades}
@@ -240,6 +256,7 @@ export function SquaredButton({
 			/>
 			<Layer2
 				cornerLength={cornerLength}
+				backgroundSVG={backgroundSVG}
 				backgroundColorShades={backgroundColorShades}
 				isMouseHover={isMouseHover}
 				isMouseClicked={isMouseClicked}
@@ -255,15 +272,28 @@ export function SquaredButton({
 	);
 }
 
+function generateBackground(
+	backgroundColorShades: string[],
+	borderColor: string
+): string {
+	const svg = `<?xml version="1.0" encoding="UTF-8"?>
+	<svg width="4" height="4" shape-rendering="crispEdges" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	 <path d="m1 3h1v1h-1zm-1 0h1v1h-1zm1-1h1v1h-1zm-1 0h1v1h-1zm3-1h1v1h-1zm-1 0h1v1h-1zm1-1h1v1h-1zm-1 0h1v1h-1z" fill="#ebc3aa"/>
+	 <path d="m3 3h1v1h-1zm-1 0h1v1h-1zm1-1h1v1h-1zm-1 0h1v1h-1zm-1-1h1v1h-1zm-1 0h1v1h-1zm1-1h1v1h-1zm-1 0h1v1h-1z" fill="#f5efdf"/>
+	</svg>	
+	`;
+	return createInlineSVG(svg);
+}
+
 function generateLayer1BorderImageSVG(
 	backgroundColorShades: string[],
 	borderColor: string
 ): string {
 	const svg = `<?xml version="1.0" encoding="UTF-8"?>
-	<svg width="12" height="12" shape-rendering="crispEdges" version="1.1" xmlns="http://www.w3.org/2000/svg">
-	 <path d="m9 11h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-2-2h1v1h-1zm0-1h1v1h-1zm11-1h1v1h-1zm-11 0h1v1h-1zm11-1h1v1h-1zm-11 0h1v1h-1zm11-1h1v1h-1zm-11 0h1v1h-1zm0-1h1v1h-1zm0-1h1v1h-1zm0-1h1v1h-1zm6-2h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1z" fill="${backgroundColorShades[4]}"/>
-	 <path d="m10 11h1v1h-1zm-9 0h1v1h-1zm10-1h1v1h-1zm-11 0h1v1h-1zm11-1h1v1h-1zm0-1h1v1h-1zm0-4h1v1h-1zm0-1h1v1h-1zm0-1h1v1h-1zm0-1h1v1h-1zm-11 0h1v1h-1zm10-1h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-4 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1z" fill="#fff"/>
-	</svg>
+	<svg width="8" height="8" shape-rendering="crispEdges" version="1.1" xmlns="http://www.w3.org/2000/svg">
+	 <path d="m5 6h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm4-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm4-1h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1z" fill="#ab7968"/>
+	 <path d="m5 7h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm4-1h1v1h-1zm-5 0h1v1h-1zm6-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm6-1h1v1h-1zm-5 0h1v1h-1zm4-1h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1z" fill="#593e2d"/>
+	</svg>	
 	`;
 	return createInlineSVG(svg);
 }
@@ -274,9 +304,9 @@ function generateLayer3BorderImageSVG(
 ): string {
 	const svg = `<?xml version="1.0" encoding="UTF-8"?>
 	<svg width="8" height="8" shape-rendering="crispEdges" version="1.1" xmlns="http://www.w3.org/2000/svg">
-	 <path d="m7 6h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1z" fill="${backgroundColorShades[0]}"/>
-	 <path d="m5 7h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm3-7h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1z" fill="${backgroundColorShades[2]}"/>
-	 <path d="m6 7h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1z" fill="${backgroundColorShades[1]}"/>
+	 <path d="m6 5h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1z" fill="#c28c7a"/>
+	 <path d="m5 6h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm3-1h1v1h-1zm-3 0h1v1h-1zm3-1h1v1h-1zm-3 0h1v1h-1zm3-1h1v1h-1zm-3 0h1v1h-1zm3-1h1v1h-1zm-3 0h1v1h-1zm3-1h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1z" fill="#ab7968"/>
+	 <path d="m5 7h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm4-1h1v1h-1zm-5 0h1v1h-1zm6-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1z" fill="#593e2d"/>
 	</svg>	
 	`;
 	return createInlineSVG(svg);
