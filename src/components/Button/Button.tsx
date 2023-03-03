@@ -25,8 +25,8 @@ export interface ButtonProps {
 export function Button({
 	primaryColor,
 	secondaryColor,
-	backgroundColor = defaults.backgroundColor,
-	borderColor = defaults.borderColor,
+	backgroundColor,
+	borderColor,
 	fontColor,
 	fontBold = false,
 	variant = "basic",
@@ -62,10 +62,10 @@ export function Button({
 			)}
 			{variant === "squared" && (
 				<SquaredButton
-					backgroundColor={backgroundColor}
+					primaryColor={primaryColor}
+					secondaryColor={secondaryColor}
 					borderColor={borderColor}
 					fontColor={fontColor}
-					fontBold={fontBold}
 					pixelSize={pixelSize}
 					uppercase={uppercase}
 				>

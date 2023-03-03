@@ -7,7 +7,7 @@ export default {
 	component: Button,
 	args: {
 		primaryColor: "#fdcbb0",
-		secondaryColor: "",
+		secondaryColor: "#593e2d",
 		backgroundColor: "#fdcbb0",
 		borderColor: "#2e222f",
 		fontColor: "",
@@ -35,7 +35,10 @@ export const Squared = Template.bind({});
 Squared.args = {
 	variant: "squared",
 	children: "Squared",
-	backgroundColor: "#ebc3aa",
+	borderColor: "#593e2d",
+	primaryColor: "#ebc3aa",
+	secondaryColor: "#ab7968",
+	fontColor: "#593e2d",
 };
 
 export const Minimalistic = Template.bind({});
