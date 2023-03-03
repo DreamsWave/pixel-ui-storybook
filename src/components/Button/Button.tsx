@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { BasicButton } from "./variants/BasicButton";
 import { BulkButton } from "./variants/BulkButton";
 import { SquaredButton } from "./variants/SquaredButton";
@@ -12,22 +11,26 @@ export const defaults = {
 
 export interface ButtonProps {
 	backgroundColor: string;
+	primaryColor: string;
+	secondaryColor: string;
 	borderColor: string;
 	fontColor: string;
 	fontBold: boolean;
 	children: React.ReactNode;
 	variant: "basic" | "bulk" | "squared" | "minimalistic";
-	scale: number;
 	pixelSize: number;
+	uppercase: boolean;
 }
 
 export function Button({
+	primaryColor,
+	secondaryColor,
 	backgroundColor = defaults.backgroundColor,
 	borderColor = defaults.borderColor,
-	fontColor = defaults.fontColor,
+	fontColor,
 	fontBold = false,
 	variant = "basic",
-	scale = 3,
+	uppercase = true,
 	pixelSize = 4,
 	children,
 }: ButtonProps) {
@@ -39,7 +42,8 @@ export function Button({
 					borderColor={borderColor}
 					fontColor={fontColor}
 					fontBold={fontBold}
-					scale={scale}
+					pixelSize={pixelSize}
+					uppercase={uppercase}
 				>
 					{children}
 				</BasicButton>
@@ -51,6 +55,7 @@ export function Button({
 					fontColor={fontColor}
 					fontBold={fontBold}
 					pixelSize={pixelSize}
+					uppercase={uppercase}
 				>
 					{children}
 				</BulkButton>
@@ -62,17 +67,19 @@ export function Button({
 					fontColor={fontColor}
 					fontBold={fontBold}
 					pixelSize={pixelSize}
+					uppercase={uppercase}
 				>
 					{children}
 				</SquaredButton>
 			)}
 			{variant === "minimalistic" && (
 				<MinimalisticButton
-					backgroundColor={backgroundColor}
+					primaryColor={primaryColor}
+					secondaryColor={secondaryColor}
 					borderColor={borderColor}
 					fontColor={fontColor}
-					fontBold={fontBold}
 					pixelSize={pixelSize}
+					uppercase={uppercase}
 				>
 					{children}
 				</MinimalisticButton>

@@ -28,6 +28,7 @@ type ContentProps = {
 	backgroundColorShades: string[];
 	isMouseHover: boolean;
 	isMouseClicked: boolean;
+	uppercase: boolean;
 	children?: React.ReactNode;
 };
 const Content = styled.span<ContentProps>`
@@ -40,7 +41,7 @@ const Content = styled.span<ContentProps>`
 	font-size: ${({ fontSize }) => fontSize}px;
 	font-weight: ${({ fontBold }) => (fontBold ? 600 : 400)};
 	padding: 0.6em 1.4em;
-	text-transform: uppercase;
+	text-transform: ${({ uppercase }) => (uppercase ? "uppercase" : "initial")};
 	color: ${({ fontColor }) => fontColor};
 	white-space: nowrap;
 	text-shadow: -${({ pixelSize }) => pixelSize}px -${({ pixelSize }) =>
@@ -180,6 +181,7 @@ export interface ButtonProps {
 	fontBold: boolean;
 	pixelSize: number;
 	borderColor: string;
+	uppercase: boolean;
 	children?: React.ReactNode;
 }
 export function SquaredButton({
@@ -188,6 +190,7 @@ export function SquaredButton({
 	fontBold = false,
 	borderColor = "#2e222f",
 	pixelSize = 4,
+	uppercase = true,
 	children,
 }: ButtonProps) {
 	const cornerLength = pixelSize * 4;
@@ -244,6 +247,7 @@ export function SquaredButton({
 				backgroundColorShades={backgroundColorShades}
 				isMouseHover={isMouseHover}
 				isMouseClicked={isMouseClicked}
+				uppercase={uppercase}
 			>
 				{children}
 			</Content>
