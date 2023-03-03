@@ -8,7 +8,10 @@ import {
 } from "../../../utils";
 import { useEffect, useState, MouseEvent } from "react";
 
-const BaseButton = styled.button`
+type BaseButtonProps = {
+	pixelSize: number;
+};
+const BaseButton = styled.button<BaseButtonProps>`
 	font-family: "Press Start 2P", "Nunito Sans", "Helvetica Neue", Helvetica,
 		Arial, sans-serif;
 	position: relative;
@@ -16,7 +19,7 @@ const BaseButton = styled.button`
 	background: transparent;
 	border: none;
 	padding: 0;
-	margin-bottom: 8px;
+	margin-bottom: ${({ pixelSize }) => pixelSize * 6}px;
 	cursor: pointer;
 `;
 
@@ -28,6 +31,8 @@ type ContentProps = {
 	isMouseHover: boolean;
 	isMouseClicked: boolean;
 	children?: React.ReactNode;
+	pixelSize: number;
+	uppercase: boolean;
 };
 const Content = styled.span<ContentProps>`
 	z-index: 10;
@@ -36,21 +41,21 @@ const Content = styled.span<ContentProps>`
 	display: inline-flex;
 	justify-content: center;
 	align-items: center;
-	font-size: ${(props) => props.fontSize}px;
-	font-weight: ${(props) => (props.fontBold ? 600 : 400)};
-	padding: 0.8em 2em;
-	text-transform: uppercase;
-	color: ${(props) =>
-		isContrastValid(props.fontColor, props.backgroundColorShades[3])
-			? props.fontColor
-			: getContrastColor(props.backgroundColorShades[3])};
+	font-size: ${({ fontSize }) => fontSize}px;
+	font-weight: 400;
+	padding: ${({ pixelSize }) => pixelSize * 6}px
+		${({ pixelSize }) => pixelSize * 16}px;
+	text-transform: ${({ uppercase }) => (uppercase ? "uppercase" : "initial")};
+	color: ${({ fontColor, backgroundColorShades }) =>
+		fontColor ? fontColor : getContrastColor(backgroundColorShades[3])};
 	white-space: nowrap;
 	transition: all 200ms;
-	${(props) => props.isMouseClicked && `top: 3px;`}
+	${({ isMouseClicked, pixelSize }) =>
+		isMouseClicked && `top: ${pixelSize}px;`}
 `;
 
 type Layer1Props = {
-	borderWidth: number;
+	pixelSize: number;
 	svg: string;
 	backgroundColorShades: string[];
 	isMouseHover: boolean;
@@ -66,25 +71,27 @@ const Layer1 = styled.div<Layer1Props>`
 	box-sizing: border-box;
 	background-color: transparent;
 	border-style: solid;
-	border-width: ${(props) => props.borderWidth}px;
 	border-color: #000;
-	border-image: url(${(props) => props.svg}) 3;
+	border-image: url(${({ svg }) => svg}) 3;
+	border-width: ${({ pixelSize }) => pixelSize * 3}px;
 	transition: all 200ms;
-	${(props) => props.isMouseClicked && `top: 3px;`}
+	${({ isMouseClicked, pixelSize }) =>
+		isMouseClicked && `top: ${pixelSize}px;`}
 `;
 
 type Layer2Props = {
 	cornerLength: number;
+	pixelSize: number;
 	backgroundColorShades: string[];
 	isMouseHover: boolean;
 	isMouseClicked: boolean;
 };
 const Layer2 = styled.div<Layer2Props>`
 	position: absolute;
-	top: 1px;
-	left: 1px;
-	height: calc(100% - 2px);
-	width: calc(100% - 2px);
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
 	z-index: 8;
 	background-color: ${(props) => props.backgroundColorShades[3]};
 	clip-path: polygon(
@@ -99,46 +106,46 @@ const Layer2 = styled.div<Layer2Props>`
 		0% ${(props) => props.cornerLength}px
 	);
 	transition: all 200ms;
-	${(props) =>
-		props.isMouseHover && `filter: brightness(0.95) saturate(1.2);`}
-	${(props) => props.isMouseClicked && `top: 4px;`}
-	${(props) =>
-		props.isMouseHover &&
-		props.isMouseClicked &&
+	${({ isMouseHover }) =>
+		isMouseHover && `filter: brightness(0.95) saturate(1.2);`}
+	${({ isMouseClicked, pixelSize }) =>
+		isMouseClicked && `top: ${pixelSize}px;`}
+	${({ isMouseHover, isMouseClicked }) =>
+		isMouseHover &&
+		isMouseClicked &&
 		`filter: brightness(0.92) saturate(1.3);`}
 `;
 
 type Layer3Props = {
-	borderWidth: number;
+	pixelSize: number;
 	svg: string;
 };
 const Layer3 = styled.div<Layer3Props>`
 	z-index: 7;
 	position: absolute;
-	bottom: -${(props) => props.borderWidth}px;
+	bottom: -${({ pixelSize }) => pixelSize * 3}px;
 	left: 0;
 	height: 100%;
 	width: 100%;
 	box-sizing: border-box;
 	border-style: solid;
-	border-width: ${(props) => props.borderWidth}px;
 	border-color: #000;
-	border-radius: ${(props) => props.borderWidth * 2.2}px;
-	border-image: url(${(props) => props.svg}) 3;
+	border-image: url(${({ svg }) => svg}) 3;
+	border-width: ${({ pixelSize }) => pixelSize * 3}px;
 	transition: all 200ms;
 `;
 
 type Layer4Props = {
-	borderWidth: number;
+	pixelSize: number;
 	cornerLength: number;
 	backgroundColorShades: string[];
 };
 const Layer4 = styled.div<Layer4Props>`
 	position: absolute;
-	bottom: -${(props) => props.borderWidth - 1}px;
-	left: 1px;
-	height: calc(100% - 2px);
-	width: calc(100% - 2px);
+	bottom: -${({ pixelSize }) => pixelSize * 3}px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
 	z-index: 6;
 	background-color: ${(props) => props.backgroundColorShades[1]};
 	clip-path: polygon(
@@ -159,21 +166,22 @@ export interface ButtonProps {
 	backgroundColor: string;
 	fontColor: string;
 	fontBold: boolean;
-	scale: number;
+	pixelSize: number;
 	borderColor: string;
+	uppercase: boolean;
 	children?: React.ReactNode;
 }
 export function BasicButton({
 	backgroundColor,
-	fontColor = "#313638",
+	fontColor,
 	fontBold = false,
 	borderColor = "#2e222f",
-	scale = 3,
+	pixelSize = 4,
+	uppercase = true,
 	children,
 }: ButtonProps) {
-	const cornerLength = scale * 4 - 2;
-	const fontSize = scale * 7 + 4;
-	const borderWidth = scale * 3;
+	const cornerLength = pixelSize * 4;
+	const fontSize = pixelSize * 8;
 	const [backgroundColorShades, setBackgroundColorShades] = useState<
 		string[]
 	>(colorShading(backgroundColor));
@@ -209,19 +217,22 @@ export function BasicButton({
 			onMouseUp={(e: MouseEvent<HTMLButtonElement>) => {
 				setIsMouseClicked(false);
 			}}
+			pixelSize={pixelSize}
 		>
 			<Content
 				fontColor={fontColor}
 				fontBold={fontBold}
 				fontSize={fontSize}
+				pixelSize={pixelSize}
 				backgroundColorShades={backgroundColorShades}
 				isMouseHover={isMouseHover}
 				isMouseClicked={isMouseClicked}
+				uppercase={uppercase}
 			>
 				{children}
 			</Content>
 			<Layer1
-				borderWidth={borderWidth}
+				pixelSize={pixelSize}
 				svg={layer1BorderImageSVG}
 				backgroundColorShades={backgroundColorShades}
 				isMouseHover={isMouseHover}
@@ -229,13 +240,14 @@ export function BasicButton({
 			/>
 			<Layer2
 				cornerLength={cornerLength}
+				pixelSize={pixelSize}
 				backgroundColorShades={backgroundColorShades}
 				isMouseHover={isMouseHover}
 				isMouseClicked={isMouseClicked}
 			/>
-			<Layer3 borderWidth={borderWidth} svg={layer3BorderImageSVG} />
+			<Layer3 pixelSize={pixelSize} svg={layer3BorderImageSVG} />
 			<Layer4
-				borderWidth={borderWidth}
+				pixelSize={pixelSize}
 				cornerLength={cornerLength}
 				backgroundColorShades={backgroundColorShades}
 			/>

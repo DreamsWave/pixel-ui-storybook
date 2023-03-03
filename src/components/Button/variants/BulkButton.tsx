@@ -27,6 +27,8 @@ type ContentProps = {
 	backgroundColorShades: string[];
 	isMouseHover: boolean;
 	isMouseClicked: boolean;
+	pixelSize: number;
+	uppercase: boolean;
 	children?: React.ReactNode;
 };
 const Content = styled.span<ContentProps>`
@@ -39,14 +41,13 @@ const Content = styled.span<ContentProps>`
 	font-size: ${({ fontSize }) => fontSize}px;
 	font-weight: ${({ fontBold }) => (fontBold ? 600 : 400)};
 	padding: 0.4em 1.4em;
-	text-transform: uppercase;
+	text-transform: ${({ uppercase }) => (uppercase ? "uppercase" : "initial")};
 	color: ${({ fontColor, backgroundColorShades }) =>
-		isContrastValid(fontColor, backgroundColorShades[3])
-			? fontColor
-			: getContrastColor(backgroundColorShades[3])};
+		fontColor ? fontColor : getContrastColor(backgroundColorShades[3])};
 	white-space: nowrap;
 	transition: all 200ms;
-	${({ isMouseClicked }) => isMouseClicked && `top: 3px;`}
+	${({ isMouseClicked, pixelSize }) =>
+		isMouseClicked && `top: ${pixelSize}px;`}
 `;
 
 type Layer1Props = {
@@ -171,6 +172,7 @@ export interface ButtonProps {
 	fontBold: boolean;
 	pixelSize: number;
 	borderColor: string;
+	uppercase: boolean;
 	children?: React.ReactNode;
 }
 export function BulkButton({
@@ -179,6 +181,7 @@ export function BulkButton({
 	fontBold = false,
 	borderColor = "#2e222f",
 	pixelSize = 4,
+	uppercase = true,
 	children,
 }: ButtonProps) {
 	const cornerLength = pixelSize * 2;
@@ -228,6 +231,8 @@ export function BulkButton({
 				backgroundColorShades={backgroundColorShades}
 				isMouseHover={isMouseHover}
 				isMouseClicked={isMouseClicked}
+				pixelSize={pixelSize}
+				uppercase={uppercase}
 			>
 				{children}
 			</Content>
