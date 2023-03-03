@@ -59,3 +59,15 @@ Squared.args = {
 	children: "Squared",
 	backgroundColor: "#ebc3aa",
 };
+
+export const Minimalistic = Template.bind({});
+
+Minimalistic.parameters = {
+	backgrounds: { default: "light" },
+};
+
+Minimalistic.args = {
+	variant: "minimalistic",
+	children: "Min",
+	backgroundColor: "#c7dcd0",
+};
