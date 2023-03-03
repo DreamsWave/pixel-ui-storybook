@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { BasicButton } from "./variants/BasicButton";
 import { BulkButton } from "./variants/BulkButton";
 import { SquaredButton } from "./variants/SquaredButton";
+import { MinimalisticButton } from "./variants/MinimalisticButton";
 
 export const defaults = {
 	backgroundColor: "#fdcbb0",
@@ -15,7 +16,7 @@ export interface ButtonProps {
 	fontColor: string;
 	fontBold: boolean;
 	children: React.ReactNode;
-	variant: "basic" | "bulk" | "squared";
+	variant: "basic" | "bulk" | "squared" | "minimalistic";
 	scale: number;
 	pixelSize: number;
 }
@@ -64,6 +65,17 @@ export function Button({
 				>
 					{children}
 				</SquaredButton>
+			)}
+			{variant === "minimalistic" && (
+				<MinimalisticButton
+					backgroundColor={backgroundColor}
+					borderColor={borderColor}
+					fontColor={fontColor}
+					fontBold={fontBold}
+					pixelSize={pixelSize}
+				>
+					{children}
+				</MinimalisticButton>
 			)}
 		</>
 	);
