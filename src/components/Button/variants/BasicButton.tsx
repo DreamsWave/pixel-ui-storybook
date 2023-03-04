@@ -25,9 +25,8 @@ const BaseButton = styled.button<BaseButtonProps>`
 
 type ContentProps = {
 	fontColor: string;
-	fontBold: boolean;
 	fontSize: number;
-	backgroundColorShades: string[];
+	primaryColorShades: string[];
 	isMouseHover: boolean;
 	isMouseClicked: boolean;
 	children?: React.ReactNode;
@@ -46,8 +45,8 @@ const Content = styled.span<ContentProps>`
 	padding: ${({ pixelSize }) => pixelSize * 6}px
 		${({ pixelSize }) => pixelSize * 16}px;
 	text-transform: ${({ uppercase }) => (uppercase ? "uppercase" : "initial")};
-	color: ${({ fontColor, backgroundColorShades }) =>
-		fontColor ? fontColor : getContrastColor(backgroundColorShades[3])};
+	color: ${({ fontColor, primaryColorShades }) =>
+		fontColor ? fontColor : getContrastColor(primaryColorShades[3])};
 	white-space: nowrap;
 	transition: all 200ms;
 	${({ isMouseClicked, pixelSize }) =>
@@ -57,7 +56,7 @@ const Content = styled.span<ContentProps>`
 type Layer1Props = {
 	pixelSize: number;
 	svg: string;
-	backgroundColorShades: string[];
+	primaryColorShades: string[];
 	isMouseHover: boolean;
 	isMouseClicked: boolean;
 };
@@ -82,7 +81,7 @@ const Layer1 = styled.div<Layer1Props>`
 type Layer2Props = {
 	cornerLength: number;
 	pixelSize: number;
-	backgroundColorShades: string[];
+	primaryColorShades: string[];
 	isMouseHover: boolean;
 	isMouseClicked: boolean;
 };
@@ -93,7 +92,7 @@ const Layer2 = styled.div<Layer2Props>`
 	height: 100%;
 	width: 100%;
 	z-index: 8;
-	background-color: ${(props) => props.backgroundColorShades[3]};
+	background-color: ${(props) => props.primaryColorShades[3]};
 	clip-path: polygon(
 		0 calc(0% + ${(props) => props.cornerLength}px),
 		calc(0% + ${(props) => props.cornerLength}px) 0,
@@ -138,7 +137,7 @@ const Layer3 = styled.div<Layer3Props>`
 type Layer4Props = {
 	pixelSize: number;
 	cornerLength: number;
-	backgroundColorShades: string[];
+	primaryColorShades: string[];
 };
 const Layer4 = styled.div<Layer4Props>`
 	position: absolute;
@@ -147,34 +146,32 @@ const Layer4 = styled.div<Layer4Props>`
 	height: 100%;
 	width: 100%;
 	z-index: 6;
-	background-color: ${(props) => props.backgroundColorShades[1]};
+	background-color: ${({ primaryColorShades }) => primaryColorShades[1]};
 	clip-path: polygon(
-		0 calc(0% + ${(props) => props.cornerLength}px),
-		calc(0% + ${(props) => props.cornerLength}px) 0,
-		calc(100% - ${(props) => props.cornerLength}px) 0,
-		100% ${(props) => props.cornerLength}px,
-		100% calc(100% - ${(props) => props.cornerLength}px),
-		calc(100% - ${(props) => props.cornerLength}px) 100%,
-		${(props) => props.cornerLength}px 100%,
-		0% calc(100% - ${(props) => props.cornerLength}px),
-		0% ${(props) => props.cornerLength}px
+		0 calc(0% + ${({ cornerLength }) => cornerLength}px),
+		calc(0% + ${({ cornerLength }) => cornerLength}px) 0,
+		calc(100% - ${({ cornerLength }) => cornerLength}px) 0,
+		100% ${({ cornerLength }) => cornerLength}px,
+		100% calc(100% - ${({ cornerLength }) => cornerLength}px),
+		calc(100% - ${({ cornerLength }) => cornerLength}px) 100%,
+		${({ cornerLength }) => cornerLength}px 100%,
+		0% calc(100% - ${({ cornerLength }) => cornerLength}px),
+		0% ${({ cornerLength }) => cornerLength}px
 	);
 	transition: all 200ms;
 `;
 
 export interface ButtonProps {
-	backgroundColor: string;
+	primaryColor: string;
 	fontColor: string;
-	fontBold: boolean;
 	pixelSize: number;
 	borderColor: string;
 	uppercase: boolean;
 	children?: React.ReactNode;
 }
 export function BasicButton({
-	backgroundColor,
-	fontColor,
-	fontBold = false,
+	primaryColor = "#fdcbb0",
+	fontColor = "#2e222f",
 	borderColor = "#2e222f",
 	pixelSize = 4,
 	uppercase = true,
@@ -182,26 +179,34 @@ export function BasicButton({
 }: ButtonProps) {
 	const cornerLength = pixelSize * 4;
 	const fontSize = pixelSize * 8;
-	const [backgroundColorShades, setBackgroundColorShades] = useState<
-		string[]
-	>(colorShading(backgroundColor));
+	const [primaryColorShades, setPrimaryColorShades] = useState<string[]>(
+		colorShading(primaryColor)
+	);
 	const [isMouseHover, setIsMouseHover] = useState<boolean>(false);
 	const [isMouseClicked, setIsMouseClicked] = useState<boolean>(false);
 	const [layer1BorderImageSVG, setLayer1BorderImageSVG] = useState<string>(
-		generateLayer1BorderImageSVG(backgroundColorShades, borderColor)
+		generateLayer1BorderImageSVG({ primaryColorShades, borderColor })
 	);
 	const [layer3BorderImageSVG, setLayer3BorderImageSVG] = useState<string>(
-		generateLayer3BorderImageSVG(borderColor)
+		generateLayer3BorderImageSVG({ primaryColorShades, borderColor })
 	);
 
 	useEffect(() => {
-		const bgColorShades = colorShading(backgroundColor);
-		setBackgroundColorShades(bgColorShades);
+		const primColorShades = colorShading(primaryColor);
+		setPrimaryColorShades(primColorShades);
 		setLayer1BorderImageSVG(
-			generateLayer1BorderImageSVG(bgColorShades, borderColor)
+			generateLayer1BorderImageSVG({
+				primaryColorShades: primColorShades,
+				borderColor,
+			})
 		);
-		setLayer3BorderImageSVG(generateLayer3BorderImageSVG(borderColor));
-	}, [backgroundColor, borderColor]);
+		setLayer3BorderImageSVG(
+			generateLayer3BorderImageSVG({
+				primaryColorShades: primColorShades,
+				borderColor,
+			})
+		);
+	}, [primaryColor, borderColor]);
 
 	return (
 		<BaseButton
@@ -221,10 +226,9 @@ export function BasicButton({
 		>
 			<Content
 				fontColor={fontColor}
-				fontBold={fontBold}
 				fontSize={fontSize}
 				pixelSize={pixelSize}
-				backgroundColorShades={backgroundColorShades}
+				primaryColorShades={primaryColorShades}
 				isMouseHover={isMouseHover}
 				isMouseClicked={isMouseClicked}
 				uppercase={uppercase}
@@ -234,14 +238,14 @@ export function BasicButton({
 			<Layer1
 				pixelSize={pixelSize}
 				svg={layer1BorderImageSVG}
-				backgroundColorShades={backgroundColorShades}
+				primaryColorShades={primaryColorShades}
 				isMouseHover={isMouseHover}
 				isMouseClicked={isMouseClicked}
 			/>
 			<Layer2
 				cornerLength={cornerLength}
 				pixelSize={pixelSize}
-				backgroundColorShades={backgroundColorShades}
+				primaryColorShades={primaryColorShades}
 				isMouseHover={isMouseHover}
 				isMouseClicked={isMouseClicked}
 			/>
@@ -249,27 +253,40 @@ export function BasicButton({
 			<Layer4
 				pixelSize={pixelSize}
 				cornerLength={cornerLength}
-				backgroundColorShades={backgroundColorShades}
+				primaryColorShades={primaryColorShades}
 			/>
 		</BaseButton>
 	);
 }
 
-function generateLayer1BorderImageSVG(
-	backgroundColorShades: string[],
-	borderColor: string
-): string {
+function generateLayer1BorderImageSVG({
+	primaryColorShades,
+	secondaryColorShades,
+	borderColor,
+}: {
+	primaryColorShades: string[];
+	secondaryColorShades?: string[];
+	borderColor: string;
+}): string {
 	const svg = `<?xml version="1.0" encoding="UTF-8"?>
 		<svg width="8" height="8" shape-rendering="crispEdges" version="1.1" xmlns="http://www.w3.org/2000/svg">
-			<path d="m5 5h1v1h-1zm1-1h1v1h-1zm0-1h1v1h-1zm-1-1h1v1h-1zm-3 0h1v1h-1zm2-1h1v1h-1zm-1 0h1v1h-1z" fill="${backgroundColorShades[4]}"/>
-			<path d="m4 6h1v1h-1zm-1 0h1v1h-1zm-1-1h1v1h-1zm-1-1h1v1h-1zm0-1h1v1h-1z" fill="${backgroundColorShades[2]}"/>
+			<path d="m5 5h1v1h-1zm1-1h1v1h-1zm0-1h1v1h-1zm-1-1h1v1h-1zm-3 0h1v1h-1zm2-1h1v1h-1zm-1 0h1v1h-1z" fill="${primaryColorShades[4]}"/>
+			<path d="m4 6h1v1h-1zm-1 0h1v1h-1zm-1-1h1v1h-1zm-1-1h1v1h-1zm0-1h1v1h-1z" fill="${primaryColorShades[2]}"/>
 			<path d="m4 7h1v1h-1zm-1 0h1v1h-1zm2-1h1v1h-1zm-3 0h1v1h-1zm4-1h1v1h-1zm-5 0h1v1h-1zm6-1h1v1h-1zm0-1h1v1h-1zm-1-1h1v1h-1zm-1-1h1v1h-1zm-1-1h1v1h-1zm-1 0h1v1h-1zm-3 4h1v1h-1zm0-1h1v1h-1zm1-1h1v1h-1zm1-1h1v1h-1z" fill="${borderColor}"/>
 		</svg>
 	`;
 	return createInlineSVG(svg);
 }
 
-function generateLayer3BorderImageSVG(borderColor: string): string {
+function generateLayer3BorderImageSVG({
+	primaryColorShades,
+	secondaryColorShades,
+	borderColor,
+}: {
+	primaryColorShades: string[];
+	secondaryColorShades?: string[];
+	borderColor?: string;
+}): string {
 	const svg = `<?xml version="1.0" encoding="UTF-8"?>
 	<svg width="8" height="8" shape-rendering="crispEdges" version="1.1" xmlns="http://www.w3.org/2000/svg">
 		<path d="m4 7h1v1h-1zm-1 0h1v1h-1zm2-1h1v1h-1zm-3 0h1v1h-1zm4-1h1v1h-1zm-5 0h1v1h-1zm6-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm6-1h1v1h-1zm-5 0h1v1h-1zm4-1h1v1h-1zm-3 0h1v1h-1zm2-1h1v1h-1zm-1 0h1v1h-1z" fill="${borderColor}"/>
