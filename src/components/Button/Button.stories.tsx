@@ -8,7 +8,6 @@ export default {
 	args: {
 		primaryColor: "#fdcbb0",
 		secondaryColor: "#593e2d",
-		backgroundColor: "#fdcbb0",
 		borderColor: "#2e222f",
 		fontColor: "",
 		children: "Pixel button",
@@ -28,7 +27,7 @@ export const Bulk = Template.bind({});
 Bulk.args = {
 	variant: "bulk",
 	children: "Bulk",
-	backgroundColor: "#8ff8e2",
+	primaryColor: "#8ff8e2",
 };
 
 export const Squared = Template.bind({});
@@ -50,7 +49,6 @@ Minimalistic.parameters = {
 Minimalistic.args = {
 	variant: "minimalistic",
 	children: "Min",
-	backgroundColor: "#c7dcd0",
 	uppercase: false,
 	primaryColor: "#fffffff",
 	secondaryColor: "#c7dcd0",

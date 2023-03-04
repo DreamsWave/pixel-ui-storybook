@@ -185,7 +185,7 @@ export interface ButtonProps {
 export function MinimalisticButton({
 	primaryColor = "#ffffff",
 	secondaryColor = "#c7dcd0",
-	fontColor,
+	fontColor = "#313638",
 	borderColor = "#313638",
 	pixelSize = 4,
 	uppercase = false,

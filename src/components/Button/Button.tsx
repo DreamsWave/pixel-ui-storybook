@@ -10,12 +10,10 @@ export const defaults = {
 };
 
 export interface ButtonProps {
-	backgroundColor: string;
 	primaryColor: string;
 	secondaryColor: string;
 	borderColor: string;
 	fontColor: string;
-	fontBold: boolean;
 	children: React.ReactNode;
 	variant: "basic" | "bulk" | "squared" | "minimalistic";
 	pixelSize: number;
@@ -25,10 +23,8 @@ export interface ButtonProps {
 export function Button({
 	primaryColor,
 	secondaryColor,
-	backgroundColor,
 	borderColor,
 	fontColor,
-	fontBold = false,
 	variant = "basic",
 	uppercase = true,
 	pixelSize = 4,
@@ -38,10 +34,9 @@ export function Button({
 		<>
 			{variant === "basic" && (
 				<BasicButton
-					backgroundColor={backgroundColor}
+					primaryColor={primaryColor}
 					borderColor={borderColor}
 					fontColor={fontColor}
-					fontBold={fontBold}
 					pixelSize={pixelSize}
 					uppercase={uppercase}
 				>
@@ -50,10 +45,9 @@ export function Button({
 			)}
 			{variant === "bulk" && (
 				<BulkButton
-					backgroundColor={backgroundColor}
+					primaryColor={primaryColor}
 					borderColor={borderColor}
 					fontColor={fontColor}
-					fontBold={fontBold}
 					pixelSize={pixelSize}
 					uppercase={uppercase}
 				>

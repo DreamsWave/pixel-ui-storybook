@@ -195,7 +195,7 @@ export interface ButtonProps {
 export function SquaredButton({
 	primaryColor = "#ebc3aa",
 	secondaryColor = "#ab7968",
-	fontColor,
+	fontColor = "#593e2d",
 	borderColor = "#593e2d",
 	pixelSize = 4,
 	uppercase = true,
@@ -320,7 +320,7 @@ function generateLayer1BorderImageSVG({
 }: {
 	primaryColorShades: string[];
 	secondaryColorShades: string[];
-	borderColor: string;
+	borderColor?: string;
 }): string {
 	const svg = `<?xml version="1.0" encoding="UTF-8"?>
 	<svg width="8" height="8" shape-rendering="crispEdges" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -338,7 +338,7 @@ function generateLayer3BorderImageSVG({
 }: {
 	primaryColorShades: string[];
 	secondaryColorShades: string[];
-	borderColor: string;
+	borderColor?: string;
 }): string {
 	const svg = `<?xml version="1.0" encoding="UTF-8"?>
 	<svg width="8" height="8" shape-rendering="crispEdges" version="1.1" xmlns="http://www.w3.org/2000/svg">
