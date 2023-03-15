@@ -38,3 +38,20 @@ Neon.args = {
     </p>
   ),
 };
+
+export const WithShadow = Template.bind({});
+WithShadow.parameters = {
+  backgrounds: { default: 'light' },
+};
+WithShadow.args = {
+  backgroundColor: '#434a4d',
+  fontColor: '#ffffff',
+  borderColor: '#383e40',
+  shadowColor: '#9babb2',
+  variant: 'withShadow',
+  children: (
+    <p style={{ margin: '8px 16px' }}>
+      Hello world<span style={{ color: '#91db69' }}>!</span>
+    </p>
+  ),
+};
