@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
-import { createInlineSVG, colorShading } from "../../../utils";
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { createInlineSVG, colorShading } from '../../../utils';
 
 type BaseBoxProps = {
   pixelSize: number;
 };
 const BaseBox = styled.div<BaseBoxProps>`
-  font-family: "Press Start 2P", "Nunito Sans", "Helvetica Neue", Helvetica,
-    Arial, sans-serif;
+  font-family: 'Press Start 2P', 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   position: relative;
   display: inline-flex;
   background: transparent;
@@ -52,8 +51,7 @@ const Layer1 = styled.div<Layer1Props>`
   border-style: solid;
   border-color: #000;
   border-image: url(${({ svg, borderSlice }) => `${svg}) ${borderSlice}`};
-  border-width: ${({ pixelSize, borderSlice }) =>
-    pixelSize * borderSlice}px;
+  border-width: ${({ pixelSize, borderSlice }) => pixelSize * borderSlice}px;);
 `;
 
 type Layer2Props = {
@@ -93,24 +91,20 @@ export interface NeonBoxProps {
 
 export function NeonBox(props: NeonBoxProps) {
   const {
-    primaryColor = "#8fd3ff",
-    secondaryColor = "#eaaded",
-    backgroundColor = "#313638",
-    fontColor = "#ffffff",
+    primaryColor = '#8fd3ff',
+    secondaryColor = '#eaaded',
+    backgroundColor = '#313638',
+    fontColor = '#ffffff',
     pixelSize = 4,
     children,
   } = props;
   const cornerLength = pixelSize * 4;
   const borderSlice = 2;
   const fontSize = pixelSize * 8;
-  const [primaryColorShades, setPrimaryColorShades] = useState<string[]>(
-    colorShading(primaryColor)
-  );
-  const [secondaryColorShades, setSecondaryColorShades] = useState<string[]>(
-    colorShading(secondaryColor)
-  );
+  const [primaryColorShades, setPrimaryColorShades] = useState<string[]>(colorShading(primaryColor));
+  const [secondaryColorShades, setSecondaryColorShades] = useState<string[]>(colorShading(secondaryColor));
   const [layer1BorderImageSVG, setLayer1BorderImageSVG] = useState<string>(
-    generateLayer1BorderImageSVG({ primaryColorShades, secondaryColorShades })
+    generateLayer1BorderImageSVG({ primaryColorShades, secondaryColorShades }),
   );
 
   useEffect(() => {
@@ -122,7 +116,7 @@ export function NeonBox(props: NeonBoxProps) {
       generateLayer1BorderImageSVG({
         primaryColorShades: primColorShades,
         secondaryColorShades: secColorShades,
-      })
+      }),
     );
   }, [primaryColor, secondaryColor]);
   return (
@@ -130,16 +124,8 @@ export function NeonBox(props: NeonBoxProps) {
       <Content fontColor={fontColor} fontSize={fontSize} pixelSize={pixelSize}>
         {children}
       </Content>
-      <Layer1
-        pixelSize={pixelSize}
-        svg={layer1BorderImageSVG}
-        borderSlice={borderSlice}
-      />
-      <Layer2
-        cornerLength={cornerLength}
-        pixelSize={pixelSize}
-        backgroundColor={backgroundColor}
-      />
+      <Layer1 pixelSize={pixelSize} svg={layer1BorderImageSVG} borderSlice={borderSlice} />
+      <Layer2 cornerLength={cornerLength} pixelSize={pixelSize} backgroundColor={backgroundColor} />
     </BaseBox>
   );
 }

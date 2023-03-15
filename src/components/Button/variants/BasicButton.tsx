@@ -1,19 +1,13 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import {
-  createInlineSVG,
-  colorShading,
-  isContrastValid,
-  getContrastColor,
-} from "../../../utils";
-import { useEffect, useState, MouseEvent } from "react";
+import { createInlineSVG, colorShading, getContrastColor } from '../../../utils';
+import { useEffect, useState } from 'react';
 
 type BaseButtonProps = {
   pixelSize: number;
 };
 const BaseButton = styled.button<BaseButtonProps>`
-  font-family: "Press Start 2P", "Nunito Sans", "Helvetica Neue", Helvetica,
-    Arial, sans-serif;
+  font-family: 'Press Start 2P', 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   position: relative;
   display: inline-flex;
   background: transparent;
@@ -42,11 +36,9 @@ const Content = styled.span<ContentProps>`
   align-items: center;
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: 400;
-  padding: ${({ pixelSize }) => pixelSize * 6}px
-    ${({ pixelSize }) => pixelSize * 16}px;
-  text-transform: ${({ uppercase }) => (uppercase ? "uppercase" : "initial")};
-  color: ${({ fontColor, primaryColorShades }) =>
-    fontColor ? fontColor : getContrastColor(primaryColorShades[3])};
+  padding: ${({ pixelSize }) => pixelSize * 6}px ${({ pixelSize }) => pixelSize * 16}px;
+  text-transform: ${({ uppercase }) => (uppercase ? 'uppercase' : 'initial')};
+  color: ${({ fontColor, primaryColorShades }) => (fontColor ? fontColor : getContrastColor(primaryColorShades[3]))};
   white-space: nowrap;
   transition: all 200ms;
   ${({ isMouseClicked, pixelSize }) => isMouseClicked && `top: ${pixelSize}px;`}
@@ -103,11 +95,9 @@ const Layer2 = styled.div<Layer2Props>`
     0% ${(props) => props.cornerLength}px
   );
   transition: all 200ms;
-  ${({ isMouseHover }) =>
-    isMouseHover && `filter: brightness(0.95) saturate(1.2);`}
+  ${({ isMouseHover }) => isMouseHover && `filter: brightness(0.95) saturate(1.2);`}
   ${({ isMouseClicked, pixelSize }) => isMouseClicked && `top: ${pixelSize}px;`}
-	${({ isMouseHover, isMouseClicked }) =>
-    isMouseHover && isMouseClicked && `filter: brightness(0.92) saturate(1.3);`}
+	${({ isMouseHover, isMouseClicked }) => isMouseHover && isMouseClicked && `filter: brightness(0.92) saturate(1.3);`}
 `;
 
 type Layer3Props = {
@@ -165,25 +155,23 @@ export interface ButtonProps {
   children?: React.ReactNode;
 }
 export function BasicButton({
-  primaryColor = "#fdcbb0",
-  fontColor = "#2e222f",
-  borderColor = "#2e222f",
+  primaryColor = '#fdcbb0',
+  fontColor = '#2e222f',
+  borderColor = '#2e222f',
   pixelSize = 4,
   uppercase = true,
   children,
 }: ButtonProps) {
   const cornerLength = pixelSize * 4;
   const fontSize = pixelSize * 8;
-  const [primaryColorShades, setPrimaryColorShades] = useState<string[]>(
-    colorShading(primaryColor)
-  );
+  const [primaryColorShades, setPrimaryColorShades] = useState<string[]>(colorShading(primaryColor));
   const [isMouseHover, setIsMouseHover] = useState<boolean>(false);
   const [isMouseClicked, setIsMouseClicked] = useState<boolean>(false);
   const [layer1BorderImageSVG, setLayer1BorderImageSVG] = useState<string>(
-    generateLayer1BorderImageSVG({ primaryColorShades, borderColor })
+    generateLayer1BorderImageSVG({ primaryColorShades, borderColor }),
   );
   const [layer3BorderImageSVG, setLayer3BorderImageSVG] = useState<string>(
-    generateLayer3BorderImageSVG({ primaryColorShades, borderColor })
+    generateLayer3BorderImageSVG({ primaryColorShades, borderColor }),
   );
 
   useEffect(() => {
@@ -193,28 +181,28 @@ export function BasicButton({
       generateLayer1BorderImageSVG({
         primaryColorShades: primColorShades,
         borderColor,
-      })
+      }),
     );
     setLayer3BorderImageSVG(
       generateLayer3BorderImageSVG({
         primaryColorShades: primColorShades,
         borderColor,
-      })
+      }),
     );
   }, [primaryColor, borderColor]);
 
   return (
     <BaseButton
-      onMouseOver={(e: MouseEvent<HTMLButtonElement>) => {
+      onMouseOver={() => {
         setIsMouseHover(true);
       }}
-      onMouseLeave={(e: MouseEvent<HTMLButtonElement>) => {
+      onMouseLeave={() => {
         setIsMouseHover(false);
       }}
-      onMouseDown={(e: MouseEvent<HTMLButtonElement>) => {
+      onMouseDown={() => {
         setIsMouseClicked(true);
       }}
-      onMouseUp={(e: MouseEvent<HTMLButtonElement>) => {
+      onMouseUp={() => {
         setIsMouseClicked(false);
       }}
       pixelSize={pixelSize}
@@ -245,22 +233,16 @@ export function BasicButton({
         isMouseClicked={isMouseClicked}
       />
       <Layer3 pixelSize={pixelSize} svg={layer3BorderImageSVG} />
-      <Layer4
-        pixelSize={pixelSize}
-        cornerLength={cornerLength}
-        primaryColorShades={primaryColorShades}
-      />
+      <Layer4 pixelSize={pixelSize} cornerLength={cornerLength} primaryColorShades={primaryColorShades} />
     </BaseButton>
   );
 }
 
 function generateLayer1BorderImageSVG({
   primaryColorShades,
-  secondaryColorShades,
   borderColor,
 }: {
   primaryColorShades: string[];
-  secondaryColorShades?: string[];
   borderColor: string;
 }): string {
   const svg = `<?xml version="1.0" encoding="UTF-8"?>
@@ -274,8 +256,6 @@ function generateLayer1BorderImageSVG({
 }
 
 function generateLayer3BorderImageSVG({
-  primaryColorShades,
-  secondaryColorShades,
   borderColor,
 }: {
   primaryColorShades: string[];

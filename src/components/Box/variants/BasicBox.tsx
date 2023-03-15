@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
-import { createInlineSVG } from "../../../utils";
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { createInlineSVG } from '../../../utils';
 
 type BaseBoxProps = {
   pixelSize: number;
 };
 const BaseBox = styled.div<BaseBoxProps>`
-  font-family: "Press Start 2P", "Nunito Sans", "Helvetica Neue", Helvetica,
-    Arial, sans-serif;
+  font-family: 'Press Start 2P', 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   position: relative;
   display: inline-flex;
   background: transparent;
@@ -52,7 +51,7 @@ const Layer1 = styled.div<Layer1Props>`
   border-style: solid;
   border-color: #000;
   border-image: url(${({ svg, borderSlice }) => `${svg}) ${borderSlice}`};
-  border-width: ${({ pixelSize, borderSlice }) => pixelSize * borderSlice}px;;
+  border-width: ${({ pixelSize, borderSlice }) => pixelSize * borderSlice}px;);
 `;
 
 type Layer2Props = {
@@ -91,9 +90,9 @@ export interface BasicBoxProps {
 
 export function BasicBox(props: BasicBoxProps) {
   const {
-    borderColor = "#323353",
-    backgroundColor = "#ffffff",
-    fontColor = "#313638",
+    borderColor = '#323353',
+    backgroundColor = '#ffffff',
+    fontColor = '#313638',
     pixelSize = 4,
     children,
   } = props;
@@ -101,29 +100,19 @@ export function BasicBox(props: BasicBoxProps) {
   const borderSlice = 4;
   const fontSize = pixelSize * 8;
   const [layer1BorderImageSVG, setLayer1BorderImageSVG] = useState<string>(
-    generateLayer1BorderImageSVG({ borderColor, backgroundColor })
+    generateLayer1BorderImageSVG({ borderColor, backgroundColor }),
   );
 
   useEffect(() => {
-    setLayer1BorderImageSVG(
-      generateLayer1BorderImageSVG({ borderColor, backgroundColor })
-    );
+    setLayer1BorderImageSVG(generateLayer1BorderImageSVG({ borderColor, backgroundColor }));
   }, [borderColor, backgroundColor]);
   return (
     <BaseBox pixelSize={pixelSize}>
       <Content fontColor={fontColor} fontSize={fontSize} pixelSize={pixelSize}>
         {children}
       </Content>
-      <Layer1
-        pixelSize={pixelSize}
-        svg={layer1BorderImageSVG}
-        borderSlice={borderSlice}
-      />
-      <Layer2
-        cornerLength={cornerLength}
-        pixelSize={pixelSize}
-        backgroundColor={backgroundColor}
-      />
+      <Layer1 pixelSize={pixelSize} svg={layer1BorderImageSVG} borderSlice={borderSlice} />
+      <Layer2 cornerLength={cornerLength} pixelSize={pixelSize} backgroundColor={backgroundColor} />
     </BaseBox>
   );
 }
