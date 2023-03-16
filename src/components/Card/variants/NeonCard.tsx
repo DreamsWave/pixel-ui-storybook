@@ -1,38 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { createInlineSVG, colorShading } from '../../../utils';
-
-type BaseBoxProps = {
-  pixelSize: number;
-};
-const BaseBox = styled.div<BaseBoxProps>`
-  font-family: 'Press Start 2P', 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  position: relative;
-  display: inline-flex;
-  background: transparent;
-  border: none;
-  padding: 0;
-  margin-bottom: ${({ pixelSize }) => pixelSize * 6}px;
-`;
-
-type ContentProps = {
-  fontColor: string;
-  fontSize: number;
-  children?: React.ReactNode;
-  pixelSize: number;
-};
-const Content = styled.span<ContentProps>`
-  z-index: 10;
-  position: relative;
-  top: 0;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  font-size: ${({ fontSize }) => fontSize}px;
-  font-weight: 400;
-  padding: ${({ pixelSize }) => pixelSize * 6}px;
-  color: ${({ fontColor }) => fontColor};
-`;
+import { CardBase, CardContent } from '../Card';
 
 type Layer1Props = {
   pixelSize: number;
@@ -80,7 +49,7 @@ const Layer2 = styled.div<Layer2Props>`
   );
 `;
 
-export interface NeonBoxProps {
+export interface NeonCardProps {
   primaryColor: string;
   secondaryColor: string;
   backgroundColor: string;
@@ -89,7 +58,7 @@ export interface NeonBoxProps {
   children?: React.ReactNode;
 }
 
-export function NeonBox(props: NeonBoxProps) {
+export function NeonCard(props: NeonCardProps) {
   const {
     primaryColor = '#8fd3ff',
     secondaryColor = '#eaaded',
@@ -120,13 +89,13 @@ export function NeonBox(props: NeonBoxProps) {
     );
   }, [primaryColor, secondaryColor]);
   return (
-    <BaseBox pixelSize={pixelSize}>
-      <Content fontColor={fontColor} fontSize={fontSize} pixelSize={pixelSize}>
+    <CardBase pixelSize={pixelSize}>
+      <CardContent fontColor={fontColor} fontSize={fontSize} pixelSize={pixelSize}>
         {children}
-      </Content>
+      </CardContent>
       <Layer1 pixelSize={pixelSize} svg={layer1BorderImageSVG} borderSlice={borderSlice} />
       <Layer2 cornerLength={cornerLength} pixelSize={pixelSize} backgroundColor={backgroundColor} />
-    </BaseBox>
+    </CardBase>
   );
 }
 

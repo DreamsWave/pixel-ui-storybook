@@ -1,26 +1,31 @@
 import { Meta, StoryFn } from '@storybook/react';
 
-import { Box } from './Box';
+import { Card } from './Card';
 
 export default {
-  title: 'Components/Box',
-  component: Box,
+  title: 'Components/Card',
+  component: Card,
   args: {
     fontColor: '#313638',
     pixelSize: 4,
   },
-} as Meta<typeof Box>;
+} as Meta<typeof Card>;
 
-const Template: StoryFn<typeof Box> = (args) => <Box {...args} />;
+const Template: StoryFn<typeof Card> = (args) => <Card {...args} />;
 
 export const Basic = Template.bind({});
+Basic.parameters = {
+  backgrounds: { default: 'light' },
+};
 Basic.args = {
   backgroundColor: '#ffffff',
-  borderColor: '#323353',
+  fontColor: '#313638',
+  borderColor: '#313638',
+  shadowColor: '#9babb2',
   variant: 'basic',
   children: (
     <p style={{ margin: '8px 16px' }}>
-      Hello world<span style={{ color: '#4f4e81' }}>!</span>
+      Hello world<span style={{ color: '#91db69' }}>!</span>
     </p>
   ),
 };
@@ -39,19 +44,17 @@ Neon.args = {
   ),
 };
 
-export const WithShadow = Template.bind({});
-WithShadow.parameters = {
-  backgrounds: { default: 'light' },
+export const Outline = Template.bind({});
+Outline.parameters = {
+  backgrounds: { default: 'dark' },
 };
-WithShadow.args = {
-  backgroundColor: '#434a4d',
-  fontColor: '#ffffff',
-  borderColor: '#383e40',
-  shadowColor: '#9babb2',
-  variant: 'withShadow',
+Outline.args = {
+  backgroundColor: '#ffffff',
+  borderColor: '#323353',
+  variant: 'outline',
   children: (
     <p style={{ margin: '8px 16px' }}>
-      Hello world<span style={{ color: '#91db69' }}>!</span>
+      Hello world<span style={{ color: '#4f4e81' }}>!</span>
     </p>
   ),
 };

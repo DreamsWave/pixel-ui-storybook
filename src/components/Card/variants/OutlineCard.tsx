@@ -1,38 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { createInlineSVG } from '../../../utils';
-
-type BaseBoxProps = {
-  pixelSize: number;
-};
-const BaseBox = styled.div<BaseBoxProps>`
-  font-family: 'Press Start 2P', 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  position: relative;
-  display: inline-flex;
-  background: transparent;
-  border: none;
-  padding: 0;
-  margin-bottom: ${({ pixelSize }) => pixelSize * 6}px;
-`;
-
-type ContentProps = {
-  fontColor: string;
-  fontSize: number;
-  children?: React.ReactNode;
-  pixelSize: number;
-};
-const Content = styled.span<ContentProps>`
-  z-index: 10;
-  position: relative;
-  top: 0;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  font-size: ${({ fontSize }) => fontSize}px;
-  font-weight: 400;
-  padding: ${({ pixelSize }) => pixelSize * 6}px;
-  color: ${({ fontColor }) => fontColor};
-`;
+import { CardBase, CardContent } from '../Card';
 
 type Layer1Props = {
   pixelSize: number;
@@ -80,7 +49,7 @@ const Layer2 = styled.div<Layer2Props>`
   );
 `;
 
-export interface BasicBoxProps {
+export interface OutlineCardProps {
   backgroundColor: string;
   borderColor: string;
   fontColor: string;
@@ -88,7 +57,7 @@ export interface BasicBoxProps {
   children?: React.ReactNode;
 }
 
-export function BasicBox(props: BasicBoxProps) {
+export function OutlineCard(props: OutlineCardProps) {
   const {
     borderColor = '#323353',
     backgroundColor = '#ffffff',
@@ -107,13 +76,13 @@ export function BasicBox(props: BasicBoxProps) {
     setLayer1BorderImageSVG(generateLayer1BorderImageSVG({ borderColor, backgroundColor }));
   }, [borderColor, backgroundColor]);
   return (
-    <BaseBox pixelSize={pixelSize}>
-      <Content fontColor={fontColor} fontSize={fontSize} pixelSize={pixelSize}>
+    <CardBase pixelSize={pixelSize}>
+      <CardContent fontColor={fontColor} fontSize={fontSize} pixelSize={pixelSize}>
         {children}
-      </Content>
+      </CardContent>
       <Layer1 pixelSize={pixelSize} svg={layer1BorderImageSVG} borderSlice={borderSlice} />
       <Layer2 cornerLength={cornerLength} pixelSize={pixelSize} backgroundColor={backgroundColor} />
-    </BaseBox>
+    </CardBase>
   );
 }
 
