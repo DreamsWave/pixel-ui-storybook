@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { BasicCard } from './variants/BasicCard';
+import { CyberCard } from './variants/CyberCard';
 import { NeonCard } from './variants/NeonCard';
 import { OutlineCard } from './variants/OutlineCard';
 
@@ -10,7 +11,7 @@ export interface CardProps {
   borderColor: string;
   shadowColor: string;
   fontColor: string;
-  variant: 'basic' | 'neon' | 'outline';
+  variant: 'basic' | 'neon' | 'outline' | 'cyber';
   pixelSize: number;
   children?: React.ReactNode;
 }
@@ -22,6 +23,7 @@ export function Card(props: CardProps) {
       {variant === 'basic' && <BasicCard {...props}>{children}</BasicCard>}
       {variant === 'neon' && <NeonCard {...props}>{children}</NeonCard>}
       {variant === 'outline' && <OutlineCard {...props}>{children}</OutlineCard>}
+      {variant === 'cyber' && <CyberCard {...props}>{children}</CyberCard>}
     </>
   );
 }

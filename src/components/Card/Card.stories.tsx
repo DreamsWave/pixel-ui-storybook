@@ -58,3 +58,19 @@ Outline.args = {
     </p>
   ),
 };
+
+export const Cyber = Template.bind({});
+Cyber.parameters = {
+  backgrounds: { default: 'dark' },
+};
+Cyber.args = {
+  primaryColor: '#ffffff',
+  secondaryColor: '#fbff86',
+  fontColor: '#ffffff',
+  variant: 'cyber',
+  children: (
+    <p style={{ margin: '8px 16px' }}>
+      Hello world<span style={{ color: '#fbff86' }}>!</span>
+    </p>
+  ),
+};
