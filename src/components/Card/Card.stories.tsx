@@ -25,7 +25,9 @@ Basic.args = {
   variant: 'basic',
   children: (
     <p style={{ margin: '8px 16px' }}>
-      Hello world<span style={{ color: '#91db69' }}>!</span>
+      Hello world<span style={{ color: '#91db69' }}>!</span> <br />
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. A ex esse minus tenetur at quia natus sint, est soluta?
+      Aliquam.
     </p>
   ),
 };
@@ -39,7 +41,9 @@ Neon.args = {
   variant: 'neon',
   children: (
     <p style={{ margin: '8px 16px' }}>
-      Hello world<span style={{ color: '#8fd3ff' }}>!</span>
+      Hello world<span style={{ color: '#8fd3ff' }}>!</span> <br />
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. A ex esse minus tenetur at quia natus sint, est soluta?
+      Aliquam.
     </p>
   ),
 };
@@ -54,7 +58,9 @@ Outline.args = {
   variant: 'outline',
   children: (
     <p style={{ margin: '8px 16px' }}>
-      Hello world<span style={{ color: '#4f4e81' }}>!</span>
+      Hello world<span style={{ color: '#4f4e81' }}>!</span> <br />
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. A ex esse minus tenetur at quia natus sint, est soluta?
+      Aliquam.
     </p>
   ),
 };
@@ -70,7 +76,27 @@ Cyber.args = {
   variant: 'cyber',
   children: (
     <p style={{ margin: '8px 16px' }}>
-      Hello world<span style={{ color: '#fbff86' }}>!</span>
+      Hello world<span style={{ color: '#fbff86' }}>!</span> <br />
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. A ex esse minus tenetur at quia natus sint, est soluta?
+      Aliquam.
+    </p>
+  ),
+};
+
+export const Dimensional = Template.bind({});
+Dimensional.parameters = {
+  backgrounds: { default: 'light' },
+};
+Dimensional.args = {
+  primaryColor: '#4d9be6',
+  borderColor: '#323832',
+  secondaryColor: '#fbff86',
+  fontColor: '#ffffff',
+  variant: 'dimensional',
+  children: (
+    <p style={{ margin: '8px 16px' }}>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. A ex esse minus tenetur at quia natus sint, est soluta?
+      Aliquam.
     </p>
   ),
 };
