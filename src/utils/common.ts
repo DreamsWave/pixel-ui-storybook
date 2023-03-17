@@ -63,3 +63,8 @@ export function getFontSize(scale: number): number {
 export function getBorderWidth(scale: number): number {
   return scale * 3;
 }
+
+export function changePunctuationsColor(text: string, color: string): string {
+  const punctuationRegex = /[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g;
+  return text.replace(punctuationRegex, `<span style="color: ${color}">$&</span>`);
+}

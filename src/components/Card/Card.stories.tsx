@@ -1,4 +1,5 @@
 import { Meta, StoryFn } from '@storybook/react';
+import { changePunctuationsColor } from '../../utils';
 
 import { Card } from './Card';
 
@@ -13,6 +14,9 @@ export default {
 
 const Template: StoryFn<typeof Card> = (args) => <Card {...args} />;
 
+const text = `Hello world! Lorem ipsum dolor sit amet consectetur adipisicing elit. A ex esse minus tenetur at quia natus sint, est soluta?
+Aliquam.`;
+
 export const Basic = Template.bind({});
 Basic.parameters = {
   backgrounds: { default: 'light' },
@@ -24,11 +28,10 @@ Basic.args = {
   shadowColor: '#9babb2',
   variant: 'basic',
   children: (
-    <p style={{ margin: '8px 16px' }}>
-      Hello world<span style={{ color: '#91db69' }}>!</span> <br />
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. A ex esse minus tenetur at quia natus sint, est soluta?
-      Aliquam.
-    </p>
+    <p
+      style={{ margin: '8px 16px' }}
+      dangerouslySetInnerHTML={{ __html: changePunctuationsColor(text, '#91db69') }}
+    ></p>
   ),
 };
 
@@ -40,11 +43,10 @@ Neon.args = {
   fontColor: '#ffffff',
   variant: 'neon',
   children: (
-    <p style={{ margin: '8px 16px' }}>
-      Hello world<span style={{ color: '#8fd3ff' }}>!</span> <br />
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. A ex esse minus tenetur at quia natus sint, est soluta?
-      Aliquam.
-    </p>
+    <p
+      style={{ margin: '8px 16px' }}
+      dangerouslySetInnerHTML={{ __html: changePunctuationsColor(text, '#8fd3ff') }}
+    ></p>
   ),
 };
 
@@ -57,11 +59,10 @@ Outline.args = {
   borderColor: '#323353',
   variant: 'outline',
   children: (
-    <p style={{ margin: '8px 16px' }}>
-      Hello world<span style={{ color: '#4f4e81' }}>!</span> <br />
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. A ex esse minus tenetur at quia natus sint, est soluta?
-      Aliquam.
-    </p>
+    <p
+      style={{ margin: '8px 16px' }}
+      dangerouslySetInnerHTML={{ __html: changePunctuationsColor(text, '#91db69') }}
+    ></p>
   ),
 };
 
@@ -75,11 +76,10 @@ Cyber.args = {
   fontColor: '#ffffff',
   variant: 'cyber',
   children: (
-    <p style={{ margin: '8px 16px' }}>
-      Hello world<span style={{ color: '#fbff86' }}>!</span> <br />
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. A ex esse minus tenetur at quia natus sint, est soluta?
-      Aliquam.
-    </p>
+    <p
+      style={{ margin: '8px 16px' }}
+      dangerouslySetInnerHTML={{ __html: changePunctuationsColor(text, '#fbff86') }}
+    ></p>
   ),
 };
 
@@ -94,9 +94,9 @@ Dimensional.args = {
   fontColor: '#ffffff',
   variant: 'dimensional',
   children: (
-    <p style={{ margin: '8px 16px' }}>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. A ex esse minus tenetur at quia natus sint, est soluta?
-      Aliquam.
-    </p>
+    <p
+      style={{ margin: '8px 16px' }}
+      dangerouslySetInnerHTML={{ __html: changePunctuationsColor(text, '#4d65b4') }}
+    ></p>
   ),
 };
