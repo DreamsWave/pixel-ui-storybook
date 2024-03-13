@@ -1,4 +1,3 @@
-// Button.tsx
 import React from 'react';
 import { BasicButton } from './variants/BasicButton';
 import { BulkButton } from './variants/BulkButton';

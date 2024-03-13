@@ -1,161 +1,47 @@
 import styled from 'styled-components';
-
-import { createInlineSVG, colorShading, getContrastColor } from '../../../utils';
 import { useEffect, useState } from 'react';
 import { darken, lighten } from 'polished';
+import { createInlineSVG, colorShading, getContrastColor } from '../utils';
 import { ButtonProps } from '../Button';
+import {
+  ButtonBase,
+  ButtonBottomBackground,
+  ButtonBottomBackgroundProps,
+  ButtonBottomOutline,
+  ButtonContent,
+  ButtonContentProps,
+  ButtonTopBackground,
+  ButtonTopBackgroundProps,
+  ButtonTopOutline,
+} from '../common';
+import { useButtonState } from '../hooks';
 
-type BaseButtonProps = {
-  pixelSize: number;
-};
-const BaseButton = styled.button<BaseButtonProps>`
-  font-family: 'Press Start 2P', 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  position: relative;
-  display: inline-flex;
-  background: transparent;
-  border: none;
-  padding: 0;
-  margin-bottom: ${({ pixelSize }) => pixelSize * 6}px;
-  cursor: pointer;
-`;
-
-type ContentProps = {
-  pixelSize: number;
-  fontColor: string;
-  fontSize: number;
-  isMouseClicked: boolean;
-  uppercase: boolean;
-  children?: React.ReactNode;
-  primaryColorShades: string[];
+type ButtonContentStyledProps = ButtonContentProps & {
   borderColor: string;
 };
-const Content = styled.span<ContentProps>`
-	z-index: 10;
-	position: relative;
-	top: 0;
-	display: inline-flex;
-	justify-content: center;
-	align-items: center;
-	font-size: ${({ fontSize }) => fontSize}px;
-	font-weight: 400;
-	padding: ${({ pixelSize }) => pixelSize * 5}px
-		${({ pixelSize }) => pixelSize * 10}px;
-	text-transform: ${({ uppercase }) => (uppercase ? 'uppercase' : 'initial')};
-	color: ${({ fontColor, primaryColorShades, borderColor }) =>
+const ButtonContentStyled = styled(ButtonContent)<ButtonContentStyledProps>`
+  padding: ${({ pixelSize }) => pixelSize * 5}px ${({ pixelSize }) => pixelSize * 10}px;
+  color: ${({ fontColor, primaryColorShades, borderColor }) =>
     fontColor ? fontColor : getContrastColor(primaryColorShades[3], darken(0, borderColor), lighten(0.6, borderColor))};
-	white-space: nowrap;
-	text-shadow: ${({ pixelSize, primaryColorShades }) => `-${pixelSize}px -${pixelSize}px 0 ${primaryColorShades[6]},`}
-		${({ pixelSize, primaryColorShades }) => `${pixelSize}px -${pixelSize}px 0 ${primaryColorShades[6]},`}
-		${({ pixelSize, primaryColorShades }) => `-${pixelSize}px ${pixelSize}px 0 ${primaryColorShades[6]},`}
-		${({ pixelSize, primaryColorShades }) => `${pixelSize}px ${pixelSize}px 0 ${primaryColorShades[6]};`}
-	transition: all 200ms;
-	${({ isMouseClicked, pixelSize }) => isMouseClicked && `top: ${pixelSize}px;`}
+  text-shadow: ${({ pixelSize, primaryColorShades }) => `-${pixelSize}px -${pixelSize}px 0 ${primaryColorShades[6]},`}
+    ${({ pixelSize, primaryColorShades }) => `${pixelSize}px -${pixelSize}px 0 ${primaryColorShades[6]},`}
+    ${({ pixelSize, primaryColorShades }) => `-${pixelSize}px ${pixelSize}px 0 ${primaryColorShades[6]},`}
+    ${({ pixelSize, primaryColorShades }) => `${pixelSize}px ${pixelSize}px 0 ${primaryColorShades[6]};`};
 `;
 
-type Layer1Props = {
-  pixelSize: number;
-  svg: string;
-  isMouseHover: boolean;
-  isMouseClicked: boolean;
-};
-const Layer1 = styled.div<Layer1Props>`
-  z-index: 9;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  background-color: transparent;
-  border-style: solid;
-  border-color: #000;
-  border-image: url(${({ svg }) => svg}) 3;
-  border-width: ${({ pixelSize }) => pixelSize * 3}px;
-  transition: all 200ms;
-  ${({ isMouseClicked, pixelSize }) => isMouseClicked && `top: ${pixelSize}px;`}
-  ${({ isMouseHover }) => isMouseHover && `filter: brightness(0.95) saturate(1.2);`}
-	${({ isMouseHover, isMouseClicked }) => isMouseHover && isMouseClicked && `filter: brightness(0.92) saturate(1.3);`}
-`;
-
-type Layer2Props = {
-  cornerLength: number;
-  pixelSize: number;
+type ButtonTopBackgroundStyledProps = ButtonTopBackgroundProps & {
   backgroundSVG: string;
-  isMouseHover: boolean;
-  isMouseClicked: boolean;
-  primaryColorShades: string[];
 };
-const Layer2 = styled.div<Layer2Props>`
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  z-index: 8;
-  background-color: ${({ primaryColorShades }) => primaryColorShades[3]};
+const ButtonTopBackgroundStyled = styled(ButtonTopBackground)<ButtonTopBackgroundStyledProps>`
   background-image: url(${({ backgroundSVG }) => backgroundSVG});
   background-size: ${({ pixelSize }) => pixelSize * 4}px ${({ pixelSize }) => pixelSize * 4}px;
-  clip-path: polygon(
-    0 calc(0% + ${({ cornerLength }) => cornerLength}px),
-    calc(0% + ${({ cornerLength }) => cornerLength}px) 0,
-    calc(100% - ${({ cornerLength }) => cornerLength}px) 0,
-    100% ${({ cornerLength }) => cornerLength}px,
-    100% calc(100% - ${({ cornerLength }) => cornerLength}px),
-    calc(100% - ${({ cornerLength }) => cornerLength}px) 100%,
-    ${({ cornerLength }) => cornerLength}px 100%,
-    0% calc(100% - ${({ cornerLength }) => cornerLength}px),
-    0% ${({ cornerLength }) => cornerLength}px
-  );
-  transition: all 200ms;
-  ${({ isMouseHover }) => isMouseHover && `filter: brightness(0.95) saturate(1.2);`}
-  ${({ isMouseClicked, pixelSize }) => isMouseClicked && `top: ${pixelSize}px;`}
-	${({ isMouseHover, isMouseClicked }) => isMouseHover && isMouseClicked && `filter: brightness(0.92) saturate(1.3);`}
 `;
 
-type Layer3Props = {
-  pixelSize: number;
-  svg: string;
-};
-const Layer3 = styled.div<Layer3Props>`
-  z-index: 7;
-  position: absolute;
-  bottom: -${({ pixelSize }) => pixelSize * 3}px;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  box-sizing: border-box;
-  border-style: solid;
-  border-color: #000;
-  border-image: url(${({ svg }) => svg}) 3;
-  border-width: ${({ pixelSize }) => pixelSize * 3}px;
-  transition: all 200ms;
-`;
-
-type Layer4Props = {
-  pixelSize: number;
-  cornerLength: number;
+type ButtonBottomBackgroundStyledProps = ButtonBottomBackgroundProps & {
   secondaryColorShades: string[];
 };
-const Layer4 = styled.div<Layer4Props>`
-  position: absolute;
-  bottom: -${({ pixelSize }) => pixelSize * 3}px;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  z-index: 6;
+const ButtonBottomBackgroundStyled = styled(ButtonBottomBackground)<ButtonBottomBackgroundStyledProps>`
   background-color: ${({ secondaryColorShades }) => secondaryColorShades[3]};
-  clip-path: polygon(
-    0 calc(0% + ${({ cornerLength }) => cornerLength}px),
-    calc(0% + ${({ cornerLength }) => cornerLength}px) 0,
-    calc(100% - ${({ cornerLength }) => cornerLength}px) 0,
-    100% ${({ cornerLength }) => cornerLength}px,
-    100% calc(100% - ${({ cornerLength }) => cornerLength}px),
-    calc(100% - ${({ cornerLength }) => cornerLength}px) 100%,
-    ${({ cornerLength }) => cornerLength}px 100%,
-    0% calc(100% - ${({ cornerLength }) => cornerLength}px),
-    0% ${({ cornerLength }) => cornerLength}px
-  );
-  transition: all 200ms;
 `;
 
 export function SquaredButton({
@@ -169,10 +55,10 @@ export function SquaredButton({
 }: ButtonProps) {
   const cornerLength = pixelSize * 4;
   const fontSize = pixelSize * 8;
+  const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
+    useButtonState();
   const [primaryColorShades, setPrimaryColorShades] = useState<string[]>(colorShading(primaryColor));
   const [secondaryColorShades, setSecondaryColorShades] = useState<string[]>(colorShading(secondaryColor));
-  const [isMouseHover, setIsMouseHover] = useState<boolean>(false);
-  const [isMouseClicked, setIsMouseClicked] = useState<boolean>(false);
   const [backgroundSVG, setBackgroundSVG] = useState<string>(generateBackgroundSVG(primaryColorShades));
   const [layer1BorderImageSVG, setLayer1BorderImageSVG] = useState<string>(
     generateLayer1BorderImageSVG({
@@ -212,40 +98,33 @@ export function SquaredButton({
   }, [borderColor, primaryColor, secondaryColor]);
 
   return (
-    <BaseButton
-      onMouseOver={() => {
-        setIsMouseHover(true);
-      }}
-      onMouseLeave={() => {
-        setIsMouseHover(false);
-        setIsMouseClicked(false);
-      }}
-      onMouseDown={() => {
-        setIsMouseClicked(true);
-      }}
-      onMouseUp={() => {
-        setIsMouseClicked(false);
-      }}
+    <ButtonBase
+      onMouseOver={handleMouseOver}
+      onMouseLeave={handleMouseLeave}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
       pixelSize={pixelSize}
     >
-      <Content
+      <ButtonContentStyled
         pixelSize={pixelSize}
         fontColor={fontColor}
         fontSize={fontSize}
         isMouseClicked={isMouseClicked}
+        isMouseHover={isMouseHover}
         uppercase={uppercase}
         primaryColorShades={primaryColorShades}
         borderColor={borderColor}
       >
         {children}
-      </Content>
-      <Layer1
+      </ButtonContentStyled>
+      <ButtonTopOutline
         pixelSize={pixelSize}
         svg={layer1BorderImageSVG}
+        primaryColorShades={primaryColorShades}
         isMouseHover={isMouseHover}
         isMouseClicked={isMouseClicked}
       />
-      <Layer2
+      <ButtonTopBackgroundStyled
         cornerLength={cornerLength}
         backgroundSVG={backgroundSVG}
         isMouseHover={isMouseHover}
@@ -253,9 +132,14 @@ export function SquaredButton({
         pixelSize={pixelSize}
         primaryColorShades={primaryColorShades}
       />
-      <Layer3 svg={layer3BorderImageSVG} pixelSize={pixelSize} />
-      <Layer4 cornerLength={cornerLength} secondaryColorShades={secondaryColorShades} pixelSize={pixelSize} />
-    </BaseButton>
+      <ButtonBottomOutline svg={layer3BorderImageSVG} pixelSize={pixelSize} />
+      <ButtonBottomBackgroundStyled
+        cornerLength={cornerLength}
+        primaryColorShades={primaryColorShades}
+        secondaryColorShades={secondaryColorShades}
+        pixelSize={pixelSize}
+      />
+    </ButtonBase>
   );
 }
 
