@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { createInlineSVG, colorShading, getContrastColor } from '../../../utils';
 import { useEffect, useState } from 'react';
 import { darken, lighten } from 'polished';
+import { ButtonProps } from '../Button';
 
 type BaseButtonProps = {
   pixelSize: number;
@@ -157,15 +158,6 @@ const Layer4 = styled.div<Layer4Props>`
   transition: all 200ms;
 `;
 
-export interface ButtonProps {
-  primaryColor: string;
-  secondaryColor: string;
-  fontColor: string;
-  pixelSize: number;
-  borderColor: string;
-  uppercase: boolean;
-  children?: React.ReactNode;
-}
 export function SquaredButton({
   primaryColor = '#ebc3aa',
   secondaryColor = '#ab7968',

@@ -1,83 +1,59 @@
-import { BasicButton } from "./variants/BasicButton";
-import { BulkButton } from "./variants/BulkButton";
-import { SquaredButton } from "./variants/SquaredButton";
-import { MinimalisticButton } from "./variants/MinimalisticButton";
+// Button.tsx
+import React from 'react';
+import { BasicButton } from './variants/BasicButton';
+import { BulkButton } from './variants/BulkButton';
+import { SquaredButton } from './variants/SquaredButton';
+import { MinimalisticButton } from './variants/MinimalisticButton';
 
 export const defaults = {
-	backgroundColor: "#fdcbb0",
-	borderColor: "#2e222f",
-	fontColor: "#313638",
+  backgroundColor: '#fdcbb0',
+  borderColor: '#2e222f',
+  fontColor: '#313638',
 };
 
 export interface ButtonProps {
-	primaryColor: string;
-	secondaryColor: string;
-	borderColor: string;
-	fontColor: string;
-	children: React.ReactNode;
-	variant: "basic" | "bulk" | "squared" | "minimalistic";
-	pixelSize: number;
-	uppercase: boolean;
+  primaryColor?: string;
+  secondaryColor?: string;
+  borderColor?: string;
+  fontColor?: string;
+  variant?: 'basic' | 'bulk' | 'squared' | 'minimalistic';
+  pixelSize?: number;
+  uppercase?: boolean;
+  children?: React.ReactNode;
 }
 
-export function Button({
-	primaryColor,
-	secondaryColor,
-	borderColor,
-	fontColor,
-	variant = "basic",
-	uppercase = true,
-	pixelSize = 4,
-	children,
-}: ButtonProps) {
-	return (
-		<>
-			{variant === "basic" && (
-				<BasicButton
-					primaryColor={primaryColor}
-					borderColor={borderColor}
-					fontColor={fontColor}
-					pixelSize={pixelSize}
-					uppercase={uppercase}
-				>
-					{children}
-				</BasicButton>
-			)}
-			{variant === "bulk" && (
-				<BulkButton
-					primaryColor={primaryColor}
-					borderColor={borderColor}
-					fontColor={fontColor}
-					pixelSize={pixelSize}
-					uppercase={uppercase}
-				>
-					{children}
-				</BulkButton>
-			)}
-			{variant === "squared" && (
-				<SquaredButton
-					primaryColor={primaryColor}
-					secondaryColor={secondaryColor}
-					borderColor={borderColor}
-					fontColor={fontColor}
-					pixelSize={pixelSize}
-					uppercase={uppercase}
-				>
-					{children}
-				</SquaredButton>
-			)}
-			{variant === "minimalistic" && (
-				<MinimalisticButton
-					primaryColor={primaryColor}
-					secondaryColor={secondaryColor}
-					borderColor={borderColor}
-					fontColor={fontColor}
-					pixelSize={pixelSize}
-					uppercase={uppercase}
-				>
-					{children}
-				</MinimalisticButton>
-			)}
-		</>
-	);
-}
+const buttonFactory = (variant = 'basic', props: React.PropsWithChildren<ButtonProps>) => {
+  switch (variant) {
+    case 'basic':
+      return <BasicButton {...props} />;
+    case 'bulk':
+      return <BulkButton {...props} />;
+    case 'squared':
+      return <SquaredButton {...props} />;
+    case 'minimalistic':
+      return <MinimalisticButton {...props} />;
+    default:
+      throw new Error(`Invalid button variant: ${variant}`);
+  }
+};
+
+export const Button: React.FC<ButtonProps> = ({
+  primaryColor = defaults.backgroundColor,
+  secondaryColor = defaults.backgroundColor,
+  borderColor = defaults.borderColor,
+  fontColor = defaults.fontColor,
+  variant = 'basic',
+  uppercase = true,
+  pixelSize = 4,
+  children,
+}) => {
+  return buttonFactory(variant, {
+    primaryColor,
+    secondaryColor,
+    borderColor,
+    fontColor,
+    pixelSize,
+    uppercase,
+    children,
+  });
+};
