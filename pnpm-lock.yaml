@@ -71,8 +71,8 @@ devDependencies:
     specifier: ^8.3.0
     version: 8.3.0(@babel/core@7.24.0)(webpack@5.90.3)
   chromatic:
-    specifier: ^6.17.1
-    version: 6.24.1
+    specifier: ^11.0.8
+    version: 11.0.8
   eslint:
     specifier: ^8.36.0
     version: 8.57.0
@@ -3858,9 +3858,17 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /chromatic@6.24.1:
-    resolution: {integrity: sha512-XbpdWWHvFpEHtcq1Km71UcuQ07effB+8q8L47E1Y7HJmJ4ZCoKCuPd8liNrbnvwEAxqfBZvTcONYU/3BPz2i5w==}
+  /chromatic@11.0.8:
+    resolution: {integrity: sha512-+zJ5h0/Eu5z26KCNLIw2tknbK69gUO8q3Jsew4oU0Q/i/NPhIwcXhvPP7u75aLJgX1EI61+ndiGJA/yeQZQcgw==}
     hasBin: true
+    peerDependencies:
+      '@chromatic-com/cypress': ^0.*.* || ^1.0.0
+      '@chromatic-com/playwright': ^0.*.* || ^1.0.0
+    peerDependenciesMeta:
+      '@chromatic-com/cypress':
+        optional: true
+      '@chromatic-com/playwright':
+        optional: true
     dev: true
 
   /chrome-trace-event@1.0.3:
