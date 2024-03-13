@@ -28,6 +28,7 @@ Bulk.args = {
   variant: 'bulk',
   children: 'Bulk',
   primaryColor: '#8ff8e2',
+  borderColor: '#fff',
 };
 
 export const Squared = Template.bind({});

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { createInlineSVG, colorShading } from '../utils';
+import { colorShading } from '../utils';
 import { ButtonProps } from '../Button';
 import {
   ButtonBase,
@@ -15,6 +15,7 @@ import {
   ButtonBottomBackgroundProps,
 } from '../common';
 import { useButtonState } from '../hooks';
+import { generateBulkBottomOutlineSVG, generateBulkTopOutlineSVG } from '../svgOutlines';
 
 const ButtonContentStyled = styled(ButtonContent)<ButtonContentProps>`
   padding: ${({ pixelSize }) => `${pixelSize * 4}px ${pixelSize * 12}px`};
@@ -23,7 +24,7 @@ const ButtonContentStyled = styled(ButtonContent)<ButtonContentProps>`
 const ButtonTopOutlineStyled = styled(ButtonTopOutline)<ButtonTopOutlineProps>`
   left: ${({ pixelSize }) => pixelSize}px;
   width: calc(100% - ${({ pixelSize }) => pixelSize * 2}px);
-  border-image: url(${({ svg }) => svg}) 5;
+  border-image-slice: 5;
   border-width: ${({ pixelSize }) => pixelSize * 5}px;
 `;
 
@@ -39,7 +40,7 @@ const ButtonBottomBackgroundStyled = styled(ButtonBottomBackground)<ButtonBottom
 export function BulkButton({
   primaryColor = '#8ff8e2',
   fontColor = '#313638',
-  borderColor = '#2e222f',
+  borderColor = '#fff',
   pixelSize = 4,
   uppercase = true,
   children,
@@ -49,26 +50,22 @@ export function BulkButton({
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
     useButtonState();
   const [primaryColorShades, setPrimaryColorShades] = useState<string[]>(colorShading(primaryColor));
-  const [layer1BorderImageSVG, setLayer1BorderImageSVG] = useState<string>(
-    generateLayer1BorderImageSVG({ primaryColorShades, borderColor }),
+  const [topOutlineSVG, setTopOutlineSVG] = useState<string>(
+    generateBulkTopOutlineSVG({ colors: [primaryColorShades[4], borderColor] }),
   );
-  const [layer3BorderImageSVG, setLayer3BorderImageSVG] = useState<string>(
-    generateLayer3BorderImageSVG({ primaryColorShades, borderColor }),
+  const [bottomOutlineSVG, setBottomOutlineSVG] = useState<string>(
+    generateBulkBottomOutlineSVG({
+      colors: [primaryColorShades[0], primaryColorShades[2], primaryColorShades[1]],
+    }),
   );
 
   useEffect(() => {
     const primColorShades = colorShading(primaryColor);
     setPrimaryColorShades(primColorShades);
-    setLayer1BorderImageSVG(
-      generateLayer1BorderImageSVG({
-        primaryColorShades: primColorShades,
-        borderColor,
-      }),
-    );
-    setLayer3BorderImageSVG(
-      generateLayer3BorderImageSVG({
-        primaryColorShades: primColorShades,
-        borderColor,
+    setTopOutlineSVG(generateBulkTopOutlineSVG({ colors: [primaryColorShades[4], borderColor] }));
+    setBottomOutlineSVG(
+      generateBulkBottomOutlineSVG({
+        colors: [primaryColorShades[0], primaryColorShades[2], primaryColorShades[1]],
       }),
     );
   }, [primaryColor, borderColor]);
@@ -94,7 +91,7 @@ export function BulkButton({
       </ButtonContentStyled>
       <ButtonTopOutlineStyled
         pixelSize={pixelSize}
-        svg={layer1BorderImageSVG}
+        svg={topOutlineSVG}
         primaryColorShades={primaryColorShades}
         isMouseHover={isMouseHover}
         isMouseClicked={isMouseClicked}
@@ -106,7 +103,7 @@ export function BulkButton({
         isMouseClicked={isMouseClicked}
         pixelSize={pixelSize}
       />
-      <ButtonBottomOutline svg={layer3BorderImageSVG} pixelSize={pixelSize} />
+      <ButtonBottomOutline svg={bottomOutlineSVG} pixelSize={pixelSize} />
       <ButtonBottomBackgroundStyled
         cornerLength={cornerLength}
         primaryColorShades={primaryColorShades}
@@ -114,37 +111,4 @@ export function BulkButton({
       />
     </ButtonBase>
   );
-}
-
-function generateLayer1BorderImageSVG({
-  primaryColorShades,
-}: {
-  primaryColorShades: string[];
-  secondaryColorShades?: string[];
-  borderColor?: string;
-}): string {
-  const svg = `<?xml version="1.0" encoding="UTF-8"?>
-	<svg width="12" height="12" shape-rendering="crispEdges" version="1.1" xmlns="http://www.w3.org/2000/svg">
-	 <path d="m9 11h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-2-2h1v1h-1zm0-1h1v1h-1zm11-1h1v1h-1zm-11 0h1v1h-1zm11-1h1v1h-1zm-11 0h1v1h-1zm11-1h1v1h-1zm-11 0h1v1h-1zm0-1h1v1h-1zm0-1h1v1h-1zm0-1h1v1h-1zm6-2h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1z" fill="${primaryColorShades[4]}"/>
-	 <path d="m10 11h1v1h-1zm-9 0h1v1h-1zm10-1h1v1h-1zm-11 0h1v1h-1zm11-1h1v1h-1zm0-1h1v1h-1zm0-4h1v1h-1zm0-1h1v1h-1zm0-1h1v1h-1zm0-1h1v1h-1zm-11 0h1v1h-1zm10-1h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-4 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1z" fill="#fff"/>
-	</svg>
-	`;
-  return createInlineSVG(svg);
-}
-
-function generateLayer3BorderImageSVG({
-  primaryColorShades,
-}: {
-  primaryColorShades: string[];
-  secondaryColorShades?: string[];
-  borderColor?: string;
-}): string {
-  const svg = `<?xml version="1.0" encoding="UTF-8"?>
-	<svg width="8" height="8" shape-rendering="crispEdges" version="1.1" xmlns="http://www.w3.org/2000/svg">
-	 <path d="m7 6h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1z" fill="${primaryColorShades[0]}"/>
-	 <path d="m5 7h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm3-7h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1z" fill="${primaryColorShades[2]}"/>
-	 <path d="m6 7h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1z" fill="${primaryColorShades[1]}"/>
-	</svg>	
-	`;
-  return createInlineSVG(svg);
 }

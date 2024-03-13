@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { useEffect, useState } from 'react';
 import { darken } from 'polished';
-import { createInlineSVG, colorShading, getContrastColor } from '../utils';
+import { colorShading, getContrastColor } from '../utils';
 import { ButtonProps } from '../Button';
 import { useButtonState } from '../hooks';
 import {
@@ -16,6 +16,7 @@ import {
   ButtonTopBackgroundProps,
   ButtonTopOutline,
 } from '../common';
+import { generateMinimalisticBottomOutlineSVG, generateMinimalisticTopOutlineSVG } from '../svgOutlines';
 
 type ButtonContentStyledProps = ButtonContentProps & {
   secondaryColorShades: string[];
@@ -60,18 +61,12 @@ export function MinimalisticButton({
     useButtonState();
   const [primaryColorShades, setPrimaryColorShades] = useState<string[]>(colorShading(primaryColor));
   const [secondaryColorShades, setSecondaryColorShades] = useState<string[]>(colorShading(secondaryColor));
-  const [layer1BorderImageSVG, setLayer1BorderImageSVG] = useState<string>(
-    generateLayer1BorderImageSVG({
-      primaryColorShades,
-      secondaryColorShades,
-      borderColor,
-    }),
+  const [topOutlineSVG, setTopOutlineSVG] = useState<string>(
+    generateMinimalisticTopOutlineSVG({ colors: [secondaryColorShades[4], borderColor, primaryColorShades[4]] }),
   );
-  const [layer3BorderImageSVG, setLayer3BorderImageSVG] = useState<string>(
-    generateLayer3BorderImageSVG({
-      primaryColorShades,
-      secondaryColorShades,
-      borderColor,
+  const [bottomOutlineSVG, setBottomOutlineSVG] = useState<string>(
+    generateMinimalisticBottomOutlineSVG({
+      colors: [secondaryColorShades[1], borderColor],
     }),
   );
 
@@ -80,18 +75,12 @@ export function MinimalisticButton({
     setPrimaryColorShades(primColorShades);
     const secColorShades = colorShading(secondaryColor);
     setSecondaryColorShades(secColorShades);
-    setLayer1BorderImageSVG(
-      generateLayer1BorderImageSVG({
-        primaryColorShades: primColorShades,
-        secondaryColorShades: secColorShades,
-        borderColor,
-      }),
+    setTopOutlineSVG(
+      generateMinimalisticTopOutlineSVG({ colors: [secondaryColorShades[4], borderColor, primaryColorShades[4]] }),
     );
-    setLayer3BorderImageSVG(
-      generateLayer3BorderImageSVG({
-        primaryColorShades: primColorShades,
-        secondaryColorShades: secColorShades,
-        borderColor,
+    setBottomOutlineSVG(
+      generateMinimalisticBottomOutlineSVG({
+        colors: [secondaryColorShades[1], borderColor],
       }),
     );
   }, [borderColor, primaryColor, secondaryColor]);
@@ -118,7 +107,7 @@ export function MinimalisticButton({
       </ButtonContentStyled>
       <ButtonTopOutline
         pixelSize={pixelSize}
-        svg={layer1BorderImageSVG}
+        svg={topOutlineSVG}
         primaryColorShades={primaryColorShades}
         isMouseHover={isMouseHover}
         isMouseClicked={isMouseClicked}
@@ -130,7 +119,7 @@ export function MinimalisticButton({
         isMouseClicked={isMouseClicked}
         pixelSize={pixelSize}
       />
-      <ButtonBottomOutline svg={layer3BorderImageSVG} pixelSize={pixelSize} />
+      <ButtonBottomOutline svg={bottomOutlineSVG} pixelSize={pixelSize} />
       <ButtonBottomBackgroundStyled
         primaryColorShades={primaryColorShades}
         secondaryColorShades={secondaryColorShades}
@@ -139,40 +128,4 @@ export function MinimalisticButton({
       />
     </ButtonBase>
   );
-}
-
-function generateLayer1BorderImageSVG({
-  primaryColorShades,
-  secondaryColorShades,
-  borderColor,
-}: {
-  primaryColorShades: string[];
-  secondaryColorShades: string[];
-  borderColor: string;
-}): string {
-  const svg = `<?xml version="1.0" encoding="UTF-8"?>
-    <svg width="8" height="8" shape-rendering="crispEdges" version="1.1" xmlns="http://www.w3.org/2000/svg">
-     <path d="m6 2h1v1h-1zm-5 0h1v1h-1zm4-1h1v1h-1zm-3 0h1v1h-1z" fill="${secondaryColorShades[4]}"/>
-     <path d="m7 6h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-1 0h1v1h-1zm-5 0h1v1h-1zm-1 0h1v1h-1zm6-1h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1z" fill="${borderColor}"/>
-     <path d="m5 7h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm4-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm3-2h1v1h-1zm-1 0h1v1h-1z" fill="${primaryColorShades[4]}"/>
-    </svg>
-    `;
-  return createInlineSVG(svg);
-}
-
-function generateLayer3BorderImageSVG({
-  secondaryColorShades,
-  borderColor,
-}: {
-  primaryColorShades: string[];
-  secondaryColorShades: string[];
-  borderColor: string;
-}): string {
-  const svg = `<?xml version="1.0" encoding="UTF-8"?>
-    <svg width="8" height="8" shape-rendering="crispEdges" version="1.1" xmlns="http://www.w3.org/2000/svg">
-     <path d="m5 6h1v1h-1zm-3 0h1v1h-1zm4-1h1v1h-1zm-5 0h1v1h-1z" fill="${secondaryColorShades[1]}"/>
-     <path d="m6 7h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm6-1h1v1h-1zm-1 0h1v1h-1zm-5 0h1v1h-1zm-1 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1z" fill="${borderColor}"/>
-    </svg>
-    `;
-  return createInlineSVG(svg);
 }

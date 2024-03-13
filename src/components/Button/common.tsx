@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { getContrastColor } from './utils';
+import { createInlineSVG, getContrastColor } from './utils';
 
 export type ButtonBaseProps = {
   pixelSize: number;
@@ -60,7 +60,7 @@ export const ButtonTopOutline = styled.div<ButtonTopOutlineProps>`
   background-color: transparent;
   border-style: solid;
   border-color: #000;
-  border-image: url(${({ svg }) => svg}) 3;
+  border-image: url(${({ svg }) => createInlineSVG(svg)}) 3;
   border-width: ${({ pixelSize }) => pixelSize * 3}px;
   transition: all 200ms;
   ${({ isMouseClicked, pixelSize }) => isMouseClicked && `top: ${pixelSize}px;`}
@@ -114,7 +114,7 @@ export const ButtonBottomOutline = styled.div<ButtonBottomOutlineProps>`
   box-sizing: border-box;
   border-style: solid;
   border-color: #000;
-  border-image: url(${({ svg }) => svg}) 3;
+  border-image: url(${({ svg }) => createInlineSVG(svg)}) 3;
   border-width: ${({ pixelSize }) => pixelSize * 3}px;
   transition: all 200ms;
 `;
