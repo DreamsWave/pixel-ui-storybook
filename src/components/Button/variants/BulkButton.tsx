@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import { useEffect, useState } from 'react';
-import { colorShading } from '../utils';
 import { ButtonProps } from '../Button';
 import {
   ButtonBase,
@@ -14,8 +12,7 @@ import {
   ButtonBottomOutline,
   ButtonBottomBackgroundProps,
 } from '../common';
-import { useButtonState } from '../hooks';
-import { generateBulkBottomOutlineSVG, generateBulkTopOutlineSVG } from '../svgOutlines';
+import { useButtonState, useColorShading, useOutlineSVG } from '../hooks';
 
 const ButtonContentStyled = styled(ButtonContent)<ButtonContentProps>`
   padding: ${({ pixelSize }) => `${pixelSize * 4}px ${pixelSize * 12}px`};
@@ -49,26 +46,17 @@ export function BulkButton({
   const fontSize = pixelSize * 8;
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
     useButtonState();
-  const [primaryColorShades, setPrimaryColorShades] = useState<string[]>(colorShading(primaryColor));
-  const [topOutlineSVG, setTopOutlineSVG] = useState<string>(
-    generateBulkTopOutlineSVG({ colors: [primaryColorShades[4], borderColor] }),
-  );
-  const [bottomOutlineSVG, setBottomOutlineSVG] = useState<string>(
-    generateBulkBottomOutlineSVG({
-      colors: [primaryColorShades[0], primaryColorShades[2], primaryColorShades[1]],
-    }),
-  );
-
-  useEffect(() => {
-    const primColorShades = colorShading(primaryColor);
-    setPrimaryColorShades(primColorShades);
-    setTopOutlineSVG(generateBulkTopOutlineSVG({ colors: [primaryColorShades[4], borderColor] }));
-    setBottomOutlineSVG(
-      generateBulkBottomOutlineSVG({
-        colors: [primaryColorShades[0], primaryColorShades[2], primaryColorShades[1]],
-      }),
-    );
-  }, [primaryColor, borderColor]);
+  const primaryColorShades = useColorShading(primaryColor);
+  const topOutlineSVG = useOutlineSVG({
+    position: 'top',
+    type: 'bulk',
+    colors: [primaryColorShades[4], borderColor],
+  });
+  const bottomOutlineSVG = useOutlineSVG({
+    position: 'bottom',
+    type: 'bulk',
+    colors: [primaryColorShades[0], primaryColorShades[2], primaryColorShades[1]],
+  });
 
   return (
     <ButtonBase

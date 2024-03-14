@@ -1,10 +1,8 @@
 import styled from 'styled-components';
-
-import { useEffect, useState } from 'react';
 import { darken } from 'polished';
-import { colorShading, getContrastColor } from '../utils';
+import { getContrastColor } from '../utils';
 import { ButtonProps } from '../Button';
-import { useButtonState } from '../hooks';
+import { useButtonState, useColorShading, useOutlineSVG } from '../hooks';
 import {
   ButtonBase,
   ButtonBottomBackground,
@@ -16,7 +14,6 @@ import {
   ButtonTopBackgroundProps,
   ButtonTopOutline,
 } from '../common';
-import { generateMinimalisticBottomOutlineSVG, generateMinimalisticTopOutlineSVG } from '../svgOutlines';
 
 type ButtonContentStyledProps = ButtonContentProps & {
   secondaryColorShades: string[];
@@ -59,31 +56,18 @@ export function MinimalisticButton({
   const fontSize = pixelSize * 8;
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
     useButtonState();
-  const [primaryColorShades, setPrimaryColorShades] = useState<string[]>(colorShading(primaryColor));
-  const [secondaryColorShades, setSecondaryColorShades] = useState<string[]>(colorShading(secondaryColor));
-  const [topOutlineSVG, setTopOutlineSVG] = useState<string>(
-    generateMinimalisticTopOutlineSVG({ colors: [secondaryColorShades[4], borderColor, primaryColorShades[4]] }),
-  );
-  const [bottomOutlineSVG, setBottomOutlineSVG] = useState<string>(
-    generateMinimalisticBottomOutlineSVG({
-      colors: [secondaryColorShades[1], borderColor],
-    }),
-  );
-
-  useEffect(() => {
-    const primColorShades = colorShading(primaryColor);
-    setPrimaryColorShades(primColorShades);
-    const secColorShades = colorShading(secondaryColor);
-    setSecondaryColorShades(secColorShades);
-    setTopOutlineSVG(
-      generateMinimalisticTopOutlineSVG({ colors: [secondaryColorShades[4], borderColor, primaryColorShades[4]] }),
-    );
-    setBottomOutlineSVG(
-      generateMinimalisticBottomOutlineSVG({
-        colors: [secondaryColorShades[1], borderColor],
-      }),
-    );
-  }, [borderColor, primaryColor, secondaryColor]);
+  const primaryColorShades = useColorShading(primaryColor);
+  const secondaryColorShades = useColorShading(secondaryColor);
+  const topOutlineSVG = useOutlineSVG({
+    position: 'top',
+    type: 'minimalistic',
+    colors: [secondaryColorShades[4], borderColor, primaryColorShades[4]],
+  });
+  const bottomOutlineSVG = useOutlineSVG({
+    position: 'bottom',
+    type: 'minimalistic',
+    colors: [secondaryColorShades[1], borderColor],
+  });
 
   return (
     <ButtonBase

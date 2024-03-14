@@ -14,8 +14,7 @@ import {
   ButtonTopBackgroundProps,
   ButtonTopOutline,
 } from '../common';
-import { useButtonState } from '../hooks';
-import { generateSquaredBottomOutlineSVG, generateSquaredTopOutlineSVG } from '../svgOutlines';
+import { useButtonState, useColorShading, useOutlineSVG } from '../hooks';
 
 type ButtonContentStyledProps = ButtonContentProps & {
   borderColor: string;
@@ -58,33 +57,27 @@ export function SquaredButton({
   const fontSize = pixelSize * 8;
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
     useButtonState();
-  const [primaryColorShades, setPrimaryColorShades] = useState<string[]>(colorShading(primaryColor));
-  const [secondaryColorShades, setSecondaryColorShades] = useState<string[]>(colorShading(secondaryColor));
+  const primaryColorShades = useColorShading(primaryColor);
+  const secondaryColorShades = useColorShading(secondaryColor);
+  const topOutlineSVG = useOutlineSVG({
+    position: 'top',
+    type: 'squared',
+    colors: [secondaryColorShades[3], borderColor],
+  });
+  const bottomOutlineSVG = useOutlineSVG({
+    position: 'bottom',
+    type: 'squared',
+    colors: [secondaryColorShades[4], secondaryColorShades[3], borderColor],
+  });
+
   const [backgroundSVG, setBackgroundSVG] = useState<string>(
     generateBackgroundSVG([primaryColorShades[3], primaryColorShades[6]]),
-  );
-  const [topOutlineSVG, setTopOutlineSVG] = useState<string>(
-    generateSquaredTopOutlineSVG({ colors: [secondaryColorShades[3], borderColor] }),
-  );
-  const [bottomOutlineSVG, setBottomOutlineSVG] = useState<string>(
-    generateSquaredBottomOutlineSVG({
-      colors: [secondaryColorShades[4], secondaryColorShades[3], borderColor],
-    }),
   );
 
   useEffect(() => {
     const primColorShades = colorShading(primaryColor);
-    setPrimaryColorShades(primColorShades);
-    const secColorShades = colorShading(secondaryColor);
-    setSecondaryColorShades(secColorShades);
-    setTopOutlineSVG(generateSquaredTopOutlineSVG({ colors: [secondaryColorShades[3], borderColor] }));
-    setBottomOutlineSVG(
-      generateSquaredBottomOutlineSVG({
-        colors: [secondaryColorShades[4], secondaryColorShades[3], borderColor],
-      }),
-    );
     setBackgroundSVG(generateBackgroundSVG([primColorShades[3], primColorShades[6]]));
-  }, [borderColor, primaryColor, secondaryColor]);
+  }, [primaryColor]);
 
   return (
     <ButtonBase

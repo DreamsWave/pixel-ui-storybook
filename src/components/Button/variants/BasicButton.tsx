@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
-import { colorShading } from '../utils';
 import { ButtonProps } from '../Button';
-import { useButtonState } from '../hooks';
+import { useButtonState, useColorShading, useOutlineSVG } from '../hooks';
 import {
   ButtonBase,
   ButtonContent,
@@ -10,7 +8,6 @@ import {
   ButtonBottomOutline,
   ButtonBottomBackground,
 } from '../common';
-import { generateBasicTopOutlineSVG, generateBasicBottomOutlineSVG } from '../svgOutlines';
 
 export function BasicButton({
   primaryColor = '#fdcbb0',
@@ -24,22 +21,17 @@ export function BasicButton({
   const fontSize = pixelSize * 8;
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
     useButtonState();
-  const [primaryColorShades, setPrimaryColorShades] = useState<string[]>(colorShading(primaryColor));
-  const [topOutlineSVG, setTopOutlineSVG] = useState<string>(
-    generateBasicTopOutlineSVG({ colors: [primaryColorShades[4], primaryColorShades[2], borderColor] }),
-  );
-  const [bottomOutlineSVG, setBottomOutlineSVG] = useState<string>(
-    generateBasicBottomOutlineSVG({ colors: [borderColor] }),
-  );
-
-  useEffect(() => {
-    const primColorShades = colorShading(primaryColor);
-    setPrimaryColorShades(primColorShades);
-    setTopOutlineSVG(
-      generateBasicTopOutlineSVG({ colors: [primaryColorShades[4], primaryColorShades[2], borderColor] }),
-    );
-    setBottomOutlineSVG(generateBasicBottomOutlineSVG({ colors: [borderColor] }));
-  }, [primaryColor, borderColor]);
+  const primaryColorShades = useColorShading(primaryColor);
+  const topOutlineSVG = useOutlineSVG({
+    position: 'top',
+    type: 'basic',
+    colors: [primaryColorShades[4], primaryColorShades[2], borderColor],
+  });
+  const bottomOutlineSVG = useOutlineSVG({
+    position: 'bottom',
+    type: 'basic',
+    colors: [borderColor],
+  });
 
   return (
     <ButtonBase
