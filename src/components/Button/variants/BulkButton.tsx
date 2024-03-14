@@ -50,12 +50,12 @@ export function BulkButton({
   const topOutlineSVG = useOutlineSVG({
     position: 'top',
     type: 'bulk',
-    colors: [primaryColorShades[4], borderColor],
+    colors: [primaryColorShades[3], borderColor],
   });
   const bottomOutlineSVG = useOutlineSVG({
     position: 'bottom',
     type: 'bulk',
-    colors: [primaryColorShades[0], primaryColorShades[2], primaryColorShades[1]],
+    colors: [primaryColorShades[1], primaryColorShades[2], primaryColorShades[1]],
   });
 
   return (

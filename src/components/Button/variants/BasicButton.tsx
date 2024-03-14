@@ -12,7 +12,7 @@ import {
 export function BasicButton({
   primaryColor = '#fdcbb0',
   fontColor = '#2e222f',
-  borderColor = '#2e222f',
+  borderColor = '#313638',
   pixelSize = 4,
   uppercase = true,
   children,
