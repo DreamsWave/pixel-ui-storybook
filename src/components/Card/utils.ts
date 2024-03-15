@@ -81,3 +81,8 @@ const rgbInterpolation = (col1: Color, col2: Color, f: number): Color => {
     xyz0[2] + f * (xyz1[2] - xyz0[2]),
   ]);
 };
+
+export function changePunctuationsColor(text: string, color: string): string {
+  const punctuationRegex = /[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g;
+  return text.replace(punctuationRegex, `<span style="color: ${color}">$&</span>`);
+}

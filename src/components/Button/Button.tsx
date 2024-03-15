@@ -4,12 +4,6 @@ import { BulkButton } from './variants/BulkButton';
 import { SquaredButton } from './variants/SquaredButton';
 import { MinimalisticButton } from './variants/MinimalisticButton';
 
-export const buttonDefaults = {
-  backgroundColor: '#fdcbb0',
-  borderColor: '#2e222f',
-  fontColor: '#313638',
-};
-
 export type ButtonVariant = 'basic' | 'bulk' | 'squared' | 'minimalistic';
 
 export interface ButtonProps {
@@ -38,23 +32,6 @@ const buttonFactory = (variant: ButtonVariant = 'basic', props: React.PropsWithC
   }
 };
 
-export const Button: React.FC<ButtonProps> = ({
-  primaryColor = buttonDefaults.backgroundColor,
-  secondaryColor = buttonDefaults.backgroundColor,
-  borderColor = buttonDefaults.borderColor,
-  fontColor = buttonDefaults.fontColor,
-  variant = 'basic',
-  uppercase = true,
-  pixelSize = 4,
-  children,
-}) => {
-  return buttonFactory(variant, {
-    primaryColor,
-    secondaryColor,
-    borderColor,
-    fontColor,
-    pixelSize,
-    uppercase,
-    children,
-  });
+export const Button: React.FC<ButtonProps> = (props) => {
+  return buttonFactory(props.variant, props);
 };

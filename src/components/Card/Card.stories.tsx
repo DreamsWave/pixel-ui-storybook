@@ -1,53 +1,42 @@
 import { Meta, StoryFn } from '@storybook/react';
 import { changePunctuationsColor } from '../../utils';
-
+import { colors } from '../../constants';
 import { Card } from './Card';
+
+const text = `Hello world! Lorem ipsum dolor sit amet consectetur adipisicing elit. A ex esse minus tenetur at quia natus sint, est soluta?
+Aliquam.`;
+
+const Placeholder = ({ color = colors[3] }: { color?: string }) => (
+  <p style={{ margin: '8px 16px' }} dangerouslySetInnerHTML={{ __html: changePunctuationsColor(text, color) }}></p>
+);
 
 export default {
   title: 'Components/Card',
   component: Card,
   args: {
-    fontColor: '#313638',
+    primaryColor: colors[3],
+    secondaryColor: '#fff',
+    backgroundColor: '#fff',
+    borderColor: colors[7],
+    shadowColor: colors[5],
+    fontColor: colors[7],
     pixelSize: 4,
+    children: <Placeholder />,
   },
 } as Meta<typeof Card>;
 
 const Template: StoryFn<typeof Card> = (args) => <Card {...args} />;
 
-const text = `Hello world! Lorem ipsum dolor sit amet consectetur adipisicing elit. A ex esse minus tenetur at quia natus sint, est soluta?
-Aliquam.`;
-
 export const Basic = Template.bind({});
-Basic.parameters = {
-  backgrounds: { default: 'light' },
-};
-Basic.args = {
-  backgroundColor: '#ffffff',
-  fontColor: '#313638',
-  borderColor: '#313638',
-  shadowColor: '#9babb2',
-  variant: 'basic',
-  children: (
-    <p
-      style={{ margin: '8px 16px' }}
-      dangerouslySetInnerHTML={{ __html: changePunctuationsColor(text, '#91db69') }}
-    ></p>
-  ),
-};
 
 export const Neon = Template.bind({});
 Neon.args = {
+  variant: 'neon',
   primaryColor: '#8fd3ff',
   secondaryColor: '#eaaded',
-  backgroundColor: '#313638',
-  fontColor: '#ffffff',
-  variant: 'neon',
-  children: (
-    <p
-      style={{ margin: '8px 16px' }}
-      dangerouslySetInnerHTML={{ __html: changePunctuationsColor(text, '#8fd3ff') }}
-    ></p>
-  ),
+  backgroundColor: '#fff',
+  fontColor: '#313131',
+  children: <Placeholder color="#8fd3ff" />,
 };
 
 export const Outline = Template.bind({});
@@ -55,15 +44,7 @@ Outline.parameters = {
   backgrounds: { default: 'dark' },
 };
 Outline.args = {
-  backgroundColor: '#ffffff',
-  borderColor: '#323353',
   variant: 'outline',
-  children: (
-    <p
-      style={{ margin: '8px 16px' }}
-      dangerouslySetInnerHTML={{ __html: changePunctuationsColor(text, '#91db69') }}
-    ></p>
-  ),
 };
 
 export const Cyber = Template.bind({});
@@ -71,32 +52,20 @@ Cyber.parameters = {
   backgrounds: { default: 'dark' },
 };
 Cyber.args = {
-  primaryColor: '#ffffff',
-  secondaryColor: '#fbff86',
-  fontColor: '#ffffff',
   variant: 'cyber',
-  children: (
-    <p
-      style={{ margin: '8px 16px' }}
-      dangerouslySetInnerHTML={{ __html: changePunctuationsColor(text, '#fbff86') }}
-    ></p>
-  ),
+  primaryColor: colors[4],
+  secondaryColor: colors[3],
+  fontColor: colors[6],
+  children: <Placeholder color={colors[3]} />,
 };
 
 export const Dimensional = Template.bind({});
-Dimensional.parameters = {
-  backgrounds: { default: 'light' },
-};
 Dimensional.args = {
-  primaryColor: '#4d9be6',
-  borderColor: '#323832',
-  secondaryColor: '#fbff86',
-  fontColor: '#ffffff',
   variant: 'dimensional',
-  children: (
-    <p
-      style={{ margin: '8px 16px' }}
-      dangerouslySetInnerHTML={{ __html: changePunctuationsColor(text, '#4d65b4') }}
-    ></p>
-  ),
+  primaryColor: colors[5],
+  borderColor: colors[7],
+  fontColor: colors[7],
+  backgroundColor: colors[0],
+  shadowColor: colors[4],
+  children: <Placeholder color={colors[4]} />,
 };

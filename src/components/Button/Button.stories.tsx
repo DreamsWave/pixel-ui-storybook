@@ -1,7 +1,6 @@
 import { Meta, StoryFn } from '@storybook/react';
-
 import { Button } from './Button';
-import { colors } from './constants';
+import { colors } from '../../constants';
 
 export default {
   title: 'Components/Button',

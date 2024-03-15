@@ -4,12 +4,6 @@ import { DimensionalCard } from './variants/DimensionalCard';
 import { NeonCard } from './variants/NeonCard';
 import { OutlineCard } from './variants/OutlineCard';
 
-export const cardDefaults = {
-  backgroundColor: '#fdcbb0',
-  borderColor: '#2e222f',
-  fontColor: '#313638',
-};
-
 export type CardVariant = 'basic' | 'neon' | 'outline' | 'cyber' | 'dimensional';
 
 export interface CardProps {
@@ -41,21 +35,6 @@ const cardFactory = (variant: CardVariant = 'basic', props: React.PropsWithChild
   }
 };
 
-export const Card: React.FC<CardProps> = ({
-  primaryColor = cardDefaults.backgroundColor,
-  secondaryColor = cardDefaults.backgroundColor,
-  borderColor = cardDefaults.borderColor,
-  fontColor = cardDefaults.fontColor,
-  variant = 'basic',
-  pixelSize = 4,
-  children,
-}) => {
-  return cardFactory(variant, {
-    primaryColor,
-    secondaryColor,
-    borderColor,
-    fontColor,
-    pixelSize,
-    children,
-  });
+export const Card: React.FC<CardProps> = (props) => {
+  return cardFactory(props.variant, props);
 };
