@@ -21,12 +21,15 @@ type ButtonContentStyledProps = ButtonContentProps & {
 };
 const ButtonContentStyled = styled(ButtonContent)<ButtonContentStyledProps>`
   padding: ${({ pixelSize }) => pixelSize * 5}px ${({ pixelSize }) => pixelSize * 10}px;
-  color: ${({ fontColor, primaryColorShades, borderColor }) =>
-    fontColor ? fontColor : getContrastColor(primaryColorShades[3], darken(0, borderColor), lighten(0.6, borderColor))};
-  text-shadow: ${({ pixelSize, primaryColorShades }) => `-${pixelSize}px -${pixelSize}px 0 ${primaryColorShades[6]},`}
-    ${({ pixelSize, primaryColorShades }) => `${pixelSize}px -${pixelSize}px 0 ${primaryColorShades[6]},`}
-    ${({ pixelSize, primaryColorShades }) => `-${pixelSize}px ${pixelSize}px 0 ${primaryColorShades[6]},`}
-    ${({ pixelSize, primaryColorShades }) => `${pixelSize}px ${pixelSize}px 0 ${primaryColorShades[6]};`};
+  color: ${({ fontColor, backgroundColorShades, borderColor }) =>
+    fontColor
+      ? fontColor
+      : getContrastColor(backgroundColorShades[3], darken(0, borderColor), lighten(0.6, borderColor))};
+  text-shadow: ${({ pixelSize, backgroundColorShades }) =>
+      `-${pixelSize}px -${pixelSize}px 0 ${backgroundColorShades[6]},`}
+    ${({ pixelSize, backgroundColorShades }) => `${pixelSize}px -${pixelSize}px 0 ${backgroundColorShades[6]},`}
+    ${({ pixelSize, backgroundColorShades }) => `-${pixelSize}px ${pixelSize}px 0 ${backgroundColorShades[6]},`}
+    ${({ pixelSize, backgroundColorShades }) => `${pixelSize}px ${pixelSize}px 0 ${backgroundColorShades[6]};`};
 `;
 
 type ButtonTopBackgroundStyledProps = ButtonTopBackgroundProps & {
@@ -37,16 +40,13 @@ const ButtonTopBackgroundStyled = styled(ButtonTopBackground)<ButtonTopBackgroun
   background-size: ${({ pixelSize }) => pixelSize * 4}px ${({ pixelSize }) => pixelSize * 4}px;
 `;
 
-type ButtonBottomBackgroundStyledProps = ButtonBottomBackgroundProps & {
-  secondaryColorShades: string[];
-};
-const ButtonBottomBackgroundStyled = styled(ButtonBottomBackground)<ButtonBottomBackgroundStyledProps>`
-  background-color: ${({ secondaryColorShades }) => secondaryColorShades[3]};
+const ButtonBottomBackgroundStyled = styled(ButtonBottomBackground)<ButtonBottomBackgroundProps>`
+  background-color: ${({ backgroundColor }) => backgroundColor};
 `;
 
 export function SquaredButton({
-  primaryColor = '#ebc3aa',
-  secondaryColor = '#ab7968',
+  backgroundColor = 'red',
+  backgroundSecondaryColor = 'blue',
   fontColor = '#593e2d',
   borderColor = '#593e2d',
   pixelSize = 4,
@@ -57,27 +57,27 @@ export function SquaredButton({
   const fontSize = pixelSize * 8;
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
     useButtonState();
-  const primaryColorShades = useColorShading(primaryColor);
-  const secondaryColorShades = useColorShading(secondaryColor);
+  const backgroundColorShades = useColorShading(backgroundColor);
+  const backgroundSecondaryColorShades = useColorShading(backgroundSecondaryColor);
   const topOutlineSVG = useOutlineSVG({
     position: 'top',
     type: 'squared',
-    colors: [secondaryColorShades[3], borderColor],
+    colors: [backgroundSecondaryColorShades[3], borderColor],
   });
   const bottomOutlineSVG = useOutlineSVG({
     position: 'bottom',
     type: 'squared',
-    colors: [secondaryColorShades[4], secondaryColorShades[3], borderColor],
+    colors: [backgroundSecondaryColorShades[4], backgroundSecondaryColor, borderColor],
   });
 
   const [backgroundSVG, setBackgroundSVG] = useState<string>(
-    generateBackgroundSVG([primaryColorShades[3], primaryColorShades[6]]),
+    generateBackgroundSVG([backgroundColorShades[3], backgroundColorShades[6]]),
   );
 
   useEffect(() => {
-    const primColorShades = colorShading(primaryColor);
+    const primColorShades = colorShading(backgroundColor);
     setBackgroundSVG(generateBackgroundSVG([primColorShades[3], primColorShades[6]]));
-  }, [primaryColor]);
+  }, [backgroundColor]);
 
   return (
     <ButtonBase
@@ -94,7 +94,7 @@ export function SquaredButton({
         isMouseClicked={isMouseClicked}
         isMouseHover={isMouseHover}
         uppercase={uppercase}
-        primaryColorShades={primaryColorShades}
+        backgroundColorShades={backgroundColorShades}
         borderColor={borderColor}
       >
         {children}
@@ -102,7 +102,6 @@ export function SquaredButton({
       <ButtonTopOutline
         pixelSize={pixelSize}
         svg={topOutlineSVG}
-        primaryColorShades={primaryColorShades}
         isMouseHover={isMouseHover}
         isMouseClicked={isMouseClicked}
       />
@@ -112,13 +111,12 @@ export function SquaredButton({
         isMouseHover={isMouseHover}
         isMouseClicked={isMouseClicked}
         pixelSize={pixelSize}
-        primaryColorShades={primaryColorShades}
+        backgroundColor={backgroundColor}
       />
       <ButtonBottomOutline svg={bottomOutlineSVG} pixelSize={pixelSize} />
       <ButtonBottomBackgroundStyled
         cornerLength={cornerLength}
-        primaryColorShades={primaryColorShades}
-        secondaryColorShades={secondaryColorShades}
+        backgroundColor={backgroundSecondaryColor}
         pixelSize={pixelSize}
       />
     </ButtonBase>

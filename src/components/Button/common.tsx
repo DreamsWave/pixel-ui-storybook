@@ -18,7 +18,7 @@ export const ButtonBase = styled.button<ButtonBaseProps>`
 export type ButtonContentProps = {
   fontColor: string;
   fontSize: number;
-  primaryColorShades: string[];
+  backgroundColorShades: string[];
   isMouseHover: boolean;
   isMouseClicked: boolean;
   children?: React.ReactNode;
@@ -38,7 +38,8 @@ export const ButtonContent = styled.span<ButtonContentProps>`
   transition: all 200ms;
   text-transform: ${({ uppercase }) => (uppercase ? 'uppercase' : 'initial')};
   padding: ${({ pixelSize }) => `${pixelSize * 6}px ${pixelSize * 16}px`};
-  color: ${({ fontColor, primaryColorShades }) => (fontColor ? fontColor : getContrastColor(primaryColorShades[3]))};
+  color: ${({ fontColor, backgroundColorShades }) =>
+    fontColor ? fontColor : getContrastColor(backgroundColorShades[3])};
   ${({ isMouseClicked, pixelSize }) => isMouseClicked && `top: ${pixelSize}px;`}
 `;
 
@@ -47,7 +48,6 @@ export type ButtonTopOutlineProps = {
   svg: string;
   isMouseHover: boolean;
   isMouseClicked: boolean;
-  primaryColorShades: string[];
 };
 export const ButtonTopOutline = styled.div<ButtonTopOutlineProps>`
   z-index: 9;
@@ -71,7 +71,8 @@ export const ButtonTopOutline = styled.div<ButtonTopOutlineProps>`
 export type ButtonTopBackgroundProps = {
   cornerLength: number;
   pixelSize: number;
-  primaryColorShades: string[];
+  backgroundColor: string;
+  backgroundBlur?: number;
   isMouseHover: boolean;
   isMouseClicked: boolean;
 };
@@ -82,7 +83,7 @@ export const ButtonTopBackground = styled.div<ButtonTopBackgroundProps>`
   height: 100%;
   width: 100%;
   z-index: 8;
-  background-color: ${(props) => props.primaryColorShades[3]};
+  background-color: ${(props) => props.backgroundColor};
   clip-path: polygon(
     0 calc(0% + ${(props) => props.cornerLength}px),
     calc(0% + ${(props) => props.cornerLength}px) 0,
@@ -122,7 +123,8 @@ export const ButtonBottomOutline = styled.div<ButtonBottomOutlineProps>`
 export type ButtonBottomBackgroundProps = {
   pixelSize: number;
   cornerLength: number;
-  primaryColorShades: string[];
+  backgroundColor: string;
+  backgroundBlur?: number;
 };
 export const ButtonBottomBackground = styled.div<ButtonBottomBackgroundProps>`
   position: absolute;
@@ -131,7 +133,7 @@ export const ButtonBottomBackground = styled.div<ButtonBottomBackgroundProps>`
   height: 100%;
   width: 100%;
   z-index: 6;
-  background-color: ${({ primaryColorShades }) => primaryColorShades[1]};
+  background-color: ${({ backgroundColor }) => backgroundColor};
   clip-path: polygon(
     0 calc(0% + ${({ cornerLength }) => cornerLength}px),
     calc(0% + ${({ cornerLength }) => cornerLength}px) 0,

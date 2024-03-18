@@ -15,16 +15,13 @@ import {
   ButtonTopOutline,
 } from '../common';
 
-type ButtonContentStyledProps = ButtonContentProps & {
-  secondaryColorShades: string[];
-};
-const ButtonContentStyled = styled(ButtonContent)<ButtonContentStyledProps>`
+const ButtonContentStyled = styled(ButtonContent)<ButtonContentProps>`
   padding: ${({ pixelSize }) => pixelSize * 4}px ${({ pixelSize }) => pixelSize * 10}px;
   text-transform: ${({ uppercase }) => (uppercase ? 'uppercase' : 'initial')};
-  color: ${({ fontColor, primaryColorShades, secondaryColorShades }) =>
+  color: ${({ fontColor, backgroundColorShades }) =>
     fontColor
       ? fontColor
-      : getContrastColor(primaryColorShades[4], darken(0.15, secondaryColorShades[0]), secondaryColorShades[6])};
+      : getContrastColor(backgroundColorShades[4], darken(0.15, backgroundColorShades[0]), backgroundColorShades[6])};
   white-space: nowrap;
   transition: all 200ms;
   ${({ isMouseClicked, pixelSize }) => isMouseClicked && `top: ${pixelSize}px;`}
@@ -33,21 +30,18 @@ const ButtonContentStyled = styled(ButtonContent)<ButtonContentStyledProps>`
 const ButtonTopBackgroundStyled = styled(ButtonTopBackground)<ButtonTopBackgroundProps>`
   left: ${({ pixelSize }) => pixelSize}px;
   width: calc(100% - ${({ pixelSize }) => pixelSize * 2}px);
-  background-color: ${({ primaryColorShades }) => primaryColorShades[4]};
+  background-color: ${({ backgroundColor }) => backgroundColor};
 `;
 
-type ButtonBottomBackgroundStyledProps = ButtonBottomBackgroundProps & {
-  secondaryColorShades: string[];
-};
-const ButtonBottomBackgroundStyled = styled(ButtonBottomBackground)<ButtonBottomBackgroundStyledProps>`
-  background-color: ${({ secondaryColorShades }) => secondaryColorShades[3]};
+const ButtonBottomBackgroundStyled = styled(ButtonBottomBackground)<ButtonBottomBackgroundProps>`
+  background-color: ${({ backgroundColor }) => backgroundColor};
 `;
 
 export function MinimalisticButton({
-  primaryColor = '#ffffff',
-  secondaryColor = '#c7dcd0',
-  fontColor = '#313638',
-  borderColor = '#313638',
+  backgroundColor = '#FFFFFF',
+  backgroundSecondaryColor = '#CFE1B9',
+  fontColor = '#718355',
+  borderColor = '#718355',
   pixelSize = 4,
   uppercase = false,
   children,
@@ -56,17 +50,17 @@ export function MinimalisticButton({
   const fontSize = pixelSize * 8;
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
     useButtonState();
-  const primaryColorShades = useColorShading(primaryColor);
-  const secondaryColorShades = useColorShading(secondaryColor);
+  const backgroundColorShades = useColorShading(backgroundColor);
+  const backgroundSecondaryColorShades = useColorShading(backgroundSecondaryColor);
   const topOutlineSVG = useOutlineSVG({
     position: 'top',
     type: 'minimalistic',
-    colors: [secondaryColorShades[4], borderColor, primaryColorShades[4]],
+    colors: [backgroundSecondaryColorShades[4], borderColor, backgroundColor],
   });
   const bottomOutlineSVG = useOutlineSVG({
     position: 'bottom',
     type: 'minimalistic',
-    colors: [secondaryColorShades[1], borderColor],
+    colors: [backgroundSecondaryColorShades[1], borderColor],
   });
 
   return (
@@ -78,8 +72,7 @@ export function MinimalisticButton({
       pixelSize={pixelSize}
     >
       <ButtonContentStyled
-        primaryColorShades={primaryColorShades}
-        secondaryColorShades={secondaryColorShades}
+        backgroundColorShades={backgroundColorShades}
         fontColor={fontColor}
         fontSize={fontSize}
         isMouseClicked={isMouseClicked}
@@ -92,12 +85,11 @@ export function MinimalisticButton({
       <ButtonTopOutline
         pixelSize={pixelSize}
         svg={topOutlineSVG}
-        primaryColorShades={primaryColorShades}
         isMouseHover={isMouseHover}
         isMouseClicked={isMouseClicked}
       />
       <ButtonTopBackgroundStyled
-        primaryColorShades={primaryColorShades}
+        backgroundColor={backgroundColor}
         cornerLength={cornerLength}
         isMouseHover={isMouseHover}
         isMouseClicked={isMouseClicked}
@@ -105,8 +97,7 @@ export function MinimalisticButton({
       />
       <ButtonBottomOutline svg={bottomOutlineSVG} pixelSize={pixelSize} />
       <ButtonBottomBackgroundStyled
-        primaryColorShades={primaryColorShades}
-        secondaryColorShades={secondaryColorShades}
+        backgroundColor={backgroundSecondaryColor}
         cornerLength={cornerLength}
         pixelSize={pixelSize}
       />

@@ -81,3 +81,9 @@ const rgbInterpolation = (col1: Color, col2: Color, f: number): Color => {
     xyz0[2] + f * (xyz1[2] - xyz0[2]),
   ]);
 };
+
+export function colorToRGBA(color: string, alpha: number): string {
+  const newColor = new Color(color);
+  newColor.alpha = alpha;
+  return newColor.toString({ format: 'rgba' });
+}

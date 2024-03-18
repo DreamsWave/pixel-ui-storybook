@@ -5,11 +5,13 @@ import {
   generateBasicTopOutlineSVG,
   generateBulkBottomOutlineSVG,
   generateBulkTopOutlineSVG,
+  generateGlassmorphismOutlineSVG,
   generateMinimalisticBottomOutlineSVG,
   generateMinimalisticTopOutlineSVG,
   generateSquaredBottomOutlineSVG,
   generateSquaredTopOutlineSVG,
 } from './svgOutlines';
+import { ButtonVariant } from './types';
 
 export function useButtonState() {
   const [isMouseHover, setIsMouseHover] = useState<boolean>(false);
@@ -41,8 +43,8 @@ export function useColorShading(color: string) {
 }
 
 export type useOutlineSVGProps = {
-  position: 'top' | 'bottom';
-  type: 'basic' | 'bulk' | 'squared' | 'minimalistic';
+  position?: 'top' | 'bottom';
+  type: ButtonVariant;
   colors: string[];
 };
 export function useOutlineSVG({ position = 'top', type = 'basic', colors = ['#000'] }: useOutlineSVGProps) {
@@ -72,6 +74,8 @@ export function useOutlineSVG({ position = 'top', type = 'basic', colors = ['#00
       } else if (position === 'bottom') {
         svg = generateMinimalisticBottomOutlineSVG({ colors });
       }
+    } else if (type === 'glassmorphism') {
+      svg = generateGlassmorphismOutlineSVG({ colors });
     }
     return svg;
   };

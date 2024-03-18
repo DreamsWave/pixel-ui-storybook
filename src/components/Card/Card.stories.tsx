@@ -55,7 +55,7 @@ Cyber.args = {
   variant: 'cyber',
   primaryColor: colors[4],
   secondaryColor: colors[3],
-  fontColor: colors[6],
+  fontColor: '#fff',
   children: <Placeholder color={colors[3]} />,
 };
 

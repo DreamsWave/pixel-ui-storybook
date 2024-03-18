@@ -3,12 +3,12 @@ import { BasicButton } from './variants/BasicButton';
 import { BulkButton } from './variants/BulkButton';
 import { SquaredButton } from './variants/SquaredButton';
 import { MinimalisticButton } from './variants/MinimalisticButton';
-
-export type ButtonVariant = 'basic' | 'bulk' | 'squared' | 'minimalistic';
+import { GlassmorphismButton } from './variants/GlassmorphismButton';
+import { ButtonVariant } from './types';
 
 export interface ButtonProps {
-  primaryColor?: string;
-  secondaryColor?: string;
+  backgroundColor?: string;
+  backgroundSecondaryColor?: string;
   borderColor?: string;
   fontColor?: string;
   variant?: ButtonVariant;
@@ -27,6 +27,8 @@ const buttonFactory = (variant: ButtonVariant = 'basic', props: React.PropsWithC
       return <SquaredButton {...props} />;
     case 'minimalistic':
       return <MinimalisticButton {...props} />;
+    case 'glassmorphism':
+      return <GlassmorphismButton {...props} />;
     default:
       throw new Error(`Invalid button variant: ${variant}`);
   }

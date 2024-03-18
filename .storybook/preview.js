@@ -1,3 +1,5 @@
+import backgroundImage from './background.png';
+
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {
@@ -20,6 +22,10 @@ export const parameters = {
       {
         name: 'dark',
         value: '#313638',
+      },
+      {
+        name: 'image',
+        value: `url(${backgroundImage})`,
       },
     ],
   },

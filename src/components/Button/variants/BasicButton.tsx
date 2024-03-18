@@ -10,9 +10,9 @@ import {
 } from '../common';
 
 export function BasicButton({
-  primaryColor = '#fdcbb0',
   fontColor = '#2e222f',
   borderColor = '#313638',
+  backgroundColor = '#E9F5DB',
   pixelSize = 4,
   uppercase = true,
   children,
@@ -21,11 +21,11 @@ export function BasicButton({
   const fontSize = pixelSize * 8;
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
     useButtonState();
-  const primaryColorShades = useColorShading(primaryColor);
+  const backgroundColorShades = useColorShading(backgroundColor);
   const topOutlineSVG = useOutlineSVG({
     position: 'top',
     type: 'basic',
-    colors: [primaryColorShades[4], primaryColorShades[2], borderColor],
+    colors: [backgroundColorShades[4], backgroundColorShades[2], borderColor],
   });
   const bottomOutlineSVG = useOutlineSVG({
     position: 'bottom',
@@ -45,7 +45,7 @@ export function BasicButton({
         fontColor={fontColor}
         fontSize={fontSize}
         pixelSize={pixelSize}
-        primaryColorShades={primaryColorShades}
+        backgroundColorShades={backgroundColorShades}
         isMouseHover={isMouseHover}
         isMouseClicked={isMouseClicked}
         uppercase={uppercase}
@@ -55,14 +55,13 @@ export function BasicButton({
       <ButtonTopOutline
         pixelSize={pixelSize}
         svg={topOutlineSVG}
-        primaryColorShades={primaryColorShades}
         isMouseHover={isMouseHover}
         isMouseClicked={isMouseClicked}
       />
       <ButtonTopBackground
         cornerLength={cornerLength}
         pixelSize={pixelSize}
-        primaryColorShades={primaryColorShades}
+        backgroundColor={backgroundColor}
         isMouseHover={isMouseHover}
         isMouseClicked={isMouseClicked}
       />
@@ -70,7 +69,7 @@ export function BasicButton({
       <ButtonBottomBackground
         pixelSize={pixelSize}
         cornerLength={cornerLength}
-        primaryColorShades={primaryColorShades}
+        backgroundColor={backgroundColorShades[1]}
       />
     </ButtonBase>
   );
