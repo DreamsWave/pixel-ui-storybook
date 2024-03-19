@@ -87,3 +87,8 @@ export function colorToRGBA(color: string, alpha: number): string {
   newColor.alpha = alpha;
   return newColor.toString({ format: 'rgba' });
 }
+
+export function changePunctuationsColor(text: string, color: string): string {
+  const punctuationRegex = /[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g;
+  return text.replace(punctuationRegex, `<span style="color: ${color}">$&</span>`);
+}
