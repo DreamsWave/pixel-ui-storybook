@@ -18,7 +18,7 @@ export const ButtonBackground = styled.div<ButtonBackgroundProps>`
   height: 100%;
   width: 100%;
   background-color: ${({ backgroundColor }) => backgroundColor};
-  backdrop-filter: none;
+  backdrop-filter: blur(${({ backgroundBlur }) => (backgroundBlur ? backgroundBlur : 0)}px);
   clip-path: polygon(
     0 calc(0% + ${({ cornerLength }) => cornerLength}px),
     calc(0% + ${({ cornerLength }) => cornerLength}px) 0,
@@ -39,7 +39,6 @@ export const ButtonBackground = styled.div<ButtonBackgroundProps>`
     ${({ offsetSidePixels, pixelSize }) =>
     offsetSidePixels &&
     `width: calc(100% - ${pixelSize * (offsetSidePixels * 2)}px); left: ${pixelSize * offsetSidePixels}px;`}
-  ${({ backgroundBlur }) => backgroundBlur && `backdrop-filter: blur(${backgroundBlur}px);`}
 `;
 
 export const ButtonBackgroundBottom = styled(ButtonBackground)`

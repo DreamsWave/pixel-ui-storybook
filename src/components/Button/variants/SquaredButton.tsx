@@ -15,6 +15,7 @@ export function SquaredButton({
   textOutlineColor = 'green',
   fontSize = 16,
   compact = false,
+  offsetSidePixels,
   children,
 }: ButtonProps) {
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
@@ -69,6 +70,7 @@ export function SquaredButton({
         isMouseClicked={isMouseClicked}
         isMouseHover={isMouseHover}
         backgroundSVG={backgroundSVG}
+        offsetSidePixels={offsetSidePixels}
       />
     </ButtonBase>
   );

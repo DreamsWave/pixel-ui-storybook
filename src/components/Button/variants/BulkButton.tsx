@@ -13,6 +13,8 @@ export function BulkButton({
   compact = true,
   offsetSidePixels = 1,
   fontSize = 16,
+  textOutlineColor = null,
+  type,
 }: ButtonProps) {
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
     useButtonState();
@@ -38,11 +40,12 @@ export function BulkButton({
         isMouseClicked={isMouseClicked}
         uppercase={uppercase}
         compact={compact}
+        textOutlineColor={textOutlineColor}
       >
         {children}
       </ButtonContent>
       <ButtonLayer
-        type="bulk"
+        type={type}
         position="bottom"
         backgroundColor={bottomBackgroundColor}
         outlineColors={bottomOutlineColors}
@@ -50,7 +53,7 @@ export function BulkButton({
         isMouseHover={isMouseHover}
       />
       <ButtonLayer
-        type="bulk"
+        type={type}
         position="top"
         backgroundColor={backgroundColor}
         outlineColors={topOutlineColors}

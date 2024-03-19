@@ -28,7 +28,7 @@ function ButtonLayer({
   isMouseHover = false,
   type = 'basic',
   position = 'top',
-  backgroundSVG,
+  backgroundSVG = '',
   backgroundBlur = 0,
   offsetSidePixels = 0,
   ...props

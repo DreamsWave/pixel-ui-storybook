@@ -16,7 +16,7 @@ export type ButtonProps = {
   pixelSize?: number;
   uppercase?: boolean;
   children?: React.ReactNode;
-  textOutlineColor?: string;
+  textOutlineColor?: string | null;
   compact?: boolean;
   offsetSidePixels?: number;
 };

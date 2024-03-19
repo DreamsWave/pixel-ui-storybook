@@ -25,7 +25,7 @@ export type ButtonContentProps = {
   pixelSize: number;
   uppercase: boolean;
   compact?: boolean;
-  textOutlineColor?: string;
+  textOutlineColor?: string | null;
 };
 export const ButtonContent = styled.span<ButtonContentProps>`
   z-index: 10;

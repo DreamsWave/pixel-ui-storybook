@@ -10,6 +10,10 @@ export function BasicButton({
   pixelSize = 4,
   fontSize = 16,
   uppercase = true,
+  compact = false,
+  textOutlineColor = null,
+  offsetSidePixels = 0,
+  type = 'basic',
   children,
 }: ButtonProps) {
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
@@ -35,11 +39,13 @@ export function BasicButton({
         isMouseHover={isMouseHover}
         isMouseClicked={isMouseClicked}
         uppercase={uppercase}
+        compact={compact}
+        textOutlineColor={textOutlineColor}
       >
         {children}
       </ButtonContent>
       <ButtonLayer
-        type="basic"
+        type={type}
         position="bottom"
         backgroundColor={bottomBackgroundColor}
         outlineColors={bottomOutlineColors}
@@ -47,12 +53,13 @@ export function BasicButton({
         isMouseHover={isMouseHover}
       />
       <ButtonLayer
-        type="basic"
+        type={type}
         position="top"
         backgroundColor={backgroundColor}
         outlineColors={topOutlineColors}
         isMouseClicked={isMouseClicked}
         isMouseHover={isMouseHover}
+        offsetSidePixels={offsetSidePixels}
       />
     </ButtonBase>
   );

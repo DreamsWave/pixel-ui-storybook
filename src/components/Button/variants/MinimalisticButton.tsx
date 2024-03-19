@@ -12,6 +12,8 @@ export function MinimalisticButton({
   fontSize = 8,
   uppercase = false,
   compact = true,
+  offsetSidePixels = 0,
+  textOutlineColor = null,
   children,
 }: ButtonProps) {
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
@@ -38,6 +40,7 @@ export function MinimalisticButton({
         isMouseClicked={isMouseClicked}
         uppercase={uppercase}
         compact={compact}
+        textOutlineColor={textOutlineColor}
       >
         {children}
       </ButtonContent>
@@ -56,6 +59,7 @@ export function MinimalisticButton({
         outlineColors={topOutlineColors}
         isMouseClicked={isMouseClicked}
         isMouseHover={isMouseHover}
+        offsetSidePixels={offsetSidePixels}
       />
     </ButtonBase>
   );

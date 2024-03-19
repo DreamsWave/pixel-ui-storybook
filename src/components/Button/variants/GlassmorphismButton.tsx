@@ -21,10 +21,12 @@ export function GlassmorphismButton({
   backgroundBottomAlpha = 0.3,
   backgroundBlur = 10,
   compact = true,
-  textOutlineColor = 'transparent',
+  textOutlineColor = null,
+  fontSize = 16,
+  offsetSidePixels = 0,
+  type,
   children,
 }: GlassmorphismButtonProps) {
-  const fontSize = pixelSize * 8;
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
     useButtonState();
   const topOutlineColors = [borderColor];
@@ -64,7 +66,7 @@ export function GlassmorphismButton({
         {children}
       </ButtonContent>
       <ButtonLayer
-        type="glassmorphism"
+        type={type}
         position="bottom"
         backgroundColor={backgroundColorBottom}
         backgroundBlur={backgroundBlur}
@@ -73,13 +75,14 @@ export function GlassmorphismButton({
         isMouseHover={isMouseHover}
       />
       <ButtonLayer
-        type="glassmorphism"
+        type={type}
         position="top"
         backgroundColor={backgroundColorTop}
         backgroundBlur={backgroundBlur}
         outlineColors={topOutlineColors}
         isMouseClicked={isMouseClicked}
         isMouseHover={isMouseHover}
+        offsetSidePixels={offsetSidePixels}
       />
     </ButtonBase>
   );
