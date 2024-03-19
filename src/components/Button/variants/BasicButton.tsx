@@ -1,13 +1,7 @@
 import { ButtonProps } from '../Button';
-import { useButtonState, useColorShading, useOutlineSVG } from '../hooks';
-import {
-  ButtonBase,
-  ButtonContent,
-  ButtonTopOutline,
-  ButtonTopBackground,
-  ButtonBottomOutline,
-  ButtonBottomBackground,
-} from '../common';
+import { useButtonState, useColorShading } from '../hooks';
+import { ButtonBase, ButtonContent, ButtonTopBackground, ButtonBottomBackground } from '../common';
+import ButtonOutline from '../../ButtonOutline';
 
 export function BasicButton({
   fontColor = '#2e222f',
@@ -22,16 +16,8 @@ export function BasicButton({
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
     useButtonState();
   const backgroundColorShades = useColorShading(backgroundColor);
-  const topOutlineSVG = useOutlineSVG({
-    position: 'top',
-    type: 'basic',
-    colors: [backgroundColorShades[4], backgroundColorShades[2], borderColor],
-  });
-  const bottomOutlineSVG = useOutlineSVG({
-    position: 'bottom',
-    type: 'basic',
-    colors: [borderColor],
-  });
+  const topOutlineColors = [backgroundColorShades[4], backgroundColorShades[2], borderColor];
+  const bottomOutlineColors = [borderColor];
 
   return (
     <ButtonBase
@@ -52,11 +38,12 @@ export function BasicButton({
       >
         {children}
       </ButtonContent>
-      <ButtonTopOutline
+      <ButtonOutline
+        colors={topOutlineColors}
         pixelSize={pixelSize}
-        svg={topOutlineSVG}
-        isMouseHover={isMouseHover}
         isMouseClicked={isMouseClicked}
+        type="basic"
+        position="top"
       />
       <ButtonTopBackground
         cornerLength={cornerLength}
@@ -65,7 +52,13 @@ export function BasicButton({
         isMouseHover={isMouseHover}
         isMouseClicked={isMouseClicked}
       />
-      <ButtonBottomOutline pixelSize={pixelSize} svg={bottomOutlineSVG} />
+      <ButtonOutline
+        colors={bottomOutlineColors}
+        pixelSize={pixelSize}
+        isMouseClicked={isMouseClicked}
+        type="basic"
+        position="bottom"
+      />
       <ButtonBottomBackground
         pixelSize={pixelSize}
         cornerLength={cornerLength}
