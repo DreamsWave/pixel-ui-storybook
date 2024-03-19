@@ -1,33 +1,26 @@
-import { ButtonProps } from '../Button';
-import { useButtonState, useColorShading, useOutlineSVG } from '../hooks';
+import { useButtonState, useColorShading } from '../../../hooks';
 import {
   ButtonBase,
   ButtonContent,
-  ButtonTopOutline,
   ButtonTopBackground,
-  ButtonBottomOutline,
   ButtonBottomBackground,
-  ButtonTopOutlineProps,
   ButtonTopBackgroundProps,
   ButtonBottomBackgroundProps,
-  ButtonBottomOutlineProps,
   ButtonContentProps,
 } from '../common';
 import styled from 'styled-components';
-import { colorToRGBA } from '../utils';
+import { colorToRGBA } from '../../../utils';
 import { useEffect, useState } from 'react';
+import ButtonOutline from '../../ButtonOutline';
+import { ButtonProps } from '../Button';
 
 const ButtonContentStyled = styled(ButtonContent)<ButtonContentProps>`
   padding: ${({ pixelSize }) => pixelSize * 4}px ${({ pixelSize }) => pixelSize * 6}px;
 `;
 
-const ButtonTopOutlineStyled = styled(ButtonTopOutline)<ButtonTopOutlineProps>``;
-
 const ButtonTopBackgroundStyled = styled(ButtonTopBackground)<ButtonTopBackgroundProps>`
   backdrop-filter: blur(${(props) => props.backgroundBlur}px);
 `;
-
-const ButtonBottomOutlineStyled = styled(ButtonBottomOutline)<ButtonBottomOutlineProps>``;
 
 const ButtonBottomBackgroundStyled = styled(ButtonBottomBackground)<ButtonBottomBackgroundProps>`
   backdrop-filter: blur(${(props) => props.backgroundBlur}px);
@@ -54,6 +47,8 @@ export function GlassmorphismButton({
   const fontSize = pixelSize * 8;
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
     useButtonState();
+  const topOutlineColors = [borderColor];
+  const bottomOutlineColors = [borderColor];
   const backgroundColorShades = useColorShading(backgroundColor);
   const [backgroundColorTop, setBackgroundColorTop] = useState<string>(
     colorToRGBA(backgroundColor, backgroundTopAlpha),
@@ -61,14 +56,6 @@ export function GlassmorphismButton({
   const [backgroundColorBottom, setBackgroundColorBottom] = useState<string>(
     colorToRGBA(backgroundColorShades[2], backgroundBottomAlpha),
   );
-  const topOutlineSVG = useOutlineSVG({
-    type: 'glassmorphism',
-    colors: [borderColor],
-  });
-  const bottomOutlineSVG = useOutlineSVG({
-    type: 'glassmorphism',
-    colors: [borderColor],
-  });
 
   useEffect(() => {
     setBackgroundColorTop(colorToRGBA(backgroundColor, backgroundTopAlpha));
@@ -94,11 +81,12 @@ export function GlassmorphismButton({
       >
         {children}
       </ButtonContentStyled>
-      <ButtonTopOutlineStyled
+      <ButtonOutline
+        colors={topOutlineColors}
         pixelSize={pixelSize}
-        svg={topOutlineSVG}
-        isMouseHover={isMouseHover}
         isMouseClicked={isMouseClicked}
+        type="glassmorphism"
+        position="top"
       />
       <ButtonTopBackgroundStyled
         cornerLength={cornerLength}
@@ -108,7 +96,13 @@ export function GlassmorphismButton({
         isMouseHover={isMouseHover}
         isMouseClicked={isMouseClicked}
       />
-      <ButtonBottomOutlineStyled pixelSize={pixelSize} svg={bottomOutlineSVG} />
+      <ButtonOutline
+        colors={bottomOutlineColors}
+        pixelSize={pixelSize}
+        isMouseClicked={isMouseClicked}
+        type="glassmorphism"
+        position="bottom"
+      />
       <ButtonBottomBackgroundStyled
         pixelSize={pixelSize}
         cornerLength={cornerLength}

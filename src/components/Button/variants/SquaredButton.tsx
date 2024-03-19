@@ -1,20 +1,19 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { darken, lighten } from 'polished';
-import { createInlineSVG, colorShading, getContrastColor } from '../utils';
+import { createInlineSVG, colorShading, getContrastColor } from '../../../utils';
 import { ButtonProps } from '../Button';
 import {
   ButtonBase,
   ButtonBottomBackground,
   ButtonBottomBackgroundProps,
-  ButtonBottomOutline,
   ButtonContent,
   ButtonContentProps,
   ButtonTopBackground,
   ButtonTopBackgroundProps,
-  ButtonTopOutline,
 } from '../common';
-import { useButtonState, useColorShading, useOutlineSVG } from '../hooks';
+import { useButtonState, useColorShading } from '../../../hooks';
+import ButtonOutline from '../../ButtonOutline';
 
 type ButtonContentStyledProps = ButtonContentProps & {
   borderColor: string;
@@ -59,16 +58,8 @@ export function SquaredButton({
     useButtonState();
   const backgroundColorShades = useColorShading(backgroundColor);
   const backgroundSecondaryColorShades = useColorShading(backgroundSecondaryColor);
-  const topOutlineSVG = useOutlineSVG({
-    position: 'top',
-    type: 'squared',
-    colors: [backgroundSecondaryColorShades[3], borderColor],
-  });
-  const bottomOutlineSVG = useOutlineSVG({
-    position: 'bottom',
-    type: 'squared',
-    colors: [backgroundSecondaryColorShades[4], backgroundSecondaryColor, borderColor],
-  });
+  const topOutlineColors = [backgroundSecondaryColorShades[3], borderColor];
+  const bottomOutlineColors = [backgroundSecondaryColorShades[4], backgroundSecondaryColor, borderColor];
 
   const [backgroundSVG, setBackgroundSVG] = useState<string>(
     generateBackgroundSVG([backgroundColorShades[3], backgroundColorShades[6]]),
@@ -99,11 +90,12 @@ export function SquaredButton({
       >
         {children}
       </ButtonContentStyled>
-      <ButtonTopOutline
+      <ButtonOutline
+        colors={topOutlineColors}
         pixelSize={pixelSize}
-        svg={topOutlineSVG}
-        isMouseHover={isMouseHover}
         isMouseClicked={isMouseClicked}
+        type="squared"
+        position="top"
       />
       <ButtonTopBackgroundStyled
         cornerLength={cornerLength}
@@ -113,7 +105,13 @@ export function SquaredButton({
         pixelSize={pixelSize}
         backgroundColor={backgroundColor}
       />
-      <ButtonBottomOutline svg={bottomOutlineSVG} pixelSize={pixelSize} />
+      <ButtonOutline
+        colors={bottomOutlineColors}
+        pixelSize={pixelSize}
+        isMouseClicked={isMouseClicked}
+        type="squared"
+        position="bottom"
+      />
       <ButtonBottomBackgroundStyled
         cornerLength={cornerLength}
         backgroundColor={backgroundSecondaryColor}

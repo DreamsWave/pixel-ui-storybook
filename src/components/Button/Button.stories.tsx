@@ -24,14 +24,14 @@ Basic.args = {
 
 export const Bulk = Template.bind({});
 Bulk.args = {
-  variant: 'bulk',
+  type: 'bulk',
   children: 'Bulk',
   borderColor: '#fff',
 };
 
 export const Squared = Template.bind({});
 Squared.args = {
-  variant: 'squared',
+  type: 'squared',
   children: 'Squared',
   borderColor: colors[6],
   fontColor: colors[6],
@@ -40,7 +40,7 @@ Squared.args = {
 
 export const Minimalistic = Template.bind({});
 Minimalistic.args = {
-  variant: 'minimalistic',
+  type: 'minimalistic',
   children: 'Min',
   uppercase: false,
   fontColor: colors[6],
@@ -51,7 +51,7 @@ Minimalistic.args = {
 
 export const Glassmorphism = Template.bind({});
 Glassmorphism.args = {
-  variant: 'glassmorphism',
+  type: 'glassmorphism',
   children: 'Glass',
   uppercase: false,
   fontColor: '#ffffff',

@@ -1,28 +1,24 @@
 import styled from 'styled-components';
-import { ButtonProps } from '../Button';
 import {
   ButtonBase,
   ButtonContent,
   ButtonContentProps,
-  ButtonTopOutline,
-  ButtonTopOutlineProps,
   ButtonTopBackground,
   ButtonTopBackgroundProps,
   ButtonBottomBackground,
-  ButtonBottomOutline,
   ButtonBottomBackgroundProps,
 } from '../common';
-import { useButtonState, useColorShading, useOutlineSVG } from '../hooks';
+import { useButtonState, useColorShading } from '../../../hooks';
+import ButtonOutline, { ButtonOutlineProps } from '../../ButtonOutline';
+import { ButtonProps } from '../Button';
 
 const ButtonContentStyled = styled(ButtonContent)<ButtonContentProps>`
   padding: ${({ pixelSize }) => `${pixelSize * 4}px ${pixelSize * 12}px`};
 `;
 
-const ButtonTopOutlineStyled = styled(ButtonTopOutline)<ButtonTopOutlineProps>`
+const ButtonTopOutlineStyled = styled(ButtonOutline)<ButtonOutlineProps>`
   left: ${({ pixelSize }) => pixelSize}px;
   width: calc(100% - ${({ pixelSize }) => pixelSize * 2}px);
-  border-image-slice: 5;
-  border-width: ${({ pixelSize }) => pixelSize * 5}px;
 `;
 
 const ButtonTopBackgroundStyled = styled(ButtonTopBackground)<ButtonTopBackgroundProps>`
@@ -47,16 +43,8 @@ export function BulkButton({
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
     useButtonState();
   const backgroundColorShades = useColorShading(backgroundColor);
-  const topOutlineSVG = useOutlineSVG({
-    position: 'top',
-    type: 'bulk',
-    colors: [backgroundColorShades[3], borderColor],
-  });
-  const bottomOutlineSVG = useOutlineSVG({
-    position: 'bottom',
-    type: 'bulk',
-    colors: [backgroundColorShades[1], backgroundColorShades[2], backgroundColorShades[1]],
-  });
+  const topOutlineColors = [backgroundColorShades[3], borderColor];
+  const bottomOutlineColors = [backgroundColorShades[1], backgroundColorShades[2], backgroundColorShades[1]];
 
   return (
     <ButtonBase
@@ -78,10 +66,11 @@ export function BulkButton({
         {children}
       </ButtonContentStyled>
       <ButtonTopOutlineStyled
+        colors={topOutlineColors}
         pixelSize={pixelSize}
-        svg={topOutlineSVG}
-        isMouseHover={isMouseHover}
         isMouseClicked={isMouseClicked}
+        type="bulk"
+        position="top"
       />
       <ButtonTopBackgroundStyled
         cornerLength={cornerLength}
@@ -90,7 +79,13 @@ export function BulkButton({
         isMouseClicked={isMouseClicked}
         pixelSize={pixelSize}
       />
-      <ButtonBottomOutline svg={bottomOutlineSVG} pixelSize={pixelSize} />
+      <ButtonOutline
+        colors={bottomOutlineColors}
+        pixelSize={pixelSize}
+        isMouseClicked={isMouseClicked}
+        type="bulk"
+        position="bottom"
+      />
       <ButtonBottomBackgroundStyled
         cornerLength={cornerLength}
         backgroundColor={backgroundColorShades[2]}

@@ -75,24 +75,49 @@ export const generateGlassmorphismOutlineSVG = ({
 
 const svgButtonOutlines: SVGButtonOutlinesType = {
   basic: {
-    top: { generateSVG: generateBasicTopOutlineSVG, borderImageSlice: 3 },
-    bottom: { generateSVG: generateBasicBottomOutlineSVG, borderImageSlice: 3, offsetFromTopPixels: 3 },
+    top: { generateSVG: generateBasicTopOutlineSVG, borderImageSlice: 3, borderWidthPixels: 3 },
+    bottom: {
+      generateSVG: generateBasicBottomOutlineSVG,
+      borderImageSlice: 3,
+      offsetFromTopPixels: 3,
+      borderWidthPixels: 3,
+    },
   },
   bulk: {
-    top: { generateSVG: generateBulkTopOutlineSVG, borderImageSlice: 3 },
-    bottom: { generateSVG: generateBulkBottomOutlineSVG, borderImageSlice: 3, offsetFromTopPixels: 3 },
+    top: { generateSVG: generateBulkTopOutlineSVG, borderImageSlice: 5, borderWidthPixels: 5 },
+    bottom: {
+      generateSVG: generateBulkBottomOutlineSVG,
+      borderImageSlice: 3,
+      offsetFromTopPixels: 3,
+      borderWidthPixels: 3,
+    },
   },
   squared: {
-    top: { generateSVG: generateSquaredTopOutlineSVG, borderImageSlice: 3 },
-    bottom: { generateSVG: generateSquaredBottomOutlineSVG, borderImageSlice: 3, offsetFromTopPixels: 3 },
+    top: { generateSVG: generateSquaredTopOutlineSVG, borderImageSlice: 3, borderWidthPixels: 3 },
+    bottom: {
+      generateSVG: generateSquaredBottomOutlineSVG,
+      borderImageSlice: 3,
+      offsetFromTopPixels: 3,
+      borderWidthPixels: 3,
+    },
   },
   minimalistic: {
-    top: { generateSVG: generateMinimalisticTopOutlineSVG, borderImageSlice: 3 },
-    bottom: { generateSVG: generateMinimalisticBottomOutlineSVG, borderImageSlice: 3, offsetFromTopPixels: 3 },
+    top: { generateSVG: generateMinimalisticTopOutlineSVG, borderImageSlice: 3, borderWidthPixels: 3 },
+    bottom: {
+      generateSVG: generateMinimalisticBottomOutlineSVG,
+      borderImageSlice: 3,
+      offsetFromTopPixels: 3,
+      borderWidthPixels: 3,
+    },
   },
   glassmorphism: {
-    top: { generateSVG: generateGlassmorphismOutlineSVG, borderImageSlice: 3 },
-    bottom: { generateSVG: generateGlassmorphismOutlineSVG, borderImageSlice: 3, offsetFromTopPixels: 3 },
+    top: { generateSVG: generateGlassmorphismOutlineSVG, borderImageSlice: 3, borderWidthPixels: 3 },
+    bottom: {
+      generateSVG: generateGlassmorphismOutlineSVG,
+      borderImageSlice: 3,
+      offsetFromTopPixels: 3,
+      borderWidthPixels: 3,
+    },
   },
 };
 

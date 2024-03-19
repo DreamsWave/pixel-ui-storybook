@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { createInlineSVG, getContrastColor } from './utils';
+import { createInlineSVG, getContrastColor } from '../../utils';
 
 export type ButtonBaseProps = {
   pixelSize: number;

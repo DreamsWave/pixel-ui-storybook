@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { colorShading } from './utils';
 import svgButtonOutlines from './svgButtonOutlines';
-import { ButtonTypes } from './types';
+import { ButtonType } from './types';
 
 export function useButtonState() {
   const [isMouseHover, setIsMouseHover] = useState<boolean>(false);
@@ -34,7 +34,7 @@ export function useColorShading(color: string) {
 
 export type useButtonOutlineSVGProps = {
   position?: 'top' | 'bottom';
-  type?: ButtonTypes;
+  type?: ButtonType;
   colors?: string[];
 };
 
@@ -47,7 +47,7 @@ export function useButtonOutlineSVG({ position = 'top', type = 'basic', colors =
 
   useEffect(() => {
     setOutlineSVG(generateSVG());
-  }, [position, type, colors]);
+  }, [colors]);
 
   return outlineSVG;
 }

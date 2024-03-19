@@ -1,5 +1,6 @@
-export type ButtonTypes = 'basic' | 'bulk' | 'squared' | 'minimalistic' | 'glassmorphism';
-export type ButtonPositions = 'top' | 'bottom';
+export type ButtonType = 'basic' | 'bulk' | 'squared' | 'minimalistic' | 'glassmorphism';
+
+export type ButtonPosition = 'top' | 'bottom';
 
 export type ButtonOutlineTypes =
   | 'basic-top'
@@ -12,9 +13,9 @@ export type ButtonOutlineTypes =
   | 'minimalistic-bottom'
   | 'glassmorphism';
 
-export type CardTypes = 'basic' | 'neon' | 'outline' | 'cyber' | 'dimensional';
+export type CardType = 'basic' | 'neon' | 'outline' | 'cyber' | 'dimensional';
 
-export type CardOutlineTypes = 'basic' | 'neon' | 'outline' | 'cyber' | 'dimensional';
+export type CardOutlineType = 'basic' | 'neon' | 'outline' | 'cyber' | 'dimensional';
 
 export type SVGOutlineProps = {
   colors: string[];
@@ -23,11 +24,12 @@ export type SVGOutlineProps = {
 export type SVGButtonOutline = {
   generateSVG: (props: SVGOutlineProps) => string;
   borderImageSlice: number;
+  borderWidthPixels: number;
   offsetFromTopPixels?: number;
 };
 
 export type SVGButtonOutlinesType = {
-  [K in ButtonTypes]: {
-    [P in ButtonPositions]: SVGButtonOutline;
+  [K in ButtonType]: {
+    [P in ButtonPosition]: SVGButtonOutline;
   };
 };

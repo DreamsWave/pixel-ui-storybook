@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { createInlineSVG } from '../utils';
-import { ButtonPositions, ButtonTypes } from '../types';
+import { ButtonPosition, ButtonType } from '../types';
 import { useButtonOutlineSVG } from '../hooks';
 import svgButtonOutlines from '../svgButtonOutlines';
 
@@ -10,6 +10,7 @@ type ButtonOutlineBaseProps = {
   borderImageSlice: number;
   isMouseClicked?: boolean;
   offsetFromTopPixels?: number;
+  borderWidthPixels?: number;
 };
 export const ButtonOutlineBase = styled.div<ButtonOutlineBaseProps>`
   position: absolute;
@@ -23,7 +24,7 @@ export const ButtonOutlineBase = styled.div<ButtonOutlineBaseProps>`
   border-color: #000;
   border-image: url(${({ svg }) => svg});
   border-image-slice: ${({ borderImageSlice }) => borderImageSlice};
-  border-width: ${({ pixelSize }) => pixelSize * 3}px;
+  border-width: ${({ pixelSize, borderWidthPixels = 3 }) => pixelSize * borderWidthPixels}px;
   transition: all 200ms;
 `;
 
@@ -39,15 +40,16 @@ export const ButtonOutlineBaseBottom = styled(ButtonOutlineBase)`
 `;
 
 export type ButtonOutlineProps = {
-  type: ButtonTypes;
-  position: ButtonPositions;
+  type: ButtonType;
+  position: ButtonPosition;
   pixelSize: number;
   isMouseClicked: boolean;
   colors: string[];
 };
-function ButtonOutline({ type, position, pixelSize, isMouseClicked, colors }: ButtonOutlineProps) {
+function ButtonOutline({ type, position, pixelSize, isMouseClicked, colors, ...restProps }: ButtonOutlineProps) {
   const buttonOutlineConfig = svgButtonOutlines[type][position];
   const borderImageSlice = buttonOutlineConfig.borderImageSlice;
+  const borderWidthPixels = buttonOutlineConfig.borderWidthPixels;
   const offsetFromTopPixels = buttonOutlineConfig.offsetFromTopPixels;
   const svg = useButtonOutlineSVG({ type, position, colors });
   const inlineSVG = createInlineSVG(svg);
@@ -59,6 +61,8 @@ function ButtonOutline({ type, position, pixelSize, isMouseClicked, colors }: Bu
         svg={inlineSVG}
         borderImageSlice={borderImageSlice}
         offsetFromTopPixels={offsetFromTopPixels}
+        borderWidthPixels={borderWidthPixels}
+        {...restProps}
       ></ButtonOutlineBaseBottom>
     );
   }
@@ -69,6 +73,8 @@ function ButtonOutline({ type, position, pixelSize, isMouseClicked, colors }: Bu
       svg={inlineSVG}
       borderImageSlice={borderImageSlice}
       isMouseClicked={isMouseClicked}
+      borderWidthPixels={borderWidthPixels}
+      {...restProps}
     ></ButtonOutlineBaseTop>
   );
 }

@@ -4,21 +4,21 @@ import { BulkButton } from './variants/BulkButton';
 import { SquaredButton } from './variants/SquaredButton';
 import { MinimalisticButton } from './variants/MinimalisticButton';
 import { GlassmorphismButton } from './variants/GlassmorphismButton';
-import { ButtonVariant } from './types';
+import { ButtonType } from '../../types';
 
-export interface ButtonProps {
+export type ButtonProps = {
   backgroundColor?: string;
   backgroundSecondaryColor?: string;
   borderColor?: string;
   fontColor?: string;
-  variant?: ButtonVariant;
+  type?: ButtonType;
   pixelSize?: number;
   uppercase?: boolean;
   children?: React.ReactNode;
-}
+};
 
-const buttonFactory = (variant: ButtonVariant = 'basic', props: React.PropsWithChildren<ButtonProps>) => {
-  switch (variant) {
+const buttonFactory = (type: ButtonType = 'basic', props: React.PropsWithChildren<ButtonProps>) => {
+  switch (type) {
     case 'basic':
       return <BasicButton {...props} />;
     case 'bulk':
@@ -30,10 +30,10 @@ const buttonFactory = (variant: ButtonVariant = 'basic', props: React.PropsWithC
     case 'glassmorphism':
       return <GlassmorphismButton {...props} />;
     default:
-      throw new Error(`Invalid button variant: ${variant}`);
+      throw new Error(`Invalid button type: ${type}`);
   }
 };
 
 export const Button: React.FC<ButtonProps> = (props) => {
-  return buttonFactory(props.variant, props);
+  return buttonFactory(props.type, props);
 };
