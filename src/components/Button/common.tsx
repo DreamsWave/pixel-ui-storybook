@@ -24,6 +24,8 @@ export type ButtonContentProps = {
   children?: React.ReactNode;
   pixelSize: number;
   uppercase: boolean;
+  compact?: boolean;
+  textOutlineColor?: string;
 };
 export const ButtonContent = styled.span<ButtonContentProps>`
   z-index: 10;
@@ -37,10 +39,18 @@ export const ButtonContent = styled.span<ButtonContentProps>`
   white-space: nowrap;
   transition: all 200ms;
   text-transform: ${({ uppercase }) => (uppercase ? 'uppercase' : 'initial')};
-  padding: ${({ pixelSize }) => `${pixelSize * 6}px ${pixelSize * 16}px`};
+  text-shadow: none;
+  padding: ${({ pixelSize, compact = false }) =>
+    `${pixelSize * (compact ? 4 : 6)}px ${pixelSize * (compact ? 10 : 16)}px`};
   color: ${({ fontColor, backgroundColorShades }) =>
     fontColor ? fontColor : getContrastColor(backgroundColorShades[3])};
   ${({ isMouseClicked, pixelSize }) => isMouseClicked && `top: ${pixelSize}px;`}
+  ${({ textOutlineColor = '', pixelSize }) =>
+    textOutlineColor &&
+    `text-shadow: ${`-${pixelSize}px -${pixelSize}px 0 ${textOutlineColor},`}
+        ${`${pixelSize}px -${pixelSize}px 0 ${textOutlineColor},`}
+        ${`-${pixelSize}px ${pixelSize}px 0 ${textOutlineColor},`}
+        ${`${pixelSize}px ${pixelSize}px 0 ${textOutlineColor};`};`}
 `;
 
 export type ButtonTopOutlineProps = {

@@ -11,10 +11,14 @@ export type ButtonProps = {
   backgroundSecondaryColor?: string;
   borderColor?: string;
   fontColor?: string;
+  fontSize?: number;
   type?: ButtonType;
   pixelSize?: number;
   uppercase?: boolean;
   children?: React.ReactNode;
+  textOutlineColor?: string;
+  compact?: boolean;
+  offsetSidePixels?: number;
 };
 
 const buttonFactory = (type: ButtonType = 'basic', props: React.PropsWithChildren<ButtonProps>) => {

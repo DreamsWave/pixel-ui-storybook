@@ -28,7 +28,6 @@ export const generateBulkBottomOutlineSVG = ({
 }: SVGOutlineProps) => `<?xml version="1.0" encoding="UTF-8"?>
 <svg width="8" height="8" shape-rendering="crispEdges" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="m7 6h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1z" fill="${colors[0]}"/>
-  <path d="m5 7h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm3-7h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1z" fill="${colors[1]}"/>
   <path d="m6 7h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1z" fill="${colors[2]}"/>
 </svg>`;
 
@@ -45,7 +44,6 @@ export const generateSquaredBottomOutlineSVG = ({
 }: SVGOutlineProps) => `<?xml version="1.0" encoding="UTF-8"?>
 <svg width="8" height="8" shape-rendering="crispEdges" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <path d="m6 5h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1zm5-1h1v1h-1zm-5 0h1v1h-1z" fill="${colors[0]}"/>
-  <path d="m5 6h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm3-1h1v1h-1zm-3 0h1v1h-1zm3-1h1v1h-1zm-3 0h1v1h-1zm3-1h1v1h-1zm-3 0h1v1h-1zm3-1h1v1h-1zm-3 0h1v1h-1zm3-1h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1z" fill="${colors[1]}"/>
   <path d="m5 7h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm4-1h1v1h-1zm-5 0h1v1h-1zm6-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-7 0h1v1h-1zm7-1h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1zm-1 0h1v1h-1z" fill="${colors[2]}"/>
 </svg>`;
 
@@ -75,48 +73,79 @@ export const generateGlassmorphismOutlineSVG = ({
 
 const svgButtonOutlines: SVGButtonOutlinesType = {
   basic: {
-    top: { generateSVG: generateBasicTopOutlineSVG, borderImageSlice: 3, borderWidthPixels: 3 },
+    top: {
+      generateSVG: generateBasicTopOutlineSVG,
+      borderImageSlice: 3,
+      borderWidthPixels: 3,
+      cornerLength: 4,
+    },
     bottom: {
       generateSVG: generateBasicBottomOutlineSVG,
       borderImageSlice: 3,
       offsetFromTopPixels: 3,
       borderWidthPixels: 3,
+      cornerLength: 4,
     },
   },
   bulk: {
-    top: { generateSVG: generateBulkTopOutlineSVG, borderImageSlice: 5, borderWidthPixels: 5 },
+    top: {
+      generateSVG: generateBulkTopOutlineSVG,
+      borderImageSlice: 5,
+      borderWidthPixels: 5,
+      cornerLength: 2,
+      offsetSidePixels: 1,
+    },
     bottom: {
       generateSVG: generateBulkBottomOutlineSVG,
       borderImageSlice: 3,
       offsetFromTopPixels: 3,
       borderWidthPixels: 3,
+      cornerLength: 2,
     },
   },
   squared: {
-    top: { generateSVG: generateSquaredTopOutlineSVG, borderImageSlice: 3, borderWidthPixels: 3 },
+    top: {
+      generateSVG: generateSquaredTopOutlineSVG,
+      borderImageSlice: 3,
+      borderWidthPixels: 3,
+      cornerLength: 3,
+    },
     bottom: {
       generateSVG: generateSquaredBottomOutlineSVG,
       borderImageSlice: 3,
       offsetFromTopPixels: 3,
       borderWidthPixels: 3,
+      cornerLength: 3,
     },
   },
   minimalistic: {
-    top: { generateSVG: generateMinimalisticTopOutlineSVG, borderImageSlice: 3, borderWidthPixels: 3 },
+    top: {
+      generateSVG: generateMinimalisticTopOutlineSVG,
+      borderImageSlice: 3,
+      borderWidthPixels: 3,
+      cornerLength: 3,
+    },
     bottom: {
       generateSVG: generateMinimalisticBottomOutlineSVG,
       borderImageSlice: 3,
       offsetFromTopPixels: 3,
       borderWidthPixels: 3,
+      cornerLength: 3,
     },
   },
   glassmorphism: {
-    top: { generateSVG: generateGlassmorphismOutlineSVG, borderImageSlice: 3, borderWidthPixels: 3 },
+    top: {
+      generateSVG: generateGlassmorphismOutlineSVG,
+      borderImageSlice: 3,
+      borderWidthPixels: 3,
+      cornerLength: 3,
+    },
     bottom: {
       generateSVG: generateGlassmorphismOutlineSVG,
       borderImageSlice: 3,
       offsetFromTopPixels: 3,
       borderWidthPixels: 3,
+      cornerLength: 3,
     },
   },
 };

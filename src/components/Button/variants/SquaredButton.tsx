@@ -1,47 +1,9 @@
-import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { darken, lighten } from 'polished';
-import { createInlineSVG, colorShading, getContrastColor } from '../../../utils';
+import { createInlineSVG } from '../../../utils';
 import { ButtonProps } from '../Button';
-import {
-  ButtonBase,
-  ButtonBottomBackground,
-  ButtonBottomBackgroundProps,
-  ButtonContent,
-  ButtonContentProps,
-  ButtonTopBackground,
-  ButtonTopBackgroundProps,
-} from '../common';
+import { ButtonBase, ButtonContent } from '../common';
 import { useButtonState, useColorShading } from '../../../hooks';
-import ButtonOutline from '../../ButtonOutline';
-
-type ButtonContentStyledProps = ButtonContentProps & {
-  borderColor: string;
-};
-const ButtonContentStyled = styled(ButtonContent)<ButtonContentStyledProps>`
-  padding: ${({ pixelSize }) => pixelSize * 5}px ${({ pixelSize }) => pixelSize * 10}px;
-  color: ${({ fontColor, backgroundColorShades, borderColor }) =>
-    fontColor
-      ? fontColor
-      : getContrastColor(backgroundColorShades[3], darken(0, borderColor), lighten(0.6, borderColor))};
-  text-shadow: ${({ pixelSize, backgroundColorShades }) =>
-      `-${pixelSize}px -${pixelSize}px 0 ${backgroundColorShades[6]},`}
-    ${({ pixelSize, backgroundColorShades }) => `${pixelSize}px -${pixelSize}px 0 ${backgroundColorShades[6]},`}
-    ${({ pixelSize, backgroundColorShades }) => `-${pixelSize}px ${pixelSize}px 0 ${backgroundColorShades[6]},`}
-    ${({ pixelSize, backgroundColorShades }) => `${pixelSize}px ${pixelSize}px 0 ${backgroundColorShades[6]};`};
-`;
-
-type ButtonTopBackgroundStyledProps = ButtonTopBackgroundProps & {
-  backgroundSVG: string;
-};
-const ButtonTopBackgroundStyled = styled(ButtonTopBackground)<ButtonTopBackgroundStyledProps>`
-  background-image: url(${({ backgroundSVG }) => backgroundSVG});
-  background-size: ${({ pixelSize }) => pixelSize * 4}px ${({ pixelSize }) => pixelSize * 4}px;
-`;
-
-const ButtonBottomBackgroundStyled = styled(ButtonBottomBackground)<ButtonBottomBackgroundProps>`
-  background-color: ${({ backgroundColor }) => backgroundColor};
-`;
+import ButtonLayer from '../ButtonLayer';
 
 export function SquaredButton({
   backgroundColor = 'red',
@@ -50,25 +12,25 @@ export function SquaredButton({
   borderColor = '#593e2d',
   pixelSize = 4,
   uppercase = true,
+  textOutlineColor = 'green',
+  fontSize = 16,
+  compact = false,
   children,
 }: ButtonProps) {
-  const cornerLength = pixelSize * 4;
-  const fontSize = pixelSize * 8;
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
     useButtonState();
   const backgroundColorShades = useColorShading(backgroundColor);
   const backgroundSecondaryColorShades = useColorShading(backgroundSecondaryColor);
-  const topOutlineColors = [backgroundSecondaryColorShades[3], borderColor];
-  const bottomOutlineColors = [backgroundSecondaryColorShades[4], backgroundSecondaryColor, borderColor];
+  const topOutlineColors = [backgroundSecondaryColorShades[2], borderColor];
+  const bottomOutlineColors = [backgroundSecondaryColorShades[2], backgroundSecondaryColor, borderColor];
 
   const [backgroundSVG, setBackgroundSVG] = useState<string>(
-    generateBackgroundSVG([backgroundColorShades[3], backgroundColorShades[6]]),
+    generateBackgroundSVG([backgroundColor, backgroundSecondaryColor]),
   );
 
   useEffect(() => {
-    const primColorShades = colorShading(backgroundColor);
-    setBackgroundSVG(generateBackgroundSVG([primColorShades[3], primColorShades[6]]));
-  }, [backgroundColor]);
+    setBackgroundSVG(generateBackgroundSVG([backgroundColor, backgroundSecondaryColor]));
+  }, [backgroundColor, backgroundSecondaryColor]);
 
   return (
     <ButtonBase
@@ -78,44 +40,35 @@ export function SquaredButton({
       onMouseUp={handleMouseUp}
       pixelSize={pixelSize}
     >
-      <ButtonContentStyled
-        pixelSize={pixelSize}
+      <ButtonContent
         fontColor={fontColor}
         fontSize={fontSize}
-        isMouseClicked={isMouseClicked}
-        isMouseHover={isMouseHover}
-        uppercase={uppercase}
+        pixelSize={pixelSize}
         backgroundColorShades={backgroundColorShades}
-        borderColor={borderColor}
+        isMouseHover={isMouseHover}
+        isMouseClicked={isMouseClicked}
+        uppercase={uppercase}
+        textOutlineColor={textOutlineColor}
+        compact={compact}
       >
         {children}
-      </ButtonContentStyled>
-      <ButtonOutline
-        colors={topOutlineColors}
-        pixelSize={pixelSize}
-        isMouseClicked={isMouseClicked}
-        type="squared"
-        position="top"
-      />
-      <ButtonTopBackgroundStyled
-        cornerLength={cornerLength}
-        backgroundSVG={backgroundSVG}
-        isMouseHover={isMouseHover}
-        isMouseClicked={isMouseClicked}
-        pixelSize={pixelSize}
-        backgroundColor={backgroundColor}
-      />
-      <ButtonOutline
-        colors={bottomOutlineColors}
-        pixelSize={pixelSize}
-        isMouseClicked={isMouseClicked}
+      </ButtonContent>
+      <ButtonLayer
         type="squared"
         position="bottom"
+        backgroundColor={backgroundSecondaryColorShades[2]}
+        outlineColors={bottomOutlineColors}
+        isMouseClicked={isMouseClicked}
+        isMouseHover={isMouseHover}
       />
-      <ButtonBottomBackgroundStyled
-        cornerLength={cornerLength}
+      <ButtonLayer
+        type="squared"
+        position="top"
         backgroundColor={backgroundSecondaryColor}
-        pixelSize={pixelSize}
+        outlineColors={topOutlineColors}
+        isMouseClicked={isMouseClicked}
+        isMouseHover={isMouseHover}
+        backgroundSVG={backgroundSVG}
       />
     </ButtonBase>
   );

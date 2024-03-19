@@ -1,30 +1,9 @@
 import { useButtonState, useColorShading } from '../../../hooks';
-import {
-  ButtonBase,
-  ButtonContent,
-  ButtonTopBackground,
-  ButtonBottomBackground,
-  ButtonTopBackgroundProps,
-  ButtonBottomBackgroundProps,
-  ButtonContentProps,
-} from '../common';
-import styled from 'styled-components';
+import { ButtonBase, ButtonContent } from '../common';
 import { colorToRGBA } from '../../../utils';
 import { useEffect, useState } from 'react';
-import ButtonOutline from '../../ButtonOutline';
 import { ButtonProps } from '../Button';
-
-const ButtonContentStyled = styled(ButtonContent)<ButtonContentProps>`
-  padding: ${({ pixelSize }) => pixelSize * 4}px ${({ pixelSize }) => pixelSize * 6}px;
-`;
-
-const ButtonTopBackgroundStyled = styled(ButtonTopBackground)<ButtonTopBackgroundProps>`
-  backdrop-filter: blur(${(props) => props.backgroundBlur}px);
-`;
-
-const ButtonBottomBackgroundStyled = styled(ButtonBottomBackground)<ButtonBottomBackgroundProps>`
-  backdrop-filter: blur(${(props) => props.backgroundBlur}px);
-`;
+import ButtonLayer from '../ButtonLayer';
 
 export type GlassmorphismButtonProps = ButtonProps & {
   backgroundTopAlpha?: number;
@@ -41,9 +20,10 @@ export function GlassmorphismButton({
   backgroundTopAlpha = 0.1,
   backgroundBottomAlpha = 0.3,
   backgroundBlur = 10,
+  compact = true,
+  textOutlineColor = 'transparent',
   children,
 }: GlassmorphismButtonProps) {
-  const cornerLength = pixelSize * 3;
   const fontSize = pixelSize * 8;
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
     useButtonState();
@@ -70,7 +50,7 @@ export function GlassmorphismButton({
       onMouseUp={handleMouseUp}
       pixelSize={pixelSize}
     >
-      <ButtonContentStyled
+      <ButtonContent
         fontColor={fontColor}
         fontSize={fontSize}
         pixelSize={pixelSize}
@@ -78,36 +58,28 @@ export function GlassmorphismButton({
         isMouseHover={isMouseHover}
         isMouseClicked={isMouseClicked}
         uppercase={uppercase}
+        textOutlineColor={textOutlineColor}
+        compact={compact}
       >
         {children}
-      </ButtonContentStyled>
-      <ButtonOutline
-        colors={topOutlineColors}
-        pixelSize={pixelSize}
-        isMouseClicked={isMouseClicked}
-        type="glassmorphism"
-        position="top"
-      />
-      <ButtonTopBackgroundStyled
-        cornerLength={cornerLength}
-        pixelSize={pixelSize}
-        backgroundColor={backgroundColorTop}
-        backgroundBlur={backgroundBlur}
-        isMouseHover={isMouseHover}
-        isMouseClicked={isMouseClicked}
-      />
-      <ButtonOutline
-        colors={bottomOutlineColors}
-        pixelSize={pixelSize}
-        isMouseClicked={isMouseClicked}
+      </ButtonContent>
+      <ButtonLayer
         type="glassmorphism"
         position="bottom"
-      />
-      <ButtonBottomBackgroundStyled
-        pixelSize={pixelSize}
-        cornerLength={cornerLength}
         backgroundColor={backgroundColorBottom}
         backgroundBlur={backgroundBlur}
+        outlineColors={bottomOutlineColors}
+        isMouseClicked={isMouseClicked}
+        isMouseHover={isMouseHover}
+      />
+      <ButtonLayer
+        type="glassmorphism"
+        position="top"
+        backgroundColor={backgroundColorTop}
+        backgroundBlur={backgroundBlur}
+        outlineColors={topOutlineColors}
+        isMouseClicked={isMouseClicked}
+        isMouseHover={isMouseHover}
       />
     </ButtonBase>
   );

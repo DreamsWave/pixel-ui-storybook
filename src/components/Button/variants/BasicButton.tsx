@@ -1,21 +1,21 @@
 import { useButtonState, useColorShading } from '../../../hooks';
-import { ButtonBase, ButtonContent, ButtonTopBackground, ButtonBottomBackground } from '../common';
-import ButtonOutline from '../../ButtonOutline';
+import { ButtonBase, ButtonContent } from '../common';
 import { ButtonProps } from '../Button';
+import ButtonLayer from '../ButtonLayer';
 
 export function BasicButton({
   fontColor = '#2e222f',
   borderColor = '#313638',
   backgroundColor = '#E9F5DB',
   pixelSize = 4,
+  fontSize = 16,
   uppercase = true,
   children,
 }: ButtonProps) {
-  const cornerLength = pixelSize * 4;
-  const fontSize = pixelSize * 8;
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
     useButtonState();
   const backgroundColorShades = useColorShading(backgroundColor);
+  const bottomBackgroundColor = backgroundColorShades[1];
   const topOutlineColors = [backgroundColorShades[4], backgroundColorShades[2], borderColor];
   const bottomOutlineColors = [borderColor];
 
@@ -38,31 +38,21 @@ export function BasicButton({
       >
         {children}
       </ButtonContent>
-      <ButtonOutline
-        colors={topOutlineColors}
-        pixelSize={pixelSize}
-        isMouseClicked={isMouseClicked}
-        type="basic"
-        position="top"
-      />
-      <ButtonTopBackground
-        cornerLength={cornerLength}
-        pixelSize={pixelSize}
-        backgroundColor={backgroundColor}
-        isMouseHover={isMouseHover}
-        isMouseClicked={isMouseClicked}
-      />
-      <ButtonOutline
-        colors={bottomOutlineColors}
-        pixelSize={pixelSize}
-        isMouseClicked={isMouseClicked}
+      <ButtonLayer
         type="basic"
         position="bottom"
+        backgroundColor={bottomBackgroundColor}
+        outlineColors={bottomOutlineColors}
+        isMouseClicked={isMouseClicked}
+        isMouseHover={isMouseHover}
       />
-      <ButtonBottomBackground
-        pixelSize={pixelSize}
-        cornerLength={cornerLength}
-        backgroundColor={backgroundColorShades[1]}
+      <ButtonLayer
+        type="basic"
+        position="top"
+        backgroundColor={backgroundColor}
+        outlineColors={topOutlineColors}
+        isMouseClicked={isMouseClicked}
+        isMouseHover={isMouseHover}
       />
     </ButtonBase>
   );

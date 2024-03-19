@@ -26,6 +26,8 @@ export type SVGButtonOutline = {
   borderImageSlice: number;
   borderWidthPixels: number;
   offsetFromTopPixels?: number;
+  cornerLength: number;
+  offsetSidePixels?: number;
 };
 
 export type SVGButtonOutlinesType = {

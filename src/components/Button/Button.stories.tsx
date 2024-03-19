@@ -12,6 +12,7 @@ const meta: Meta<typeof Button> = {
     children: 'Pixel button',
     uppercase: true,
     pixelSize: 4,
+    fontSize: 32,
   },
 };
 
@@ -20,6 +21,7 @@ const Template: StoryFn<typeof Button> = (args) => <Button {...args} />;
 export const Basic = Template.bind({});
 Basic.args = {
   children: 'Basic',
+  textOutlineColor: '#00ffff',
 };
 
 export const Bulk = Template.bind({});
@@ -27,6 +29,7 @@ Bulk.args = {
   type: 'bulk',
   children: 'Bulk',
   borderColor: '#fff',
+  compact: true,
 };
 
 export const Squared = Template.bind({});
@@ -35,7 +38,9 @@ Squared.args = {
   children: 'Squared',
   borderColor: colors[6],
   fontColor: colors[6],
-  backgroundColor: colors[2],
+  backgroundColor: colors[1],
+  backgroundSecondaryColor: colors[2],
+  textOutlineColor: colors[1],
 };
 
 export const Minimalistic = Template.bind({});
