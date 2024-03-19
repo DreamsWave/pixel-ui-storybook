@@ -10,8 +10,7 @@ const Placeholder = ({ color = colors[3] }: { color?: string }) => (
   <p style={{ margin: '8px 16px' }} dangerouslySetInnerHTML={{ __html: changePunctuationsColor(text, color) }}></p>
 );
 
-export default {
-  title: 'Components/Card',
+const meta: Meta<typeof Card> = {
   component: Card,
   args: {
     primaryColor: colors[3],
@@ -23,7 +22,7 @@ export default {
     pixelSize: 4,
     children: <Placeholder />,
   },
-} as Meta<typeof Card>;
+};
 
 const Template: StoryFn<typeof Card> = (args) => <Card {...args} />;
 
@@ -69,3 +68,5 @@ Dimensional.args = {
   shadowColor: colors[4],
   children: <Placeholder color={colors[4]} />,
 };
+
+export default meta;

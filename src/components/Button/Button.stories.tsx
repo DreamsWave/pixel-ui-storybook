@@ -2,8 +2,7 @@ import { Meta, StoryFn } from '@storybook/react';
 import { Button } from './Button';
 import { colors } from '../../constants';
 
-export default {
-  title: 'Components/Button',
+const meta: Meta<typeof Button> = {
   component: Button,
   args: {
     borderColor: colors[6],
@@ -14,7 +13,7 @@ export default {
     uppercase: true,
     pixelSize: 4,
   },
-} as Meta<typeof Button>;
+};
 
 const Template: StoryFn<typeof Button> = (args) => <Button {...args} />;
 
@@ -59,3 +58,5 @@ Glassmorphism.args = {
   borderColor: colors[4],
   backgroundColor: colors[2],
 };
+
+export default meta;
