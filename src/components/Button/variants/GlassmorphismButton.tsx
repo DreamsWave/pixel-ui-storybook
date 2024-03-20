@@ -2,31 +2,45 @@ import { useButtonState, useColorShading } from '../../../hooks';
 import { ButtonBase, ButtonContent } from '../common';
 import { colorToRGBA } from '../../../utils';
 import { useEffect, useState } from 'react';
-import { ButtonProps } from '../Button';
 import ButtonLayer from '../ButtonLayer';
+import { COLORS, defaultButtonProps } from '../../../constants';
+import { ButtonProps } from '../../../types';
 
 export type GlassmorphismButtonProps = ButtonProps & {
-  backgroundTopAlpha?: number;
-  backgroundBottomAlpha?: number;
-  backgroundBlur?: number;
+  backgroundTopAlpha: number;
+  backgroundBottomAlpha: number;
+  backgroundBlur: number;
 };
 
-export function GlassmorphismButton({
-  backgroundColor = '#ffffff',
-  fontColor = '#2e222f',
-  borderColor = '#313638',
-  pixelSize = 4,
-  uppercase = true,
-  backgroundTopAlpha = 0.1,
-  backgroundBottomAlpha = 0.3,
-  backgroundBlur = 10,
-  compact = true,
-  textOutlineColor = null,
-  fontSize = 16,
-  offsetSidePixels = 0,
-  type,
-  children,
-}: GlassmorphismButtonProps) {
+export const defaultGlassmorphismButtonProps = {
+  ...defaultButtonProps,
+  type: 'glassmorphism',
+  backgroundTopAlpha: 0.1,
+  backgroundBottomAlpha: 0.3,
+  backgroundBlur: 10,
+  uppercase: false,
+  fontColor: '#ffffff',
+  borderColor: COLORS[4],
+  backgroundColor: COLORS[2],
+} as GlassmorphismButtonProps;
+
+function GlassmorphismButton(props: GlassmorphismButtonProps) {
+  const {
+    fontColor,
+    borderColor,
+    backgroundColor,
+    pixelSize,
+    fontSize,
+    uppercase,
+    compact,
+    textOutlineColor,
+    offsetSidePixels,
+    type,
+    children,
+    backgroundTopAlpha,
+    backgroundBottomAlpha,
+    backgroundBlur,
+  } = props;
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
     useButtonState();
   const topOutlineColors = [borderColor];
@@ -87,3 +101,7 @@ export function GlassmorphismButton({
     </ButtonBase>
   );
 }
+
+GlassmorphismButton.defaultProps = defaultGlassmorphismButtonProps;
+
+export default GlassmorphismButton;

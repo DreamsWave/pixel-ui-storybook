@@ -1,24 +1,24 @@
 import { Meta, StoryFn } from '@storybook/react';
 import { changePunctuationsColor } from '../../utils';
-import { colors } from '../../constants';
+import { COLORS } from '../../constants';
 import { Card } from './Card';
 
 const text = `Hello world! Lorem ipsum dolor sit amet consectetur adipisicing elit. A ex esse minus tenetur at quia natus sint, est soluta?
 Aliquam.`;
 
-const Placeholder = ({ color = colors[3] }: { color?: string }) => (
+const Placeholder = ({ color = COLORS[3] }: { color?: string }) => (
   <p style={{ margin: '8px 16px' }} dangerouslySetInnerHTML={{ __html: changePunctuationsColor(text, color) }}></p>
 );
 
 const meta: Meta<typeof Card> = {
   component: Card,
   args: {
-    primaryColor: colors[3],
+    primaryColor: COLORS[3],
     secondaryColor: '#fff',
     backgroundColor: '#fff',
-    borderColor: colors[7],
-    shadowColor: colors[5],
-    fontColor: colors[7],
+    borderColor: COLORS[7],
+    shadowColor: COLORS[5],
+    fontColor: COLORS[7],
     pixelSize: 4,
     children: <Placeholder />,
   },
@@ -52,21 +52,21 @@ Cyber.parameters = {
 };
 Cyber.args = {
   variant: 'cyber',
-  primaryColor: colors[4],
-  secondaryColor: colors[3],
+  primaryColor: COLORS[4],
+  secondaryColor: COLORS[3],
   fontColor: '#fff',
-  children: <Placeholder color={colors[3]} />,
+  children: <Placeholder color={COLORS[3]} />,
 };
 
 export const Dimensional = Template.bind({});
 Dimensional.args = {
   variant: 'dimensional',
-  primaryColor: colors[5],
-  borderColor: colors[7],
-  fontColor: colors[7],
-  backgroundColor: colors[0],
-  shadowColor: colors[4],
-  children: <Placeholder color={colors[4]} />,
+  primaryColor: COLORS[5],
+  borderColor: COLORS[7],
+  fontColor: COLORS[7],
+  backgroundColor: COLORS[0],
+  shadowColor: COLORS[4],
+  children: <Placeholder color={COLORS[4]} />,
 };
 
 export default meta;

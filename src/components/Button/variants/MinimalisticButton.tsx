@@ -1,21 +1,31 @@
 import { useButtonState, useColorShading } from '../../../hooks';
 import { ButtonBase, ButtonContent } from '../common';
-import { ButtonProps } from '../Button';
 import ButtonLayer from '../ButtonLayer';
+import { ButtonProps } from '../../../types';
+import { COLORS, defaultButtonProps } from '../../../constants';
 
-export function MinimalisticButton({
-  backgroundColor = '#FFFFFF',
-  backgroundSecondaryColor = '#CFE1B9',
-  fontColor = '#718355',
-  borderColor = '#718355',
-  pixelSize = 4,
-  fontSize = 8,
-  uppercase = false,
-  compact = true,
-  offsetSidePixels = 0,
-  textOutlineColor = null,
-  children,
-}: ButtonProps) {
+export const defaultMinimalisticButtonProps = {
+  ...defaultButtonProps,
+  type: 'minimalistic',
+  backgroundColor: '#fff',
+  backgroundSecondaryColor: COLORS[2],
+  compact: true,
+} as ButtonProps;
+
+function MinimalisticButton(props: ButtonProps) {
+  const {
+    fontColor,
+    borderColor,
+    backgroundColor,
+    pixelSize,
+    fontSize,
+    uppercase,
+    compact,
+    textOutlineColor,
+    offsetSidePixels,
+    children,
+    backgroundSecondaryColor,
+  } = props;
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
     useButtonState();
   const backgroundColorShades = useColorShading(backgroundColor);
@@ -64,3 +74,7 @@ export function MinimalisticButton({
     </ButtonBase>
   );
 }
+
+MinimalisticButton.defaultProps = defaultMinimalisticButtonProps;
+
+export default MinimalisticButton;

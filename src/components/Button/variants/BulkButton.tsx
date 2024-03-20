@@ -1,21 +1,31 @@
 import { ButtonBase, ButtonContent } from '../common';
 import { useButtonState, useColorShading } from '../../../hooks';
-import { ButtonProps } from '../Button';
 import ButtonLayer from '../ButtonLayer';
+import { ButtonProps } from '../../../types';
+import { defaultButtonProps } from '../../../constants';
 
-export function BulkButton({
-  fontColor = '#313638',
-  borderColor = '#fff',
-  backgroundColor = '#E9F5DB',
-  pixelSize = 4,
-  uppercase = true,
-  children,
-  compact = true,
-  offsetSidePixels = 1,
-  fontSize = 16,
-  textOutlineColor = null,
-  type,
-}: ButtonProps) {
+export const defaultBulkButtonProps = {
+  ...defaultButtonProps,
+  type: 'bulk',
+  borderColor: '#fff',
+  compact: true,
+  offsetSidePixels: 1,
+} as ButtonProps;
+
+function BulkButton(props: ButtonProps) {
+  const {
+    fontColor,
+    borderColor,
+    backgroundColor,
+    pixelSize,
+    fontSize,
+    uppercase,
+    compact = true,
+    textOutlineColor,
+    offsetSidePixels,
+    type,
+    children,
+  } = props;
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
     useButtonState();
   const backgroundColorShades = useColorShading(backgroundColor);
@@ -64,3 +74,7 @@ export function BulkButton({
     </ButtonBase>
   );
 }
+
+BulkButton.defaultProps = defaultBulkButtonProps;
+
+export default BulkButton;

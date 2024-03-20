@@ -1,21 +1,28 @@
 import { useButtonState, useColorShading } from '../../../hooks';
 import { ButtonBase, ButtonContent } from '../common';
-import { ButtonProps } from '../Button';
 import ButtonLayer from '../ButtonLayer';
+import { ButtonProps } from '../../../types';
+import { defaultButtonProps } from '../../../constants';
 
-export function BasicButton({
-  fontColor = '#2e222f',
-  borderColor = '#313638',
-  backgroundColor = '#E9F5DB',
-  pixelSize = 4,
-  fontSize = 16,
-  uppercase = true,
-  compact = false,
-  textOutlineColor = null,
-  offsetSidePixels = 0,
-  type = 'basic',
-  children,
-}: ButtonProps) {
+export const defaultBasicButtonProps = {
+  ...defaultButtonProps,
+  type: 'basic',
+} as ButtonProps;
+
+function BasicButton(props: ButtonProps) {
+  const {
+    fontColor,
+    borderColor,
+    backgroundColor,
+    pixelSize,
+    fontSize,
+    uppercase,
+    compact,
+    textOutlineColor,
+    offsetSidePixels,
+    type,
+    children,
+  } = props;
   const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
     useButtonState();
   const backgroundColorShades = useColorShading(backgroundColor);
@@ -64,3 +71,7 @@ export function BasicButton({
     </ButtonBase>
   );
 }
+
+BasicButton.defaultProps = defaultBasicButtonProps;
+
+export default BasicButton;

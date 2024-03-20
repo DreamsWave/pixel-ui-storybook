@@ -1,72 +1,40 @@
 import { Meta, StoryFn } from '@storybook/react';
-import { Button } from './Button';
-import { colors } from '../../constants';
+import Button from './Button';
+import { defaultBasicButtonProps } from './variants/BasicButton';
+import { defaultBulkButtonProps } from './variants/BulkButton';
+import { defaultGlassmorphismButtonProps } from './variants/GlassmorphismButton';
+import { defaultMinimalisticButtonProps } from './variants/MinimalisticButton';
+import { defaultSquaredButtonProps } from './variants/SquaredButton';
 
 const meta: Meta<typeof Button> = {
   component: Button,
-  args: {
-    borderColor: colors[6],
-    fontColor: colors[6],
-    backgroundColor: colors[1],
-    backgroundSecondaryColor: colors[3],
-    children: 'Pixel button',
-    uppercase: true,
-    pixelSize: 4,
-    fontSize: 32,
-    compact: false,
-    offsetSidePixels: 0,
-    textOutlineColor: null,
-    type: 'basic',
-  },
 };
 
 const Template: StoryFn<typeof Button> = (args) => <Button {...args} />;
 
 export const Basic = Template.bind({});
 Basic.args = {
-  children: 'Basic',
+  ...defaultBasicButtonProps,
 };
 
 export const Bulk = Template.bind({});
 Bulk.args = {
-  type: 'bulk',
-  children: 'Bulk',
-  borderColor: '#fff',
-  compact: true,
-  offsetSidePixels: 1,
+  ...defaultBulkButtonProps,
 };
 
 export const Squared = Template.bind({});
 Squared.args = {
-  type: 'squared',
-  children: 'Squared',
-  borderColor: colors[6],
-  fontColor: colors[6],
-  backgroundColor: colors[1],
-  backgroundSecondaryColor: colors[2],
-  textOutlineColor: colors[1],
+  ...defaultSquaredButtonProps,
 };
 
 export const Minimalistic = Template.bind({});
 Minimalistic.args = {
-  type: 'minimalistic',
-  children: 'Min',
-  compact: true,
-  uppercase: false,
-  fontColor: colors[6],
-  borderColor: colors[6],
-  backgroundColor: '#ffffff',
-  backgroundSecondaryColor: colors[2],
+  ...defaultMinimalisticButtonProps,
 };
 
 export const Glassmorphism = Template.bind({});
 Glassmorphism.args = {
-  type: 'glassmorphism',
-  children: 'Glass',
-  uppercase: false,
-  fontColor: '#ffffff',
-  borderColor: colors[4],
-  backgroundColor: colors[2],
+  ...defaultGlassmorphismButtonProps,
 };
 
 export default meta;

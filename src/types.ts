@@ -35,3 +35,18 @@ export type SVGButtonOutlinesType = {
     [P in ButtonPosition]: SVGButtonOutline;
   };
 };
+
+export type ButtonProps = {
+  backgroundColor: string;
+  backgroundSecondaryColor: string;
+  borderColor: string;
+  fontColor: string;
+  fontSize: number;
+  type: ButtonType;
+  pixelSize: number;
+  uppercase: boolean;
+  children: React.ReactNode;
+  textOutlineColor: string | null;
+  compact: boolean;
+  offsetSidePixels: number;
+};
