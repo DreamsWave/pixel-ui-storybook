@@ -1,4 +1,4 @@
-import { Meta, StoryFn } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import Button from './Button';
 import { defaultBasicButtonProps } from './variants/BasicButton';
 import { defaultBulkButtonProps } from './variants/BulkButton';
@@ -9,32 +9,36 @@ import { defaultSquaredButtonProps } from './variants/SquaredButton';
 const meta: Meta<typeof Button> = {
   component: Button,
 };
-
-const Template: StoryFn<typeof Button> = (args) => <Button {...args} />;
-
-export const Basic = Template.bind({});
-Basic.args = {
-  ...defaultBasicButtonProps,
-};
-
-export const Bulk = Template.bind({});
-Bulk.args = {
-  ...defaultBulkButtonProps,
-};
-
-export const Squared = Template.bind({});
-Squared.args = {
-  ...defaultSquaredButtonProps,
-};
-
-export const Minimalistic = Template.bind({});
-Minimalistic.args = {
-  ...defaultMinimalisticButtonProps,
-};
-
-export const Glassmorphism = Template.bind({});
-Glassmorphism.args = {
-  ...defaultGlassmorphismButtonProps,
-};
-
 export default meta;
+
+type Story = StoryObj<typeof Button>;
+
+export const Basic: Story = {
+  args: {
+    ...defaultBasicButtonProps,
+  },
+};
+
+export const Bulk: Story = {
+  args: {
+    ...defaultBulkButtonProps,
+  },
+};
+
+export const Glassmorphism: Story = {
+  args: {
+    ...defaultGlassmorphismButtonProps,
+  },
+};
+
+export const Minimalistic: Story = {
+  args: {
+    ...defaultMinimalisticButtonProps,
+  },
+};
+
+export const Squared: Story = {
+  args: {
+    ...defaultSquaredButtonProps,
+  },
+};
