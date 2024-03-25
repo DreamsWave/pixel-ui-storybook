@@ -22,9 +22,17 @@ function BasicButton(props: ButtonProps) {
     offsetSidePixels,
     type,
     children,
+    isMouseHover: isMouseHoverProp,
+    isMouseClicked: isMouseClickedProp,
+    disabled,
   } = props;
-  const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
-    useButtonState();
+
+  const buttonState = useButtonState({ isMouseClicked: isMouseClickedProp, isMouseHover: isMouseHoverProp });
+
+  const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } = disabled
+    ? { ...buttonState, isMouseHover: false, isMouseClicked: false }
+    : buttonState;
+
   const backgroundColorShades = useColorShading(backgroundColor);
   const bottomBackgroundColor = backgroundColorShades[1];
   const topOutlineColors = [backgroundColorShades[4], backgroundColorShades[2], borderColor];
@@ -37,6 +45,7 @@ function BasicButton(props: ButtonProps) {
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       pixelSize={pixelSize}
+      disabled={disabled}
     >
       <ButtonContent
         fontColor={fontColor}

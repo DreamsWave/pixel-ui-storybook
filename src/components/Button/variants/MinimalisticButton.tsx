@@ -25,9 +25,17 @@ function MinimalisticButton(props: ButtonProps) {
     offsetSidePixels,
     children,
     backgroundSecondaryColor,
+    isMouseHover: isMouseHoverProp,
+    isMouseClicked: isMouseClickedProp,
+    disabled,
   } = props;
-  const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } =
-    useButtonState();
+
+  const buttonState = useButtonState({ isMouseClicked: isMouseClickedProp, isMouseHover: isMouseHoverProp });
+
+  const { isMouseHover, isMouseClicked, handleMouseOver, handleMouseLeave, handleMouseDown, handleMouseUp } = disabled
+    ? { ...buttonState, isMouseHover: false, isMouseClicked: false }
+    : buttonState;
+
   const backgroundColorShades = useColorShading(backgroundColor);
   const backgroundSecondaryColorShades = useColorShading(backgroundSecondaryColor);
   const topOutlineColors = [backgroundSecondaryColorShades[4], borderColor, backgroundColor];
@@ -40,6 +48,7 @@ function MinimalisticButton(props: ButtonProps) {
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       pixelSize={pixelSize}
+      disabled={disabled}
     >
       <ButtonContent
         fontColor={fontColor}

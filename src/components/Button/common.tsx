@@ -3,6 +3,7 @@ import { getContrastColor } from '../../utils';
 
 export type ButtonBaseProps = {
   pixelSize: number;
+  disabled?: boolean;
 };
 export const ButtonBase = styled.button<ButtonBaseProps>`
   font-family: 'Press Start 2P', 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -13,6 +14,7 @@ export const ButtonBase = styled.button<ButtonBaseProps>`
   padding: 0;
   margin-bottom: ${({ pixelSize }) => pixelSize * 6}px;
   cursor: pointer;
+  ${({ disabled }) => disabled && 'filter: grayscale(0.7);'}
 `;
 
 export type ButtonContentProps = {

@@ -3,9 +3,9 @@ import { colorShading } from './utils';
 import svgButtonOutlines from './svgButtonOutlines';
 import { ButtonPosition, ButtonType } from './types';
 
-export function useButtonState() {
-  const [isMouseHover, setIsMouseHover] = useState<boolean>(false);
-  const [isMouseClicked, setIsMouseClicked] = useState<boolean>(false);
+export function useButtonState(props?: { isMouseHover?: boolean; isMouseClicked?: boolean }) {
+  const [isMouseHover, setIsMouseHover] = useState<boolean>(props?.isMouseHover ?? false);
+  const [isMouseClicked, setIsMouseClicked] = useState<boolean>(props?.isMouseClicked ?? false);
 
   const handleMouseOver = () => setIsMouseHover(true);
   const handleMouseLeave = () => setIsMouseHover(false);

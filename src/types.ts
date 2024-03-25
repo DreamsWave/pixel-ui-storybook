@@ -49,4 +49,7 @@ export type ButtonProps = {
   textOutlineColor: string | null;
   compact: boolean;
   offsetSidePixels: number;
+  isMouseHover: boolean;
+  isMouseClicked: boolean;
+  disabled: boolean;
 };

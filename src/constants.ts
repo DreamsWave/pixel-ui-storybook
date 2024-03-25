@@ -24,4 +24,7 @@ export const defaultButtonProps: ButtonProps = {
   textOutlineColor: null,
   compact: false,
   offsetSidePixels: 0,
+  isMouseHover: false,
+  isMouseClicked: false,
+  disabled: false,
 };
