@@ -15,13 +15,13 @@ export type GlassmorphismButtonProps = ButtonProps & {
 export const defaultGlassmorphismButtonProps = {
   ...defaultButtonProps,
   type: 'glassmorphism',
-  backgroundTopAlpha: 0.1,
-  backgroundBottomAlpha: 0.3,
+  backgroundTopAlpha: 0.3,
+  backgroundBottomAlpha: 0.4,
   backgroundBlur: 10,
   uppercase: false,
   fontColor: '#ffffff',
-  borderColor: COLORS[4],
-  backgroundColor: COLORS[2],
+  borderColor: COLORS[3],
+  backgroundColor: COLORS[3],
 } as GlassmorphismButtonProps;
 
 function GlassmorphismButton(props: GlassmorphismButtonProps) {
